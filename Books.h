@@ -16,12 +16,6 @@
 文件构成了同一本书的集合的文件日志系统
 
 索引文件booklist，里面包含已有的所有书的ID前缀
-------------------------------------------------------
-					booklist格式
-------------------------------------------------------
-					一类书的格式
-------------------------------------------------------
-				函数的注释风格要求
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
 #pragma once
@@ -55,7 +49,6 @@ public:
   ~Book();                                                                                                                           // 默认析构函数
 
   bool is_equal(const string &name, const string &author, const string &publishor); // 根据 书名 作者 出版社 来判断 新输入的书是否与本类书等价
-  bool is_subtype(const string &subtype);                                           // 判断 subtype 是否为 type 的子串
 
   void book_addbook();                            // 购入了一本新的书 要求更新 <成员变量 索引文件 书表文件 预约文件> 预约的人可以借书时 更新人的提示信息
   void book_subscribe(const string &ID_borrower); // 增加了一个预约者 要求更新 <成员变量 索引文件 书表文件 预约文件>
@@ -72,7 +65,7 @@ public:
   string get_bookLimit();     // 得到权限值
 
   long Num_Borrowed;  // 已借出数量
-  long Num_Subscribe; // 已预约数量
+  long Num_Subscribe; // 已预约数量 不包含排队人数
   long Num_Available; // 可借出数量
   long Num_Sum;       // 该书总数量
 private:
@@ -83,7 +76,7 @@ private:
 
   string ID_pre; // ID 前缀
 
-  int Book_Limit; // 权限
+  int Book_Limit; // 权限 0均可借 1仅学生可借 2仅教师可借
 };
 
 // 类名: ManageBooks
