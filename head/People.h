@@ -73,7 +73,9 @@ public:
   ~ManagePeople();                      // 默认析构函数
 
   void PeopleList_Add(const string &name, const string &ID, const string &school, const int &limit); // 新建人 要求根据ID判断 这个人是否建立重复了
+
   // 借书还书转换的操作通过ManageBook来实现 即ManageBook实现对书和人的文件日志的共同操作
+
   void PeopleList_Find(); // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作
 
   void PeopleList_DateFlash(); // 每新的一天 刷新所有人的借阅信息
