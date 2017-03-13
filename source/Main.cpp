@@ -9,7 +9,7 @@
 #include "Books.h"
 #include "People.h"
 #include "Logbook.h"
-#include "Main_Function.h"
+#include "Function.h"
 using namespace std;
 
 // 从sys.txt 读取以下数据
@@ -38,7 +38,7 @@ int main()
 
         string input, name, key;
         getline(cin, input);
-        char c = input[0];
+        char c = input[0], c1;
 
         if ((1 == input.length()) && ('1' == c || '2' == c || '3' == c))
             switch (c)
@@ -51,7 +51,7 @@ int main()
                 cout << "您的选择: ";
 
                 getline(cin, input);
-                char c1 = input[0];
+                c1 = input[0];
 
                 if ((1 == input.length()) && ('1' == c1 || '2' == c1))
                 {
