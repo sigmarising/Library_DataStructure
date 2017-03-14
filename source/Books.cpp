@@ -93,8 +93,8 @@ Book::Book(const string &bookname, const string &bookauthor, const string &bookp
     // creat the book file
     fstream f1, f2, f3;
     f1.open("book\\" + name + ".txt");
-    f2.open("book\\" + name + ".txt");
-    f3.open("book\\" + name + ".txt");
+    f2.open("book\\" + name + "_books.txt");
+    f3.open("book\\" + name + "_subc.txt");
 
     f1 << name << endl;
     f1 << bookname << endl;
