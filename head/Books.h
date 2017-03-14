@@ -62,7 +62,7 @@ public:
   string get_bookpublisher(); // 得到出版社
   string get_booktype();      // 得到类别
   string get_ID_pre();        // 得到 ID 前缀
-  string get_bookLimit();     // 得到权限值
+  int get_bookLimit();        // 得到权限值
 
   long Num_Borrowed;  // 已借出数量
   long Num_Subscribe; // 已预约数量 不包含排队人数

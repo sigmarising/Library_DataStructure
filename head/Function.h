@@ -21,3 +21,15 @@ void FileLine_Insert(const string &filename, const long &line, const string &thi
 
 // 返回文件指定行的内容
 string FileLine_Getline(const string &filename, const long &line);
+
+// string_addone 的辅助函数
+bool Char_Addone(char &c);
+
+// 对指定的字符串增加1 并保持字符串位置不变化
+void String_Addone(string &str);
+
+// str转换long
+long Convert_strtolong(const string str);
+
+// long to str
+string Convert_longtostr(const long num);
