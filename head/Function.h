@@ -19,6 +19,12 @@ void FileLine_Change(const string &filename, const long &line, const string &thi
 // 在文件的指定行之后插入内容
 void FileLine_Insert(const string &filename, const long &line, const string &things);
 
+// 将制定内容添加到文章末尾
+void FileEnd_Add(const string &filename, const string &things);
+
+// 搜索指定内容的行号（一般用于ID）
+long FileLine_Getnumber(const string &filename, const string &things);
+
 // 返回文件指定行的内容
 string FileLine_Getline(const string &filename, const long &line);
 

@@ -95,6 +95,7 @@ void FileLine_Change(const string &filename, const long &line, const string &thi
  filename 是带路径的完整文件名
  line 是行号 
  things 是要插入到第line行之后的内容 */
+// 0 add to the first line
 void FileLine_Insert(const string &filename, const long &line, const string &things)
 {
     // copy the file and insert the only 1 line
@@ -103,6 +104,8 @@ void FileLine_Insert(const string &filename, const long &line, const string &thi
     F_temp.open("logbook\\temp.txt", ios::trunc); // clear this temp file
     F_file.open(filename);
     long count = 0;
+    if (count == line)
+        F_temp << things << endl;
     string str;
 
     while (F_file.peek() != EOF)
@@ -130,6 +133,46 @@ void FileLine_Insert(const string &filename, const long &line, const string &thi
 
     F_temp.close();
     F_file.close();
+}
+
+// 将制定内容添加到文章末尾
+// filename 是带路径的完整文件名
+// things 是要插入到第line行之后的内容
+void FileEnd_Add(const string &filename, const string &things)
+{
+    // copy the file and insert the only 1 line
+    fstream F_file;
+
+    F_file.open(filename, ios::app);
+
+    F_file << things << endl;
+
+    F_file.close();
+}
+
+// 搜索指定内容的行号（一般用于ID）
+// 如果没有搜索到 返回0
+long FileLine_Getnumber(const string &filename, const string &things)
+{
+    fstream F_file;
+
+    F_file.open(filename);
+    long count = 0;
+    string str;
+
+    while (F_file.peek() != EOF)
+    {
+        count += 1;
+        getline(F_file, str);
+        if (str == things)
+        {
+            F_file.close();
+            return count;
+        }
+    }
+
+    F_file.close();
+    return 0;
 }
 
 /* 返回文件指定行的内容
