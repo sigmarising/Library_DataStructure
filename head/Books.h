@@ -65,7 +65,7 @@ public:
   int get_bookLimit();        // 得到权限值
 
   long Num_Borrowed;  // 已借出数量
-  long Num_Subscribe; // 已预约数量 不包含排队人数
+  long Num_Subscribe; // 已预约数量 不包含排队人数 仅在预约可用时加一处理
   long Num_Available; // 可借出数量
   long Num_Sum;       // 该书总数量
 private:

@@ -190,6 +190,94 @@ void Book::book_addbook()
     FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 4, Convert_longtostr(100));
 }
 
+// 增加了一个预约者 (此时应该已经判断出来应该是要预约 因为已经没书可借)
+// 要求更新 <成员变量 索引文件 书表文件 预约文件>
+void Book::book_subscribe(const string &ID_borrower)
+{
+    // update the ID_subc.txt
+    FileLine_Insert("book\\" + ID_pre + "_subc.txt", 0, ID_borrower);
+    // update the file about people
+    FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 9))));
+    FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 0, ID_pre);
+    FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 1, "0");
+}
+
+// 将预约转换成借阅 (此时这个人应该不在预约队列中了 已经有书被预约给他了)
+// 要求更新 <成员变量 索引文件 书表文件 预约文件>
+void Book::book_convert(const string &ID_borrower)
+{
+    // we get the complete id from the ID_Borrower
+    fstream f("people\\" + ID_borrower + "_subc.txt");
+    string str;
+    long count = 0;
+    while (f.peek() != EOF)
+    {
+        count += 1;
+        getline(f, str);
+        if (ID_pre == str.substr(0, 8))
+            break;
+    }
+    f.close();
+    // delete the subc info in the people's subc file
+    FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
+    FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
+    // add the borrow info in the people book file and change the people.txt
+    FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + "_subc.txt", 8))));
+    FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + "_subc.txt", 9))));
+
+    FileEnd_Add("people\\" + ID_borrower + "_books.txt", str);
+    FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
+
+    // update the booksfile
+    long lnum = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", str);
+    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 2, ID_borrower);
+    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 3, "1");
+    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 4, "30");
+
+    FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
+    FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
+
+    // update the member var
+    Num_Borrowed += 1;
+    Num_Subscribe -= 1;
+}
+
+// 增加了一个借阅者
+// 要求更新 <成员变量 索引文件 书表文件 预约文件>
+void Book::book_borrow(const string &ID_borrower)
+{
+    // update the member var and change the ID.txt
+    Num_Borrowed += 1;
+    FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(Num_Borrowed));
+
+    // find one avaliable book and remember the linenumber of it
+    fstream F("book\\" + ID_pre + "_books.txt");
+    string str;
+
+    long linenumber = 0;
+    while (F.peek() != EOF)
+    {
+        linenumber += 1;
+        for (int i = 1; i <= 4; i += 1)
+            getline(F, str);
+        if (0 == Convert_strtolong(str))
+            break;
+        else
+            getline(F, str);
+    }
+    F.close();
+
+    // update the ID_Books.txt
+    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber - 1, ID_borrower);
+    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber, "1");
+    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber + 1, "30");
+
+    // update the file about people
+    FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
+    FileEnd_Add("people\\" + ID_borrower + "_books.txt", FileLine_Getline("people\\" + ID_pre + "books.txt", linenumber - 3));
+    FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
+}
+
 string Book::get_bookname()
 {
     return Book_Name;
