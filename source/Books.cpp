@@ -46,9 +46,7 @@ Book::Book(const Book & book1) {
 filename 是本书的ID前缀（8位）
 例如 Book("00000001"); */
 Book::Book(const string & filename) {
-	ifstream file("book\\"+filename+".txt");
-
-	string temp;
+	ifstream file("book\\" + filename + ".txt");
 
 	getline(file, ID_pre);
 	getline(file, Book_Name);
@@ -71,11 +69,11 @@ Book::Book(const string & bookname, const string & bookauthor, const string & bo
 	Num_Borrowed = Num_Subscribe =  0;
 	Num_Available = Num_Sum = 1;
 	// get the id and add this id
-	string str = FileLine_Getline("logbook\\sys.txt", 5 + booklimit), name="0";
+	string str = FileLine_Getline("logbook\\sys.txt", 3 + booklimit), name="0";
 	long num = Convert_strtolong(str);
 	num += 1; 
 	str = Convert_longtostr(num);
-	FileLine_Change("logbook\\sys.txt", 5 + booklimit, str);
+	FileLine_Change("logbook\\sys.txt", 3 + booklimit, str);
 
 	// creat the filename id
 	name[0] = name[0] + booklimit;
@@ -393,7 +391,7 @@ void ManageBooks::BookList_Buy(const string & bookname, const string & bookautho
 	string str;
 	while (f.peek() != EOF) {
 		getline(f, str);
-		Book B("book\\" + str + ".txt");
+		Book B(str);
 		if (B.is_equal(bookname, bookauthor, bookpublisher)) {
 			B.book_addbook();
 			f.close();
@@ -411,7 +409,7 @@ void ManageBooks::BookList_Buy(const string & bookname, const string & bookautho
 // 借书时候自动分配完整id书
 void ManageBooks::BookList_Borrow(const string & id_pre, const string & id_person, bool Subscribe) {
 	long num = Convert_strtolong(FileLine_Getline("book\\" + id_pre + ".txt", 10));
-	Book B("book\\" + id_pre + ".txt");
+	Book B( id_pre );
 
 	if (num >= 1) {// we can lent it
 		B.book_borrow(id_person);
@@ -427,18 +425,21 @@ void ManageBooks::BookList_Return(const string & id_book, const string & id_pers
 	string id_pre = id_book;
 	id_pre = id_pre.substr(0, 8);
 
-	Book B("book\\" + id_pre + ".txt");
+	Book B(id_pre);
 	B.book_return(id_book, id_person);
 }
 
 // 根据id信息完成预约转借书操作
 void ManageBooks::BookList_Convert(const string & id_book, const string & id_person) {
-	Book B("book\\" + id_book + ".txt");
+	Book B(id_book );
 
 	B.book_convert(id_book, id_person);
 }
 
 // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作
+// limit 0:for book with limit 0
+// limit 1:for book with limit 1 and limit 0
+// limit 2:for book with limit 2 and 0
 void ManageBooks::BookList_Find(const int limit) {
 	cout << endl;
 	cout << "以下是查书选项:\n";
@@ -466,8 +467,9 @@ void ManageBooks::BookList_Find(const int limit) {
 		while (f.peek() != EOF) {
 			getline(f, t);
 			if (string::npos != t.find(str)) {
-				Book B("book\\" + t + ".txt");
-				B.book_print();
+				Book B( t );
+				if(B.get_bookLimit()==0 || B.get_bookLimit()==limit)
+					B.book_print();
 				break;
 			}
 		}
@@ -475,40 +477,44 @@ void ManageBooks::BookList_Find(const int limit) {
 	case '2'://bookname
 		while (f.peek() != EOF) {
 			getline(f, t);
-			Book B("book\\" + t + ".txt");
+			Book B(t);
 
 			if (string::npos != B.get_bookname().find(str)) {
-				B.book_print();
+				if (B.get_bookLimit() == 0 || B.get_bookLimit() == limit)
+					B.book_print();
 			}
 		}
 		break;
 	case '3'://author
 		while (f.peek() != EOF) {
 			getline(f, t);
-			Book B("book\\" + t + ".txt");
+			Book B(t);
 
 			if (string::npos != B.get_bookauthor().find(str)) {
-				B.book_print();
+				if (B.get_bookLimit() == 0 || B.get_bookLimit() == limit)
+					B.book_print();
 			}
 		}
 		break;
 	case '4'://publisher
 		while (f.peek() != EOF) {
 			getline(f, t);
-			Book B("book\\" + t + ".txt");
+			Book B(t);
 
 			if (string::npos != B.get_bookpublisher().find(str)) {
-				B.book_print();
+				if (B.get_bookLimit() == 0 || B.get_bookLimit() == limit)
+					B.book_print();
 			}
 		}
 		break;
 	case '5'://type
 		while (f.peek() != EOF) {
 			getline(f, t);
-			Book B("book\\" + t + ".txt");
+			Book B(t);
 
 			if (string::npos != B.get_booktype().find(str)) {
-				B.book_print();
+				if (B.get_bookLimit() == 0 || B.get_bookLimit() == limit)
+					B.book_print();
 			}
 		}
 		break;
@@ -568,8 +574,8 @@ void ManageBooks::BookList_Print() {
 	getline(f, str);
 	while (f.peek() != EOF) {
 		getline(f, str);
-		Book B("book\\" + str + ".txt");
-		B.book_print;
+		Book B( str );
+		B.book_print();
 	}
 
 	f.close();
