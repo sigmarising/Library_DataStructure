@@ -39,3 +39,6 @@ long Convert_strtolong(const string str);
 
 // long to str
 string Convert_longtostr(const long num);
+
+// double to str
+string Convert_doubletostr(const double num);
