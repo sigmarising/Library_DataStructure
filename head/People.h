@@ -31,14 +31,14 @@ public:
 	Person();						// 默认构造函数
 	Person(const Person &p1);		// 拷贝构造函数
 	Person(const string &filename);	// 从文件名进行读取
-	Person(const string &name, const string &ID, const string &school, const int &limit); // 参数构造函数 这是建立新人的函数 要求对文件进行创建
+	Person(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // 参数构造函数 这是建立新人的函数 要求对文件进行创建
 	~Person();						// 默认析构函数
 
 	void person_print();							// 用于将发送个人信息 包括 个人参数 预约现状 已借图书
-	void person_findbook();							// 用于查找图书 查找图书可以根据ID 书名 作者 出版社 类别 来进行
-	void person_borrow(const string &ID_pre_book);	// 根据图书的ID前缀完成借书操作 修改自身的文件日志
-	void person_return(const string &ID_book);		// 根据图书的完整ID完成还书操作 修改自身的文件日志
-	void person_convert();							// 将预约的书转换成已借的书 修改自身的文件日志
+	//void person_findbook();							// 用于查找图书 查找图书可以根据ID 书名 作者 出版社 类别 来进行
+	//void person_borrow(const string &ID_pre_book);	// 根据图书的ID前缀完成借书操作 修改自身的文件日志
+	//void person_return(const string &ID_book);		// 根据图书的完整ID完成还书操作 修改自身的文件日志
+	//void person_convert();							// 将预约的书转换成已借的书 修改自身的文件日志
 	void person_changekey(const string &Newkey);	// 更改密码
 
 
@@ -74,7 +74,9 @@ public:
 	ManagePeople(const string &filename);	// 从文件名读取来初始化信息
 	~ManagePeople();						// 默认析构函数
 
-	void PeopleList_Add(const string &name, const string &ID, const string &school, const int &limit); // 新建人 要求根据ID判断 这个人是否建立重复了 
+	bool JudgeID(const string &ID); // 本函数对ID进行检测 检测ID是否符合要求 （12位 未重复）
+
+	void PeopleList_Add(const string &name, const string &ID, const string &school, const int &limit); // 新建人 要求根据ID判断 这个人是否建立重复了（可利用judgeid函数） 
 	
 																									   
 	// 借书还书转换的操作通过ManageBook来实现 即ManageBook实现对书和人的文件日志的共同操作
