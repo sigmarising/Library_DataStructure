@@ -82,13 +82,16 @@ Person::Person(const string &name, const string &ID, const string &Key, const st
     FileLine_Insert("people\\peoplelist.txt", 1, ID);
 
     // create three files
-    fstream f1("people\\" + ID + ".txt"), f2("people\\" + ID + "_books.txt"), f3("people\\" + ID + "_subc.txt");
+    fstream f1("people\\" + ID + ".txt", fstream::out),
+        f2("people\\" + ID + "_books.txt", fstream::out),
+        f3("people\\" + ID + "_subc.txt", fstream::out);
 
     f1 << Person_ID << endl;
     f1 << Person_Key << endl;
     f1 << Person_Name << endl;
     f1 << Person_School << endl;
     f1 << Person_Limit << endl;
+    f1 << Person_honesty << endl;
     f1 << Person_Debt << endl;
     f1 << Num_Borrowed << endl;
     f1 << Num_Subscribe << endl;
@@ -108,21 +111,21 @@ void Person::person_print()
     cout << endl;
     cout << "个人信息:\n";
     cout << "ID:" << Person_ID << endl;
-    cout << "Name:" << Person_Name << endl;
-    cout << "School:" << Person_School << endl;
-    cout << "Limit:";
+    cout << "姓名:" << Person_Name << endl;
+    cout << "学院:" << Person_School << endl;
+    cout << "权限:";
     if (Person_Limit == 0)
         cout << "学生" << endl;
     else
         cout << "老师" << endl;
-    cout << "Honesty:" << Person_honesty << endl;
-    cout << "Debt:" << Person_Debt << endl;
+    cout << "诚信:" << Person_honesty << endl;
+    cout << "欠款:" << Person_Debt << endl;
 
     cout << endl;
     cout << "已借图书:" << Num_Borrowed << endl;
     if (Num_Borrowed > 0)
     {
-        fstream f("people\\" + Person_ID + "_book.txt");
+        fstream f("people\\" + Person_ID + "_books.txt");
         string str;
 
         while (f.peek() != EOF)
@@ -143,7 +146,7 @@ void Person::person_print()
     cout << "预约图书:" << Num_Subscribe << endl;
     if (Num_Subscribe > 0)
     {
-        fstream f("people\\" + Person_ID + ".txt");
+        fstream f("people\\" + Person_ID + "_subc.txt");
         string str;
 
         while (f.peek() != EOF)
@@ -163,6 +166,25 @@ void Person::person_print()
 
         f.close();
     }
+    cout << endl;
+}
+
+//用于实时更新数据
+void Person::person_open(const string &filename)
+{
+    ifstream file("people\\" + filename + ".txt");
+
+    getline(file, Person_ID);
+    getline(file, Person_Key);
+    getline(file, Person_Name);
+    getline(file, Person_School);
+    file >> Person_Limit;
+    file >> Person_honesty;
+    file >> Person_Debt;
+    file >> Num_Borrowed;
+    file >> Num_Subscribe;
+
+    file.close();
 }
 
 // 更改密码
@@ -223,6 +245,8 @@ bool ManagePeople::JudgeID(const string &ID)
 {
     // we judge the length first
     if (12 != ID.length())
+        return false;
+    if (ID[0] != '0' && ID[0] != '1')
         return false;
 
     // we judge whethe the id has been used
@@ -308,6 +332,19 @@ void ManagePeople::PeopleList_Add(const string &name, const string &ID, const st
     L.Log_Addperson(ID);
 }
 
+// 还清欠款
+void ManagePeople::PeopleList_Pay(const string &ID)
+{
+    FileLine_Change("people\\" + ID + ".txt", 7, "0.0");
+}
+
+// 更改密码
+void ManagePeople::PeopleList_ChangeKey(const string &ID, const string &newkey)
+{
+    Person P(ID);
+    P.person_changekey(newkey);
+}
+
 // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作
 void ManagePeople::PeopleList_Find()
 {
@@ -321,7 +358,7 @@ void ManagePeople::PeopleList_Find()
     string str, t;
     getline(cin, str);
 
-    while (!(0 == str.length() && ('1' <= str[0] && str[0] <= '4')))
+    while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '4')))
     {
         cout << "输入错误\n重新输入: ";
         getline(cin, str);
@@ -395,7 +432,7 @@ void ManagePeople::PeopleList_DateFlash()
 {
     fstream f("people\\peoplelist.txt");
 
-    string str;
+    string str, t;
     getline(f, str);
 
     while (f.peek() != EOF)
@@ -404,29 +441,29 @@ void ManagePeople::PeopleList_DateFlash()
         getline(f, str);
 
         // change the number
-        fstream f_people("people\\" + str + "_books.txt"), f_t("logbook\\temp.txt", ios::trunc);
+        fstream f_people("people\\" + str + "_books.txt", ios::in | ios::out), f_t("logbook\\temp.txt", ios::in | ios::out | ios::trunc);
 
         while (f_people.peek() != EOF)
         {
-            getline(f_people, str);
-            f_t << str << endl;
+            getline(f_people, t);
+            f_t << t << endl;
 
-            getline(f_people, str);
-            long num = -1 + Convert_strtolong(str);
-            f_t << Convert_longtostr(num) << num;
+            getline(f_people, t);
+            long num = -1 + Convert_strtolong(t);
+            f_t << Convert_longtostr(num) << endl;
         }
 
         f_people.close();
         f_t.close();
 
         // rewrite the file
-        f_people.open("people\\" + str + "_books.txt", ios::trunc);
-        f_t.open("logbook\\temp.txt");
+        f_people.open("people\\" + str + "_books.txt", ios::in | ios::out | ios::trunc);
+        f_t.open("logbook\\temp.txt", ios::in | ios::out);
 
         while (f_t.peek() != EOF)
         {
-            getline(f_t, str);
-            f_people << str << endl;
+            getline(f_t, t);
+            f_people << t << endl;
         }
 
         f_people.close();

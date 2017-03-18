@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	Name:		Books.h
 	Author:		Zhang Yun
-	Version:	alpha 0.6
+	Version:	alpha 0.7
 	Intro:		the global variable 
 				and	define 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+*/

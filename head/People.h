@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		People.h
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.7
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------
@@ -34,7 +34,8 @@ public:
   Person(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // 参数构造函数 这是建立新人的函数 要求对文件进行创建
   ~Person();                                                                                               // 默认析构函数
 
-  void person_print(); // 用于将发送个人信息 包括 个人参数 预约现状 已借图书
+  void person_print();                      // 用于将发送个人信息 包括 个人参数 预约现状 已借图书
+  void person_open(const string &filename); //用于实时更新数据
   //void person_findbook();							// 用于查找图书 查找图书可以根据ID 书名 作者 出版社 类别 来进行
   //void person_borrow(const string &ID_pre_book);	// 根据图书的ID前缀完成借书操作 修改自身的文件日志
   //void person_return(const string &ID_book);		// 根据图书的完整ID完成还书操作 修改自身的文件日志
@@ -77,6 +78,8 @@ public:
   bool Judgesubcid(const string &bookID, const string &peopleID); //检验人是否有这本书可以转借阅
 
   void PeopleList_Add(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // 新建人 要求给定的ID必须是可行的（可先前利用judgeid函数）
+  void PeopleList_Pay(const string &ID);                                                                                // 还清欠款
+  void PeopleList_ChangeKey(const string &ID, const string &newkey);                                                    // 更改密码
 
   // 借书还书转换的操作通过ManageBook来实现 即ManageBook实现对书和人的文件日志的共同操作
 

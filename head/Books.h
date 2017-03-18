@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Books.h
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.7
 			Intro:		everything related to 
 						the Books 
 ------------------------------------------------------
@@ -90,13 +90,13 @@ public:
   ~ManageBooks();                      // 默认析构函数
 
   bool JudgeIDpre(const string &idpre); // 判断idpre是否是存在的
-  //bool JudgeEqual(const string & bookname, const string & bookauthor, const string & bookpublisher); //判断是否有这样的书是存在的
 
-  void BookList_Buy(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit); // 购入图书 读入新书信息 并要求判断 是修改现有文件还是建立新文件 booklist文件也应该被更新
-  void BookList_Borrow(const string &id_pre, const string &id_person, bool Subscribe);                                                            // 借书 读入两个id信息 并且自动判断 进行借书动作还是预约动作(当 Subscribe 为 TRUE 时才进行预约 否则不进行预约) 借书时候自动分配完整id书
-  void BookList_Return(const string &id_book, const string &id_person);                                                                           // 根据id信息完成还书操作
-  void BookList_Convert(const string &id_book, const string &id_person);                                                                          // 根据人的id信息完成预约转借书操作
-  void BookList_Find(const int limit);                                                                                                            // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作
+  bool BookList_BuyOld(const string &bookname, const string &bookauthor, const string &bookpublisher);                                               // 购入图书 读入新书信息 修改现有文 booklist文件也应该被更新
+  void BookList_BuyNew(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit); // 购入图书 读入新书信息 建立新文件 booklist文件也应该被更新
+  void BookList_Borrow(const string &id_pre, const string &id_person, bool Subscribe);                                                               // 借书 读入两个id信息 并且自动判断 进行借书动作还是预约动作(当 Subscribe 为 TRUE 时才进行预约 否则不进行预约) 借书时候自动分配完整id书
+  void BookList_Return(const string &id_book, const string &id_person);                                                                              // 根据id信息完成还书操作
+  void BookList_Convert(const string &id_book, const string &id_person);                                                                             // 根据人的id信息完成预约转借书操作
+  void BookList_Find(const int limit);                                                                                                               // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作
 
   void BookList_DateFlash(); // 每新的一天 刷新所有图书的借阅信息
   void BookList_Print();     // 打印所有书信息

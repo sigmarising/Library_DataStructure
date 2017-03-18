@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Books.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.7
 			Intro:		everything related to 
 						the Books 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
@@ -95,9 +95,9 @@ Book::Book(const string &bookname, const string &bookauthor, const string &bookp
 
     // creat the book file
     fstream f1, f2, f3;
-    f1.open("book\\" + name + ".txt");
-    f2.open("book\\" + name + "_books.txt");
-    f3.open("book\\" + name + "_subc.txt");
+    f1.open("book\\" + name + ".txt", fstream::out);
+    f2.open("book\\" + name + "_books.txt", fstream::out);
+    f3.open("book\\" + name + "_subc.txt", fstream::out);
 
     f1 << name << endl;
     f1 << bookname << endl;
@@ -109,6 +109,7 @@ Book::Book(const string &bookname, const string &bookauthor, const string &bookp
     f1 << 0 << endl;
     f1 << 0 << endl;
     f1 << 1 << endl;
+    f1 << 0 << endl;
     f1.close();
 
     name += "0001"; // the "str name" now is the complete id
@@ -166,7 +167,7 @@ void Book::book_addbook()
     Logs L(Day, false);
     L.Log_Addbook(name);
 
-    // write file
+    // write file part 1(2)
     FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 0, name);
     FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 1, Convert_longtostr(Day));
     // sovle the subcribe people
@@ -174,20 +175,12 @@ void Book::book_addbook()
     if (str != "")
     {
         FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
-        long count = 0;
-        fstream f("people\\" + str + "_subc.txt");
-        while (f.peek() != EOF)
-        {
-            count += 1;
-            getline(f, t);
-            if (t == ID_pre)
-                break;
-        }
-        f.close();
+        long count = FileLine_Getnumber("people\\" + str + "_subc.txt", ID_pre);
+
         FileLine_Change("people\\" + str + "_subc.txt", count, name);
         FileLine_Change("people\\" + str + "_subc.txt", count + 1, "1");
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, str);
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, Convert_longtostr(2));
+        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, str); //str is people id
+        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "2");
         // add the subc num
         FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
         Num_Subscribe += 1;
@@ -195,12 +188,12 @@ void Book::book_addbook()
     else
     {
         FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, "000000000000");
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, Convert_longtostr(0));
+        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "0");
         // add the subc num
         FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 10))));
         Num_Available += 1;
     }
-    FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 4, Convert_longtostr(100));
+    FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 4, "100");
 }
 
 // 增加了一个预约者 (此时应该已经判断出来应该是要预约 因为已经没书可借)
@@ -225,16 +218,6 @@ void Book::book_convert(const string &ID_book, const string &ID_borrower)
 {
     // we get the complete id from the ID_Borrower
 
-    /*fstream f("people\\" + ID_borrower + "_subc.txt");
-	string str;
-	long count = 0;
-	while (f.peek() != EOF) {
-		count += 1;
-		getline(f, str);
-		if (ID_pre == str.substr(0, 8))
-			break;
-	}
-	f.close();*/
     long count = FileLine_Getnumber("people\\" + ID_borrower + "_subc.txt", ID_book);
 
     // delete the subc info in the people's subc file
@@ -270,6 +253,9 @@ void Book::book_borrow(const string &ID_borrower)
     Num_Borrowed += 1;
     Num_Available -= 1;
     FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(Num_Borrowed));
+    FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(Num_Available));
+    // 借阅率
+    FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
 
     // find one avaliable book and remember the linenumber of it
     fstream F("book\\" + ID_pre + "_books.txt");
@@ -278,30 +264,34 @@ void Book::book_borrow(const string &ID_borrower)
     long linenumber = 0;
     while (F.peek() != EOF)
     {
-        linenumber += 1;
         for (int i = 1; i <= 4; i += 1)
+        {
             getline(F, str);
+            linenumber += 1;
+        }
         if (0 == Convert_strtolong(str))
             break;
         else
+        {
             getline(F, str);
+            linenumber += 1;
+        }
     }
     F.close();
 
     // update the ID_Books.txt
-    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber - 1, ID_borrower);
-    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber, "1");
-    FileLine_Change("book\\" + ID_pre + "books.txt", linenumber + 1, "30");
-    FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
+    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber - 1, ID_borrower);
+    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber, "1");
+    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber + 1, "30");
 
     // update the file about people
     FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
-    FileEnd_Add("people\\" + ID_borrower + "_books.txt", FileLine_Getline("people\\" + ID_pre + "books.txt", linenumber - 3));
+    FileEnd_Add("people\\" + ID_borrower + "_books.txt", FileLine_Getline("book\\" + ID_pre + "_books.txt", linenumber - 3));
     FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
 
     // logbook
     Logs L(Day, false);
-    L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "books.txt", linenumber - 3));
+    L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "_books.txt", linenumber - 3));
 }
 
 // 还书动作相关操作
@@ -318,7 +308,7 @@ void Book::book_return(const string &ID_book, const string &ID_borrower)
         FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
         // file about book
         long num = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, str);
+        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, str); // str is the people id
         FileLine_Change("book\\" + ID_pre + "_books.txt", num + 3, "2");
         FileLine_Change("book\\" + ID_pre + "_books.txt", num + 4, "100");
 
@@ -354,7 +344,7 @@ void Book::book_return(const string &ID_book, const string &ID_borrower)
     if (dueday < 0)
     {
         FileLine_Change("people\\" + ID_borrower + ".txt", 6, Convert_longtostr(dueday + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 6))));
-        FileLine_Change("people\\" + ID_borrower + ".txt", 7, Convert_doubletostr(0.1 * (-dueday)));
+        FileLine_Change("people\\" + ID_borrower + ".txt", 7, Convert_doubletostr(0.1 * (-dueday) + Convert_strtodouble(FileLine_Getline("people\\" + ID_borrower + ".txt", 7))));
     }
     FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
 }
@@ -427,6 +417,7 @@ ManageBooks::~ManageBooks()
 {
 }
 
+// 判断idpre是否是存在的
 bool ManageBooks::JudgeIDpre(const string &idpre)
 {
     fstream f("book\\booklist.txt");
@@ -447,10 +438,11 @@ bool ManageBooks::JudgeIDpre(const string &idpre)
     return false;
 }
 
-// 购入图书 读入新书信息
-// 并要求判断 是修改现有文件还是建立新文件
-// booklist文件也应该被更新
-void ManageBooks::BookList_Buy(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit)
+// 首先判断是否存在这样的书
+// 如果有 那么 购入图书 读入新书信息
+// 修改现有文件 booklist文件也应该被更新 返回true
+// 如果没有 返回false
+bool ManageBooks::BookList_BuyOld(const string &bookname, const string &bookauthor, const string &bookpublisher)
 {
     fstream f("book\\booklist.txt");
 
@@ -463,11 +455,18 @@ void ManageBooks::BookList_Buy(const string &bookname, const string &bookauthor,
         {
             B.book_addbook();
             f.close();
-            return;
+            return true;
         }
     }
     f.close();
+    return false;
+}
 
+// 购入图书 读入新书信息
+// 并要求判断 是修改现有文件还是建立新文件
+// booklist文件也应该被更新
+void ManageBooks::BookList_BuyNew(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit)
+{
     Book B(bookname, bookauthor, bookpublisher, booktype, booklimit);
 }
 
@@ -531,7 +530,7 @@ void ManageBooks::BookList_Find(const int limit)
     string str, t;
     getline(cin, str);
 
-    while (!(0 == str.length() && ('1' <= str[0] && str[0] <= '5')))
+    while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '5')))
     {
         cout << "输入错误\n重新输入: ";
         getline(cin, str);
@@ -627,8 +626,8 @@ void ManageBooks::BookList_DateFlash()
 
         // flash a book
         // write in temp
-        f_book.open("book\\" + str + "_books.txt");
-        f_t.open("logbook\\temp.txt", ios::trunc);
+        f_book.open("book\\" + str + "_books.txt", ios::in | ios::out);
+        f_t.open("logbook\\temp.txt", ios::in | ios::out | ios::trunc);
         int count = 0;
         while (f_book.peek() != EOF)
         {
@@ -647,8 +646,8 @@ void ManageBooks::BookList_DateFlash()
         f_t.close();
 
         //rewtite in file
-        f_book.open("book\\" + str + "_books.txt", ios::trunc);
-        f_t.open("logbook\\temp.txt");
+        f_book.open("book\\" + str + "_books.txt", ios::in | ios::out | ios::trunc);
+        f_t.open("logbook\\temp.txt", ios::in | ios::out);
 
         while (f_t.peek() != EOF)
         {

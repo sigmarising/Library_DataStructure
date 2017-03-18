@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Logbook.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.7
 			Intro:		manage logbook
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
@@ -26,7 +26,7 @@ Logs::Logs(const long &day, bool newfile)
 
     if (newfile)
     {
-        fstream f("logbook\\day" + Convert_longtostr(Date) + ".txt");
+        fstream f("logbook\\day" + Convert_longtostr(Date) + ".txt", fstream::out);
 
         f << "时间_day " << Date << endl;
 

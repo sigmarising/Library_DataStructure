@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Logbook.h
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.7
 			Intro:		manage logbook
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 

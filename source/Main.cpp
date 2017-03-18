@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	Name:		Main.cpp
 	Author:		Zhang Yun
-	Version:	alpha 0.6
+	Version:	alpha 0.7
 	Intro:		use for some basic 
 				farmwork's define
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+*/
@@ -27,10 +27,14 @@ int main()
     string init = FileLine_Getline("logbook\\sys.txt", 1);
     if (init == "")
     {
-	fstream f("logbook\\sys.txt");
+	system("md logbook");
+	system("md book");
+	system("md people");
+
+	fstream f("logbook\\sys.txt", fstream::out);
 
 	f << 1 << endl;
-	f << "admin" << endl;
+	f << "Admin" << endl;
 	f << 0 << endl;
 	f << 0 << endl;
 	f << 0 << endl;
@@ -38,8 +42,20 @@ int main()
 
 	f.close();
 
-	FileEnd_Add("book\\booklist.txt", "0");
-	FileEnd_Add("people\\peoplelist.txt", "0");
+	f.open("book\\booklist.txt", fstream::out);
+	f << 0 << endl;
+	f.close();
+
+	f.open("people\\peoplelist.txt", fstream::out);
+	f << 0 << endl;
+	f.close();
+
+	f.open("logbook\\temp.txt", fstream::out);
+	f << 0 << endl;
+	f.close();
+
+	//FileEnd_Add("book\\booklist.txt", "0");
+	//FileEnd_Add("people\\peoplelist.txt", "0");
 	Logs L(Day, true);
     }
     else
@@ -57,6 +73,8 @@ int main()
     {
 	system("cls");
 	cout << "欢迎来到图书馆管理系统\n\n";
+	cout << "当天天数: " << Day << endl
+	     << endl;
 	cout << "您想做什么\n";
 	cout << "  1: 切换计时方式\n";
 	cout << "  2: 登陆\n";
@@ -117,6 +135,8 @@ int main()
 
 		FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
 		Logs L(Day, true);
+
+		FlashDay();
 
 		break;
 	    }
