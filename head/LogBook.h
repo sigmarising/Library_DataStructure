@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Logbook.h
 			Author:		Zhang Yun
-			Version:	alpha 0.1
+			Version:	alpha 0.7
 			Intro:		manage logbook
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
@@ -13,9 +13,9 @@
 class Logs
 {
 public:
-  Logs();                  // 默认构造函数
-  Logs(const string &day); // 建立文件
-  ~Logs();                 // 析构函数 关闭文件
+  Logs();                              // 默认构造函数
+  Logs(const long &day, bool newfile); // 建立文件
+  ~Logs();                             // 析构函数 关闭文件
 
   void Log_Login(const string &ID);                                       // 登陆 写日志
   void Log_Logout(const string &ID);                                      // 登出 写日志
@@ -25,4 +25,5 @@ public:
   void Log_Addperson(const string &ID);                                   // 加人 写日志
   void Log_Addbook(const string &ID);                                     // 加书 写日志
 private:
+  long Date;
 };
