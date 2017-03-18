@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		People.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.1
+			Version:	alpha 0.6
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------*/
@@ -9,6 +9,7 @@
 #include <fstream>
 #include "Global_define.h"
 #include "Function.h"
+#include "Logbook.h"
 #include "People.h"
 using namespace std;
 
@@ -274,10 +275,37 @@ bool ManagePeople::JudgeKey(const string &ID, const string &Key)
     return false;
 }
 
+//检验人是否有这本书可以转借阅
+bool ManagePeople::Judgesubcid(const string &bookID, const string &peopleID)
+{
+    if (bookID.length() != 12)
+        return false;
+
+    fstream f("people\\" + peopleID + "_subc.txt");
+
+    string str;
+    while (f.peek() != EOF)
+    {
+        getline(f, str);
+        if (str.length() == 12 && str == bookID)
+        {
+            f.close();
+            return true;
+        }
+    }
+
+    f.close();
+    return false;
+}
+
 // 新建人 要求给定的ID必须是可行的（可先前利用judgeid函数）
 void ManagePeople::PeopleList_Add(const string &name, const string &ID, const string &Key, const string &school, const int &limit)
 {
     Person P(name, ID, Key, school, limit);
+
+    // logbook
+    Logs L(Day, false);
+    L.Log_Addperson(ID);
 }
 
 // 本函数内部有 有限状态自动机 完成对各个项目的搜索操作

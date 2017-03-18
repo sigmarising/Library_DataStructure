@@ -1,11 +1,12 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	Name:		Main.cpp
 	Author:		Zhang Yun
-	Version:	alpha 0.1
+	Version:	alpha 0.6
 	Intro:		use for some basic 
 				farmwork's define
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+*/
 #include <iostream>
+#include <fstream>
 #include "Books.h"
 #include "People.h"
 #include "Logbook.h"
@@ -23,6 +24,30 @@ bool Run = true;
 int main()
 {
     /*init the file*/
+    string init = FileLine_Getline("logbook\\sys.txt", 1);
+    if (init == "")
+    {
+	fstream f("logbook\\sys.txt");
+
+	f << 1 << endl;
+	f << "admin" << endl;
+	f << 0 << endl;
+	f << 0 << endl;
+	f << 0 << endl;
+	f << 1 << endl;
+
+	f.close();
+
+	FileEnd_Add("book\\booklist.txt", "0");
+	FileEnd_Add("people\\peoplelist.txt", "0");
+	Logs L(Day, true);
+    }
+    else
+    {
+	Day = 1 + Convert_strtolong(FileLine_Getline("logbook\\sys.txt", 6));
+	Logs L(Day, true);
+	FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
+    }
 
     /*++++++++++++++*/
 
@@ -90,6 +115,7 @@ int main()
 		// 关闭当前日志文件打开新的文件
 		Day += 1;
 
+		FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
 		Logs L(Day, true);
 
 		break;
