@@ -12,7 +12,7 @@
 
 1. 汉化不完全的地方进行更改
 2. 对查书的权限 bug 进行修复
-3. 对借书的权限 bug 进行修复 #2
+3. 对借书的权限 bug 进行修复 [#2](https://github.com/sigmarising/Library_DataStructure/issues/2)
 
 ### 增加内容
 
