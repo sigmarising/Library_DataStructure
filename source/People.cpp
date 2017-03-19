@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		People.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.6
+			Version:	alpha 0.71
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------*/
@@ -131,11 +131,11 @@ void Person::person_print()
         while (f.peek() != EOF)
         {
             getline(f, str);
-            cout << "ID:" << str << endl;
-            cout << "BookName:" << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
+            cout << "本书ID:" << str << endl;
+            cout << "书名:" << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
 
             getline(f, str);
-            cout << "DueTime:" << str << endl
+            cout << "剩余时间:" << str << endl
                  << endl;
         }
 
@@ -152,10 +152,15 @@ void Person::person_print()
         while (f.peek() != EOF)
         {
             getline(f, str);
-            cout << "BookName: " << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
+            if (8 == str.length())
+                cout << "ID前缀: " << str << endl;
+            else
+                cout << "ID: " << str << endl;
+
+            cout << "书名: " << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
 
             getline(f, str);
-            cout << "State: ";
+            cout << "状态: ";
             if (0 == Convert_strtolong(str))
                 cout << "不可用" << endl
                      << endl;

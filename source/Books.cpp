@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Books.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.7
+			Version:	alpha 0.71
 			Intro:		everything related to 
 						the Books 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
@@ -249,6 +249,28 @@ void Book::book_convert(const string &ID_book, const string &ID_borrower)
 // 要求更新 <成员变量 索引文件 书表文件 预约文件>
 void Book::book_borrow(const string &ID_borrower)
 {
+    // we check the limit there-----------
+    int limit_person = int(Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 5)));
+
+    if (0 == limit_person)
+    {
+        if (!(0 == Book_Limit || 1 == Book_Limit))
+        {
+            cout << "您没有权限借阅本书!\n";
+            return;
+        }
+    }
+    else if (1 == limit_person)
+    {
+        if (!(0 == Book_Limit || 2 == Book_Limit))
+        {
+            cout << "您没有权限借阅本书!\n";
+            return;
+        }
+    }
+
+    // we check the limit there-----------
+
     // update the member var and change the ID.txt
     Num_Borrowed += 1;
     Num_Available -= 1;

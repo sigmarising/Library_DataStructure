@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Function.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.7
+			Version:	alpha 0.71
 			Intro:		functions related to main.cpp
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
@@ -324,7 +324,7 @@ void login()
                     P.person_print();
                     break;
                 case '1': // find-ok
-                    ManageB.BookList_Find(int(name[0] - '0'));
+                    ManageB.BookList_Find(1 + P.get_personlimit());
                     break;
                 case '2': // borrow subc-ok
                     cout << "输入图书的ID前缀: ";

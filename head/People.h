@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		People.h
 			Author:		Zhang Yun
-			Version:	alpha 0.7
+			Version:	alpha 0.71
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------
