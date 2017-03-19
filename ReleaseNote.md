@@ -1,5 +1,13 @@
 # Release Note
 
+## 版本 v0.8 alpha
+
+修复了已知的一个Bug
+
+### 修复内容
+
+1. 有人还书时 不会对预约队列进行处理的 bug
+
 ## 版本 v0.711 alpha
 
 增加Release Note说明

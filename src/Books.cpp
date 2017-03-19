@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Books.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.71
+			Version:	alpha 0.8
 			Intro:		everything related to 
 						the Books 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
@@ -321,11 +321,11 @@ void Book::book_borrow(const string &ID_borrower)
 // 预约的人可以借书时 更新人的提示信息
 void Book::book_return(const string &ID_book, const string &ID_borrower)
 {
-    // we need to return the book an get the subc people for the book
+    // we need to return the book and get the subc people for the book
     // so we judge it first
     // get the subc people ID in str
     string str = FileLine_Getline("book\\" + ID_pre + "_subc.txt", 1);
-    if ("" == str)
+    if ("" != str)
     { //we have at least one subc people
         FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
         // file about book

@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	Name:		Main.cpp
 	Author:		Zhang Yun
-	Version:	alpha 0.71
+	Version:	alpha 0.8
 	Intro:		use for some basic 
 				farmwork's define
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+*/

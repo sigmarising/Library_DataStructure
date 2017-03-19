@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		People.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.71
+			Version:	alpha 0.8
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------*/
