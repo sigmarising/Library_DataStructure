@@ -16,196 +16,184 @@
 #include "People.h"
 using namespace std;
 
-/* åˆ é™¤æ–‡ä»¶ä¸­çš„æŒ‡å®šè¡Œ
- filenameæ˜¯å¸¦è·¯å¾„çš„å®Œæ•´æ–‡ä»¶å
- lineæ˜¯è¡Œå·ï¼ˆä»1å¼€å§‹è®¡æ•°ï¼‰*/
-void FileLine_Delete(const string &filename, const long &line)
-{
-    // copy the file without the only 1 line
-    fstream F_temp, F_file;
+/* É¾³ıÎÄ¼şÖĞµÄÖ¸¶¨ĞĞ
+ filenameÊÇ´øÂ·¾¶µÄÍêÕûÎÄ¼şÃû
+ lineÊÇĞĞºÅ£¨´Ó1¿ªÊ¼¼ÆÊı£©*/
+void FileLine_Delete(const string & filename, const long & line) {
+	// copy the file without the only 1 line
+	fstream F_temp, F_file;
+	
+	F_temp.open("logbook\\temp.txt", ios::in | ios::out |ios::trunc); // clear this temp file
+	F_file.open(filename,ios::in | ios::out);
+	long count = 0;
+	string str;
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out | ios::trunc); // clear this temp file
-    F_file.open(filename, ios::in | ios::out);
-    long count = 0;
-    string str;
+	while (F_file.peek() != EOF) {
+		count += 1;
+		getline(F_file, str);
+		if (count != line) 
+			F_temp << str << endl;
+	}
 
-    while (F_file.peek() != EOF)
-    {
-        count += 1;
-        getline(F_file, str);
-        if (count != line)
-            F_temp << str << endl;
-    }
+	F_temp.close();
+	F_file.close();
 
-    F_temp.close();
-    F_file.close();
+	// rewrite in the file
 
-    // rewrite in the file
+	F_temp.open("logbook\\temp.txt",ios::in | ios::out);
+	F_file.open(filename, ios::in | ios::out  |ios::trunc); // clear file
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out);
-    F_file.open(filename, ios::in | ios::out | ios::trunc); // clear file
+	while (F_temp.peek() != EOF) {
+		getline(F_temp, str);
+		F_file << str << endl;
+		
+	}
 
-    while (F_temp.peek() != EOF)
-    {
-        getline(F_temp, str);
-        F_file << str << endl;
-    }
-
-    F_temp.close();
-    F_file.close();
+	F_temp.close();
+	F_file.close();
 }
 
-/* æ”¹å˜æ–‡ä»¶ä¸­æŒ‡å®šè¡Œçš„å†…å®¹
- filename æ˜¯å¸¦è·¯å¾„çš„å®Œæ•´æ–‡ä»¶å
- line æ˜¯è¡Œå· 
- things æ˜¯è¦ä»£æ›¿ç¬¬lineè¡Œçš„å†…å®¹ */
-void FileLine_Change(const string &filename, const long &line, const string &things)
-{
-    // copy the file and change the only 1 line
-    fstream F_temp, F_file;
+/* ¸Ä±äÎÄ¼şÖĞÖ¸¶¨ĞĞµÄÄÚÈİ
+ filename ÊÇ´øÂ·¾¶µÄÍêÕûÎÄ¼şÃû
+ line ÊÇĞĞºÅ 
+ things ÊÇÒª´úÌæµÚlineĞĞµÄÄÚÈİ */
+void FileLine_Change(const string & filename, const long & line, const string & things) {
+	// copy the file and change the only 1 line
+	fstream F_temp, F_file;
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out | ios::trunc); // clear this temp file
-    F_file.open(filename, ios::in | ios::out);
-    long count = 0;
-    string str;
+	F_temp.open("logbook\\temp.txt", ios::in|ios::out|ios::trunc); // clear this temp file
+	F_file.open(filename,ios::in | ios::out  );
+	long count = 0;
+	string str;
 
-    while (F_file.peek() != EOF)
-    {
-        count += 1;
-        getline(F_file, str);
-        if (count != line)
-            F_temp << str << endl;
-        else
-            F_temp << things << endl;
-    }
+	while (F_file.peek() != EOF) {
+		count += 1;
+		getline(F_file, str);
+		if (count != line)
+			F_temp << str << endl;
+		else
+			F_temp << things << endl;
+	}
 
-    F_temp.close();
-    F_file.close();
+	F_temp.close();
+	F_file.close();
 
-    // rewrite in the file
+	// rewrite in the file
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out);
-    F_file.open(filename, ios::in | ios::out | ios::trunc); // clear file
+	F_temp.open("logbook\\temp.txt", ios::in | ios::out);
+	F_file.open(filename, ios::in | ios::out|ios::trunc); // clear file
 
-    while (F_temp.peek() != EOF)
-    {
-        getline(F_temp, str);
-        F_file << str << endl;
-    }
+	while (F_temp.peek() != EOF) {
+		getline(F_temp, str);
+		F_file << str << endl;
 
-    F_temp.close();
-    F_file.close();
+	}
+
+	F_temp.close();
+	F_file.close();
 }
 
-/* åœ¨æ–‡ä»¶çš„æŒ‡å®šè¡Œä¹‹åæ’å…¥å†…å®¹
- filename æ˜¯å¸¦è·¯å¾„çš„å®Œæ•´æ–‡ä»¶å
- line æ˜¯è¡Œå· 
- things æ˜¯è¦æ’å…¥åˆ°ç¬¬lineè¡Œä¹‹åçš„å†…å®¹ */
+/* ÔÚÎÄ¼şµÄÖ¸¶¨ĞĞÖ®ºó²åÈëÄÚÈİ
+ filename ÊÇ´øÂ·¾¶µÄÍêÕûÎÄ¼şÃû
+ line ÊÇĞĞºÅ 
+ things ÊÇÒª²åÈëµ½µÚlineĞĞÖ®ºóµÄÄÚÈİ */
 // 0 add to the first line
-void FileLine_Insert(const string &filename, const long &line, const string &things)
-{
-    // copy the file and insert the only 1 line
-    fstream F_temp, F_file;
+void FileLine_Insert(const string & filename, const long & line, const string & things) {
+	// copy the file and insert the only 1 line
+	fstream F_temp, F_file;
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out | ios::trunc); // clear this temp file
-    F_file.open(filename, ios::in | ios::out);
-    long count = 0;
-    if (count == line)
-        F_temp << things << endl;
-    string str;
+	F_temp.open("logbook\\temp.txt", ios::in | ios::out|ios::trunc); // clear this temp file
+	F_file.open(filename, ios::in | ios::out);
+	long count = 0;
+	if (count == line)
+		F_temp << things << endl;
+	string str;
 
-    while (F_file.peek() != EOF)
-    {
-        count += 1;
-        getline(F_file, str);
-        F_temp << str << endl;
-        if (count == line)
-            F_temp << things << endl;
-    }
+	while (F_file.peek() != EOF) {
+		count += 1;
+		getline(F_file, str);
+		F_temp << str << endl;
+		if (count == line)	
+			F_temp << things << endl;
+	}
 
-    F_temp.close();
-    F_file.close();
+	F_temp.close();
+	F_file.close();
 
-    // rewrite in the file
+	// rewrite in the file
 
-    F_temp.open("logbook\\temp.txt", ios::in | ios::out);
-    F_file.open(filename, ios::in | ios::out | ios::trunc); // clear file
+	F_temp.open("logbook\\temp.txt", ios::in | ios::out);
+	F_file.open(filename, ios::in | ios::out|ios::trunc); // clear file
 
-    while (F_temp.peek() != EOF)
-    {
-        getline(F_temp, str);
-        F_file << str << endl;
-    }
+	while (F_temp.peek() != EOF) {
+		getline(F_temp, str);
+		F_file << str << endl;
 
-    F_temp.close();
-    F_file.close();
+	}
+
+	F_temp.close();
+	F_file.close();
 }
 
-// å°†åˆ¶å®šå†…å®¹æ·»åŠ åˆ°æ–‡ç« æœ«å°¾
-// filename æ˜¯å¸¦è·¯å¾„çš„å®Œæ•´æ–‡ä»¶å
-// things æ˜¯è¦æ’å…¥åˆ°ç¬¬lineè¡Œä¹‹åçš„å†…å®¹
-void FileEnd_Add(const string &filename, const string &things)
-{
-    // copy the file and insert the only 1 line
-    fstream F_file;
+// ½«ÖÆ¶¨ÄÚÈİÌí¼Óµ½ÎÄÕÂÄ©Î²
+// filename ÊÇ´øÂ·¾¶µÄÍêÕûÎÄ¼şÃû
+// things ÊÇÒª²åÈëµ½µÚlineĞĞÖ®ºóµÄÄÚÈİ
+void FileEnd_Add(const string & filename, const string & things) {
+	// copy the file and insert the only 1 line
+	fstream F_file;
 
-    F_file.open(filename, ios::app);
+	F_file.open(filename,ios::app);
 
-    F_file << things << endl;
+	F_file << things << endl;
 
-    F_file.close();
+	F_file.close();
 }
 
-// æœç´¢æŒ‡å®šå†…å®¹çš„è¡Œå·ï¼ˆä¸€èˆ¬ç”¨äºIDï¼‰
-// å¦‚æœæ²¡æœ‰æœç´¢åˆ° è¿”å›0
-long FileLine_Getnumber(const string &filename, const string &things)
-{
-    fstream F_file;
+// ËÑË÷Ö¸¶¨ÄÚÈİµÄĞĞºÅ£¨Ò»°ãÓÃÓÚID£©
+// Èç¹ûÃ»ÓĞËÑË÷µ½ ·µ»Ø0
+long FileLine_Getnumber(const string & filename, const string & things) {
+	fstream F_file;
 
-    F_file.open(filename);
-    long count = 0;
-    string str;
+	F_file.open(filename);
+	long count = 0;
+	string str;
 
-    while (F_file.peek() != EOF)
-    {
-        count += 1;
-        getline(F_file, str);
-        if (str == things)
-        {
-            F_file.close();
-            return count;
-        }
-    }
+	while (F_file.peek() != EOF) {
+		count += 1;
+		getline(F_file, str);
+		if (str == things) {
+			F_file.close();
+			return count;
+		}
+	}
 
-    F_file.close();
-    return 0;
+	F_file.close();
+	return 0;
 }
 
-/* è¿”å›æ–‡ä»¶æŒ‡å®šè¡Œçš„å†…å®¹
- filename æ˜¯å¸¦è·¯å¾„çš„å®Œæ•´æ–‡ä»¶å
- line æ˜¯è¡Œå· 
- å¦‚æœlineè¿‡å¤§åˆ™è¿”å›ç©ºä¸²*/
-string FileLine_Getline(const string &filename, const long &line)
-{
-    fstream F_file;
+/* ·µ»ØÎÄ¼şÖ¸¶¨ĞĞµÄÄÚÈİ
+ filename ÊÇ´øÂ·¾¶µÄÍêÕûÎÄ¼şÃû
+ line ÊÇĞĞºÅ 
+ Èç¹ûline¹ı´óÔò·µ»Ø¿Õ´®*/
+string FileLine_Getline(const string & filename, const long & line) {
+	fstream F_file;
 
-    F_file.open(filename);
-    long count = 0;
-    string str;
+	F_file.open(filename);
+	long count = 0;
+	string str;
 
-    while (F_file.peek() != EOF)
-    {
-        count += 1;
-        getline(F_file, str);
-        if (count == line)
-            return str;
-    }
+	while (F_file.peek() != EOF) {
+		count += 1;
+		getline(F_file, str);
+		if (count == line)
+			return str;
+	}
 
-    return string();
+	return string();
 }
 
-/* å°†æ•°å­—å­—ç¬¦cå¢åŠ 1 
- å¦‚æœäº§ç”Ÿè¿›ä½ é‚£ä¹ˆè¿”å›ture å¦åˆ™è¿”å›false*/
+/* ½«Êı×Ö×Ö·ûcÔö¼Ó1 
+ Èç¹û²úÉú½øÎ» ÄÇÃ´·µ»Øture ·ñÔò·µ»Øfalse*/
 //bool Char_Addone(char & c) {
 //	if ('0' < c && c < '8') {
 //		c += 1;
@@ -217,9 +205,9 @@ string FileLine_Getline(const string &filename, const long &line)
 //	}
 //}
 
-/* å¯¹æŒ‡å®šçš„å­—ç¬¦ä¸²å¢åŠ 1 å¹¶ä¿æŒå­—ç¬¦ä¸²é•¿åº¦ä¸å˜åŒ–
- ä¾‹å¦‚ str == "00000001"
- æœ¬å‡½æ•°æ‰§è¡Œä¹‹åå¾—åˆ° str == "00000002"*/
+/* ¶ÔÖ¸¶¨µÄ×Ö·û´®Ôö¼Ó1 ²¢±£³Ö×Ö·û´®³¤¶È²»±ä»¯
+ ÀıÈç str == "00000001"
+ ±¾º¯ÊıÖ´ĞĞÖ®ºóµÃµ½ str == "00000002"*/
 //void String_Addone(string & str) {
 //	int pos = str.length()-1;
 //	bool carry = true;
@@ -235,310 +223,281 @@ string FileLine_Getline(const string &filename, const long &line)
 //}
 
 // str to long
-long Convert_strtolong(const string str)
-{
-    strstream ss;
-    ss << str;
-    long num;
-    ss >> num;
-    return num;
+long Convert_strtolong(const string str) {
+	strstream ss;
+	ss << str;
+	long num;
+	ss >> num;
+	return num;
 }
 
 // long to str
-string Convert_longtostr(const long num)
-{
-    strstream ss;
-    ss << num;
-    string str;
-    ss >> str;
-    return str;
+string Convert_longtostr(const long num) {
+	strstream ss;
+	ss << num;
+	string str;
+	ss >> str;
+	return str;
 }
 
-// double to str
-string Convert_doubletostr(const double num)
-{
-    strstream ss;
-    ss << num;
-    string str;
-    ss >> str;
-    return str;
+// double to str 
+string Convert_doubletostr(const double num) {
+	strstream ss;
+	ss << num;
+	string str;
+	ss >> str;
+	return str;
 }
 
 // str to double
-double Convert_strtodouble(const string str)
-{
-    strstream ss;
-    ss << str;
-    double num;
-    ss >> num;
-    return num;
+double Convert_strtodouble(const string str) {
+	strstream ss;
+	ss << str;
+	double num;
+	ss >> num;
+	return num;
 }
 
 // for the main login
-void login()
-{
-    string name, key;
-    system("cls");
+void login() {
+	string name, key;
+	system("cls");
 
-    // get the input
-    cout << "è¯·è¾“å…¥IDå·ç : ";
-    getline(cin, name);
-    cout << "è¯·è¾“å…¥å¯†ç : ";
-    getline(cin, key);
+	// get the input
+	cout << "ÇëÊäÈëIDºÅÂë: ";
+	getline(cin, name);
+	cout << "ÇëÊäÈëÃÜÂë: ";
+	getline(cin, key);
 
-    ManagePeople ManageP("peoplelist");
-    ManageBooks ManageB("booklist");
-    Logs L(Day, false);
-    if (ManageP.JudgeKey(name, key))
-    { // student and  teacher login success
-        //logbook
-        L.Log_Login(name);
+	ManagePeople ManageP("peoplelist");
+	ManageBooks ManageB("booklist");
+	Logs L(Day, false);
+	if (ManageP.JudgeKey(name, key)) {// student and  teacher login success
+		//logbook
+		L.Log_Login(name);
 
-        // print the info
-        Person P(name);
-        P.person_print();
+		// print the info
+		Person P(name);
+		P.person_print();
 
-        string userinput, bookidpre, subc, key1, key2;
-        bool logout = false;
-        while (!logout)
-        {
-            cout << "ä½ æƒ³åšä»€ä¹ˆï¼Ÿ\n";
-            cout << "  0:æŸ¥çœ‹ä¸ªäººä¿¡æ¯\n";
-            cout << "  1:æŸ¥ä¹¦\n";
-            cout << "  2:å€Ÿä¹¦ï¼ˆæˆ–é¢„çº¦ï¼‰\n";
-            cout << "  3:ä¸€é”®å°†å¯ç”¨é¢„çº¦è½¬ä¸ºå€Ÿé˜…\n";
-            cout << "  4:è¿˜ä¹¦\n";
-            cout << "  5:è¿˜æ¸…æ¬ æ¬¾\n";
-            cout << "  6:æ›´æ”¹å¯†ç \n";
-            cout << "  7:ç™»å‡º\n";
-            cout << "é€‰æ‹©: ";
-            getline(cin, userinput);
-            char c = userinput[0];
+		string userinput, bookidpre,subc,key1,key2;
+		bool logout = false;
+		while (!logout) {
+			cout << "ÄãÏë×öÊ²Ã´£¿\n";
+			cout << "  0:²é¿´¸öÈËĞÅÏ¢\n";
+			cout << "  1:²éÊé\n";
+			cout << "  2:½èÊé£¨»òÔ¤Ô¼£©\n";
+			cout << "  3:Ò»¼ü½«¿ÉÓÃÔ¤Ô¼×ªÎª½èÔÄ\n";
+			cout << "  4:»¹Êé\n";
+			cout << "  5:»¹ÇåÇ·¿î\n";
+			cout << "  6:¸ü¸ÄÃÜÂë\n";
+			cout << "  7:µÇ³ö\n";
+			cout << "Ñ¡Ôñ: ";
+			getline(cin, userinput);
+			char c = userinput[0];
 
-            if (userinput.length() == 1 && ('0' <= c && c <= '7'))
-            {
-                switch (c)
-                {
-                case '0': // info-ok
-                    P.person_open(name);
-                    P.person_print();
-                    break;
-                case '1': // find-ok
-                    ManageB.BookList_Find(1 + P.get_personlimit());
-                    break;
-                case '2': // borrow subc-ok
-                    cout << "è¾“å…¥å›¾ä¹¦çš„IDå‰ç¼€: ";
-                    getline(cin, bookidpre);
+			if (userinput.length() == 1 && ('0' <= c && c <= '7')) {
+				switch (c) {
+				case '0':// info-ok
+					P.person_open(name);
+					P.person_print();
+					break;
+				case '1':// find-ok
+					ManageB.BookList_Find(1 + P.get_personlimit());
+					break;
+				case '2':// borrow subc-ok
+					cout << "ÊäÈëÍ¼ÊéµÄIDÇ°×º: ";
+					getline(cin, bookidpre);
 
-                    if (ManageB.JudgeIDpre(bookidpre))
-                    {
-                        cout << "å¦‚æœæ­¤ä¹¦å·²å€Ÿå®Œ ä½ æ˜¯å¦æƒ³é¢„çº¦ï¼Ÿ\n  1:æ˜¯\n  Other:å¦\n é€‰æ‹©: ";
-                        getline(cin, subc);
-                        if (subc == "1")
-                            ManageB.BookList_Borrow(bookidpre, name, true);
-                        else
-                            ManageB.BookList_Borrow(bookidpre, name, false);
-                    }
-                    else
-                    {
-                        cout << "IDå‰ç¼€é”™è¯¯\n";
-                    }
-                    break;
-                case '3': // convert-ok
-                    cout << "è¾“å…¥ä½ æƒ³è¦é¢„çº¦è½¬å€Ÿé˜…çš„å›¾ä¹¦çš„å®Œæ•´ID\n input: ";
-                    getline(cin, bookidpre);
-                    if (ManageP.Judgesubcid(bookidpre, name))
-                    {
-                        ManageB.BookList_Convert(bookidpre, name);
-                    }
-                    else
-                    {
-                        cout << "å®Œæ•´IDé”™è¯¯\n";
-                    }
-                    break;
-                case '4': // return book
-                    // we use key1 for the book we want to return
-                    cout << "è¾“å…¥è¦è¿˜ä¹¦çš„å®Œæ•´ID: ";
-                    getline(cin, key1);
-                    if (0 == FileLine_Getnumber("people\\" + name + "_books.txt", key1))
-                    {
-                        cout << "IDé”™è¯¯" << endl;
-                    }
-                    else
-                    {
-                        ManageB.BookList_Return(key1, name);
-                    }
+					if (ManageB.JudgeIDpre(bookidpre)) {
+						cout << "Èç¹û´ËÊéÒÑ½èÍê ÄãÊÇ·ñÏëÔ¤Ô¼£¿\n  1:ÊÇ\n  Other:·ñ\n Ñ¡Ôñ: ";
+						getline(cin, subc);
+						if (subc == "1")
+							ManageB.BookList_Borrow(bookidpre, name, true);
+						else
+							ManageB.BookList_Borrow(bookidpre, name, false);
+					}
+					else {
+						cout << "IDÇ°×º´íÎó\n";
+					}
+					break;
+				case '3':// convert-ok
+					cout << "ÊäÈëÄãÏëÒªÔ¤Ô¼×ª½èÔÄµÄÍ¼ÊéµÄÍêÕûID\n input: ";
+					getline(cin, bookidpre);
+					if (ManageP.Judgesubcid(bookidpre, name)) {
+						ManageB.BookList_Convert(bookidpre, name);
+					}
+					else {
+						cout << "ÍêÕûID´íÎó\n";
+					}
+					break;
+				case '4':// return book
+					// we use key1 for the book we want to return
+					cout << "ÊäÈëÒª»¹ÊéµÄÍêÕûID: ";
+					getline(cin, key1);
+					if (0 == FileLine_Getnumber("people\\" + name + "_books.txt", key1)) {
+						cout << "ID´íÎó" << endl;
+					}
+					else {
+						ManageB.BookList_Return(key1, name);
+					}
 
-                    break;
-                case '5': // payback-ok
-                    ManageP.PeopleList_Pay(name);
-                    break;
-                case '6': //change key-ok
-                    cout << "é”®å…¥æ–°å¯†ç : ";
-                    getline(cin, key1);
-                    cout << "å†è¾“å…¥ä¸€æ¬¡: ";
-                    getline(cin, key2);
-                    while (key1 != key2)
-                    {
-                        cout << "ä¸¤æ¬¡è¾“å…¥ä¸ä¸€è‡´ï¼é‡æ–°è¾“å…¥ï¼" << endl;
-                        cout << "é”®å…¥æ–°å¯†ç : ";
-                        getline(cin, key1);
-                        cout << "å†è¾“å…¥ä¸€æ¬¡: ";
-                        getline(cin, key2);
-                    }
-                    ManageP.PeopleList_ChangeKey(name, key1);
 
-                    break;
-                case '7': // logout-ok
-                    logout = true;
+					break;
+				case '5':// payback-ok
+					ManageP.PeopleList_Pay(name);
+					break;
+				case '6'://change key-ok
+					cout << "¼üÈëĞÂÃÜÂë: ";
+					getline(cin, key1);
+					cout << "ÔÙÊäÈëÒ»´Î: ";
+					getline(cin, key2);
+					while (key1 != key2) {
+						cout << "Á½´ÎÊäÈë²»Ò»ÖÂ£¡ÖØĞÂÊäÈë£¡" << endl;
+						cout << "¼üÈëĞÂÃÜÂë: ";
+						getline(cin, key1);
+						cout << "ÔÙÊäÈëÒ»´Î: ";
+						getline(cin, key2);
+					}
+					ManageP.PeopleList_ChangeKey(name, key1);
 
-                    //logbook
-                    L.Log_Logout(name);
-                    break;
-                }
-            }
-            else
-            {
-                cout << "è¾“å…¥é”™è¯¯\n";
-            }
-        }
-    }
-    else if ("Admin" == name && key == FileLine_Getline("logbook\\sys.txt", 2))
-    { // the admin login succeed
-        bool logout = false;
-        //logbook
-        L.Log_Login("Admin");
+					break;
+				case '7':// logout-ok
+					logout = true;
 
-        while (!logout)
-        {
-            cout << "ä½ æƒ³åšä»€ä¹ˆï¼Ÿ\n";
-            cout << "  1:æ–°å»ºå›¾ä¹¦\n";
-            cout << "  2:æ–°å»ºç”¨æˆ·\n";
-            cout << "  3:æŸ¥ä¹¦\n";
-            cout << "  4:æŸ¥äºº\n";
-            cout << "  5:ç™»å‡º\n";
-            cout << "é€‰æ‹©: ";
-            string userinput, bookname, bookauthor, bookpublishor, booktype;
-            string peopleid, peoplekey, peoplename, peopleschool;
-            int booklimit, peoplelimit;
-            getline(cin, userinput);
-            char c = userinput[0];
+					//logbook
+					L.Log_Logout(name);
+					break;
+				}
+			}
+			else {
+				cout << "ÊäÈë´íÎó\n";
+			}
+		}
+	}
+	else if ("Admin"==name && key == FileLine_Getline("logbook\\sys.txt",2)) {// the admin login succeed
+		bool logout = false;
+		//logbook
+		L.Log_Login("Admin");
 
-            if (userinput.length() == 1 && ('1' <= c && c <= '5'))
-            {
-                switch (c)
-                {
-                case '1': // new book-ok
-                    cout << "è¯·è¾“å…¥å›¾ä¹¦ä¿¡æ¯\n";
-                    cout << "ä¹¦å:";
-                    getline(cin, bookname);
-                    cout << "ä½œè€…:";
-                    getline(cin, bookauthor);
-                    cout << "å‡ºç‰ˆç¤¾:";
-                    getline(cin, bookpublishor);
+		while (!logout) {
+			cout << "ÄãÏë×öÊ²Ã´£¿\n";
+			cout << "  1:ĞÂ½¨Í¼Êé\n";
+			cout << "  2:ĞÂ½¨ÓÃ»§\n";
+			cout << "  3:²éÊé\n";
+			cout << "  4:²éÈË\n";
+			cout << "  5:µÇ³ö\n";
+			cout << "Ñ¡Ôñ: ";
+			string userinput, bookname, bookauthor, bookpublishor, booktype;
+			string peopleid, peoplekey, peoplename, peopleschool;
+			int booklimit, peoplelimit;
+			getline(cin, userinput);
+			char c = userinput[0];
 
-                    if (ManageB.BookList_BuyOld(bookname, bookauthor, bookpublishor))
-                    {
-                        break;
-                    }
+			if (userinput.length() == 1 && ('1' <= c && c <= '5')) {
+				switch (c) {
+				case '1':// new book-ok
+					cout << "ÇëÊäÈëÍ¼ÊéĞÅÏ¢\n";
+					cout << "ÊéÃû:";
+					getline(cin, bookname);
+					cout << "×÷Õß:";
+					getline(cin, bookauthor);
+					cout << "³ö°æÉç:";
+					getline(cin, bookpublishor);
 
-                    cout << "ç±»åˆ«:";
-                    getline(cin, booktype);
-                    cout << "æƒé™ï¼ˆ0å‡å¯å€Ÿ 1ä»…å­¦ç”Ÿå¯å€Ÿ 2ä»…æ•™å¸ˆå¯å€Ÿï¼‰:";
-                    cin >> booklimit;
-                    while (!(0 <= booklimit && booklimit <= 2))
-                    {
-                        cout << "è¾“å…¥æœ‰è¯¯ï¼\né‡æ–°è¾“å…¥:";
-                        cin >> booklimit;
-                    }
-                    getchar();
+					if (ManageB.BookList_BuyOld(bookname, bookauthor, bookpublishor)) {
+						break;
+					}
 
-                    ManageB.BookList_BuyNew(bookname, bookauthor, bookpublishor, booktype, booklimit);
+					cout << "Àà±ğ:";
+					getline(cin, booktype);
+					cout << "È¨ÏŞ£¨0¾ù¿É½è 1½öÑ§Éú¿É½è 2½ö½ÌÊ¦¿É½è£©:";
+					cin >> booklimit;
+					while (!(0 <= booklimit&&booklimit <= 2)) {
+						cout << "ÊäÈëÓĞÎó£¡\nÖØĞÂÊäÈë:";
+						cin >> booklimit;
+					}
+					getchar();
 
-                    break;
-                case '2': //new user-ok
-                    cout << "è¾“å…¥ç”¨æˆ·ä¿¡æ¯\n";
-                    cout << "ç”¨æˆ·IDï¼ˆ12ä½ é¦–ä½æ˜¯0æˆ–1ï¼‰:";
-                    getline(cin, peopleid);
-                    while (!ManageP.JudgeID(peopleid))
-                    {
-                        cout << "IDæœ‰è¯¯ï¼\né‡æ–°è¾“å…¥:";
-                        getline(cin, peopleid);
-                    }
-                    cout << "ç”¨æˆ·å¯†ç :";
-                    getline(cin, peoplekey);
-                    cout << "ç”¨æˆ·å§“å:";
-                    getline(cin, peoplename);
-                    cout << "ç”¨æˆ·å­¦é™¢:";
-                    getline(cin, peopleschool);
-                    cout << "ç”¨æˆ·æƒé™ï¼ˆ0å­¦ç”Ÿ 1è€å¸ˆï¼‰:";
-                    cin >> peoplelimit;
-                    while (!(0 <= peoplelimit && peoplelimit <= 1))
-                    {
+					ManageB.BookList_BuyNew(bookname, bookauthor, bookpublishor, booktype, booklimit);
 
-                        cout << "è¾“å…¥æœ‰è¯¯ï¼\né‡æ–°è¾“å…¥:";
-                        cin >> peoplelimit;
-                    }
-                    getchar();
+					break;
+				case '2'://new user-ok
+					cout << "ÊäÈëÓÃ»§ĞÅÏ¢\n";
+					cout << "ÓÃ»§ID£¨12Î» Ê×Î»ÊÇ0»ò1£©:";
+					getline(cin, peopleid);
+					while (!ManageP.JudgeID(peopleid)) {
+						cout << "IDÓĞÎó£¡\nÖØĞÂÊäÈë:";
+						getline(cin, peopleid);
+					}
+					cout << "ÓÃ»§ÃÜÂë:";
+					getline(cin, peoplekey);
+					cout << "ÓÃ»§ĞÕÃû:";
+					getline(cin, peoplename);
+					cout << "ÓÃ»§Ñ§Ôº:";
+					getline(cin, peopleschool);
+					cout << "ÓÃ»§È¨ÏŞ£¨0Ñ§Éú 1ÀÏÊ¦£©:";
+					cin >> peoplelimit;
+					while (!(0 <= peoplelimit&&peoplelimit <= 1)) {
+						
+						cout << "ÊäÈëÓĞÎó£¡\nÖØĞÂÊäÈë:";
+						cin >> peoplelimit;
+					}
+					getchar();
 
-                    ManageP.PeopleList_Add(peoplename, peopleid, peoplekey, peopleschool, peoplelimit);
+					ManageP.PeopleList_Add(peoplename, peopleid, peoplekey, peopleschool, peoplelimit);
 
-                    break;
-                case '3': //find book-ok
+					break;
+				case '3'://find book-ok
 
-                    cout << "æ˜¯å¦æŸ¥çœ‹æ‰€æœ‰ä¹¦ï¼Ÿ\n  1:æ˜¯\n  Other:å¦\né€‰æ‹©: ";
-                    getline(cin, userinput);
+					cout << "ÊÇ·ñ²é¿´ËùÓĞÊé£¿\n  1:ÊÇ\n  Other:·ñ\nÑ¡Ôñ: ";
+					getline(cin, userinput);
 
-                    if (userinput == "1")
-                    {
-                        ManageB.BookList_Print();
-                    }
-                    else
-                        ManageB.BookList_Find(3);
+					if (userinput == "1") {
+						ManageB.BookList_Print();
+					}
+					else
+						ManageB.BookList_Find(3);
 
-                    break;
-                case '4': //find people-ok
-                    cout << "æ˜¯å¦æŸ¥çœ‹æ‰€æœ‰ç”¨æˆ·ï¼Ÿ\n  1:æ˜¯\n  Other:å¦\né€‰æ‹©: ";
-                    getline(cin, userinput);
+					break;
+				case '4'://find people-ok
+					cout << "ÊÇ·ñ²é¿´ËùÓĞÓÃ»§£¿\n  1:ÊÇ\n  Other:·ñ\nÑ¡Ôñ: ";
+					getline(cin, userinput);
 
-                    if (userinput == "1")
-                    {
-                        ManageP.PeopleList_Print();
-                    }
-                    else
-                        ManageP.PeopleList_Find();
+					if (userinput == "1") {
+						ManageP.PeopleList_Print();
+					}
+					else
+						ManageP.PeopleList_Find();
 
-                    break;
-                case '5': //logout
-                    logout = true;
+					break;
+				case '5'://logout
+					logout = true;
 
-                    // logbook
-                    Logs L(Day, false);
-                    L.Log_Logout("Admin");
+					// logbook
+					Logs L(Day, false);
+					L.Log_Logout("Admin");
 
-                    break;
-                }
-            }
-            else
-            {
-                cout << "é”™è¯¯è¾“å…¥ï¼ \n";
-            }
-        }
-    }
-    else
-    { //login failed
-        system("cls");
-        cout << "ç™»å½•å¤±è´¥" << endl;
-        system("pause");
-    }
+					break;
+				}
+			}
+			else {
+				cout << "´íÎóÊäÈë£¡ \n";
+			}
+		}
+	}
+	else {//login failed
+		system("cls");
+		cout << "µÇÂ¼Ê§°Ü" << endl;
+		system("pause");
+	}
 }
 
 // flash all the info
-void FlashDay()
-{
-    ManagePeople ManageP("peoplelist");
-    ManageBooks ManageB("booklist");
+void FlashDay() {
+	ManagePeople ManageP("peoplelist");
+	ManageBooks ManageB("booklist");
 
-    ManageB.BookList_DateFlash();
-    ManageP.PeopleList_DateFlash();
+	ManageB.BookList_DateFlash();
+	ManageP.PeopleList_DateFlash();
 }

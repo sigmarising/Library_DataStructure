@@ -10,20 +10,20 @@
 #include "Books.h"
 #include "People.h"
 
-class Logs
-{
+class Logs {
 public:
-  Logs();                              // é»˜è®¤æ„é€ å‡½æ•°
-  Logs(const long &day, bool newfile); // å»ºç«‹æ–‡ä»¶
-  ~Logs();                             // ææ„å‡½æ•° å…³é—­æ–‡ä»¶
+	Logs();									// Ä¬ÈÏ¹¹Ôìº¯Êı
+	Logs(const long &day, bool newfile);	// ½¨Á¢ÎÄ¼ş
+	~Logs();								// Îö¹¹º¯Êı ¹Ø±ÕÎÄ¼ş
 
-  void Log_Login(const string &ID);                                       // ç™»é™† å†™æ—¥å¿—
-  void Log_Logout(const string &ID);                                      // ç™»å‡º å†™æ—¥å¿—
-  void Log_Borrow(const string &ID_People, const string &ID_book);        // å€Ÿä¹¦ å†™æ—¥å¿—
-  void Log_Subscribe(const string &ID_People, const string &ID_pre_book); // é¢„çº¦ å†™æ—¥å¿—
-  void Log_Return(const string &ID_People, const string &ID_book);        // è¿˜ä¹¦ å†™æ—¥å¿—
-  void Log_Addperson(const string &ID);                                   // åŠ äºº å†™æ—¥å¿—
-  void Log_Addbook(const string &ID);                                     // åŠ ä¹¦ å†™æ—¥å¿—
+
+	void Log_Login(const string &ID);			// µÇÂ½ Ğ´ÈÕÖ¾
+	void Log_Logout(const string &ID);			// µÇ³ö Ğ´ÈÕÖ¾
+	void Log_Borrow(const string &ID_People, const string &ID_book);		// ½èÊé Ğ´ÈÕÖ¾
+	void Log_Subscribe(const string &ID_People, const string &ID_pre_book);	// Ô¤Ô¼ Ğ´ÈÕÖ¾
+	void Log_Return(const string &ID_People, const string &ID_book);		// »¹Êé Ğ´ÈÕÖ¾
+	void Log_Addperson(const string &ID);		// ¼ÓÈË Ğ´ÈÕÖ¾
+	void Log_Addbook(const string &ID);			// ¼ÓÊé Ğ´ÈÕÖ¾
 private:
-  long Date;
+	long Date;
 };

@@ -14,689 +14,630 @@
 #include "Global_define.h"
 using namespace std;
 
+
 //--------------------------------------------------------------------
 //Class Book
 
-// é»˜è®¤æ„é€ å‡½æ•°
-Book::Book()
-{
-    Num_Borrowed = Num_Subscribe = Num_Available = Num_Sum = 0;
 
-    Book_Limit = 0;
+// Ä¬ÈÏ¹¹Ôìº¯Êı
+Book::Book() {
+	Num_Borrowed = Num_Subscribe = Num_Available = Num_Sum = 0;
+
+	Book_Limit = 0;
 }
 
-// æ‹·è´æ„é€ å‡½æ•°
-Book::Book(const Book &book1)
-{
-    Num_Available = book1.Num_Available;
-    Num_Borrowed = book1.Num_Borrowed;
-    Num_Subscribe = book1.Num_Subscribe;
-    Num_Sum = book1.Num_Sum;
+// ¿½±´¹¹Ôìº¯Êı
+Book::Book(const Book & book1) {
+	Num_Available = book1.Num_Available;
+	Num_Borrowed = book1.Num_Borrowed;
+	Num_Subscribe = book1.Num_Subscribe;
+	Num_Sum = book1.Num_Sum;
 
-    Book_Author = book1.Book_Author;
-    Book_Limit = book1.Book_Limit;
-    Book_Name = book1.Book_Name;
-    Book_Publisher = book1.Book_Publisher;
-    Book_Type = book1.Book_Type;
-
-    ID_pre = book1.ID_pre;
+	Book_Author = book1.Book_Author;
+	Book_Limit = book1.Book_Limit;
+	Book_Name = book1.Book_Name;
+	Book_Publisher = book1.Book_Publisher;
+	Book_Type = book1.Book_Type;
+	
+	ID_pre = book1.ID_pre;
 }
 
-/* è‡ªå®šä¹‰æ„é€ å‡½æ•° 
-ä» filename.txt æ–‡ä»¶ä¸­è¯»å–åˆå§‹åŒ–æœ¬ç±»ä¹¦ä¿¡æ¯
-filename æ˜¯æœ¬ä¹¦çš„IDå‰ç¼€ï¼ˆ8ä½ï¼‰
-ä¾‹å¦‚ Book("00000001"); */
-Book::Book(const string &filename)
-{
-    ifstream file("book\\" + filename + ".txt");
+/* ×Ô¶¨Òå¹¹Ôìº¯Êı 
+´Ó filename.txt ÎÄ¼şÖĞ¶ÁÈ¡³õÊ¼»¯±¾ÀàÊéĞÅÏ¢
+filename ÊÇ±¾ÊéµÄIDÇ°×º£¨8Î»£©
+ÀıÈç Book("00000001"); */
+Book::Book(const string & filename) {
+	ifstream file("book\\" + filename + ".txt");
 
-    getline(file, ID_pre);
-    getline(file, Book_Name);
-    getline(file, Book_Author);
-    getline(file, Book_Publisher);
-    getline(file, Book_Type);
-    file >> Book_Limit;
-    file >> Num_Sum;
-    file >> Num_Borrowed;
-    file >> Num_Subscribe;
-    file >> Num_Available;
+	getline(file, ID_pre);
+	getline(file, Book_Name);
+	getline(file, Book_Author);
+	getline(file, Book_Publisher);
+	getline(file, Book_Type);
+	file >> Book_Limit;
+	file >> Num_Sum;
+	file >> Num_Borrowed;
+	file >> Num_Subscribe;
+	file >> Num_Available;
 
-    file.close();
+	file.close();
 }
 
-/*å¦‚æœæ–°è´­å…¥çš„ä¹¦ä¸æ˜¯å·²æœ‰ä¹¦ 
-é‚£ä¹ˆåº”è¯¥åˆ›å»ºä¸€æœ¬æ–°çš„ç±»å‹çš„ä¹¦ 
-ID_pre å’Œ Number è‡ªåŠ¨ç”Ÿæˆ å¹¶å»ºç«‹ä¸‰ä¸ªæ–‡ä»¶æ—¥å¿—*/
-Book::Book(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit)
-{
-    Num_Borrowed = Num_Subscribe = 0;
-    Num_Available = Num_Sum = 1;
-    // get the id and add this id
-    string str = FileLine_Getline("logbook\\sys.txt", 3 + booklimit), name = "0";
-    long num = Convert_strtolong(str);
-    num += 1;
-    str = Convert_longtostr(num);
-    FileLine_Change("logbook\\sys.txt", 3 + booklimit, str);
+/*Èç¹ûĞÂ¹ºÈëµÄÊé²»ÊÇÒÑÓĞÊé 
+ÄÇÃ´Ó¦¸Ã´´½¨Ò»±¾ĞÂµÄÀàĞÍµÄÊé 
+ID_pre ºÍ Number ×Ô¶¯Éú³É ²¢½¨Á¢Èı¸öÎÄ¼şÈÕÖ¾*/
+Book::Book(const string & bookname, const string & bookauthor, const string & bookpublisher, const string & booktype, const int & booklimit) {
+	Num_Borrowed = Num_Subscribe =  0;
+	Num_Available = Num_Sum = 1;
+	// get the id and add this id
+	string str = FileLine_Getline("logbook\\sys.txt", 3 + booklimit), name="0";
+	long num = Convert_strtolong(str);
+	num += 1; 
+	str = Convert_longtostr(num);
+	FileLine_Change("logbook\\sys.txt", 3 + booklimit, str);
 
-    // creat the filename id
-    name[0] = name[0] + booklimit;
-    if (str.length() < 7)
-        for (int i = 1; i <= 7 - str.length(); i += 1)
-            name += "0";
-    name += str;
+	// creat the filename id
+	name[0] = name[0] + booklimit;
+	if (str.length() < 7)
+		for (int i = 1; i <= 7 - str.length(); i += 1)
+			name += "0";
+	name += str;
 
-    // change the booklist.txt
-    string t = FileLine_Getline("book\\booklist.txt", 1);
-    num = Convert_strtolong(t);
-    num += 1;
-    t = Convert_longtostr(num);
-    FileLine_Change("book\\booklist.txt", 1, t);
-    FileLine_Insert("book\\booklist.txt", num, name);
+	// change the booklist.txt
+	string t = FileLine_Getline("book\\booklist.txt", 1);
+	num = Convert_strtolong(t);
+	num += 1;
+	t = Convert_longtostr(num);
+	FileLine_Change("book\\booklist.txt", 1, t);
+	FileLine_Insert("book\\booklist.txt", num, name);
 
-    // creat the book file
-    fstream f1, f2, f3;
-    f1.open("book\\" + name + ".txt", fstream::out);
-    f2.open("book\\" + name + "_books.txt", fstream::out);
-    f3.open("book\\" + name + "_subc.txt", fstream::out);
+	// creat the book file
+	fstream f1, f2, f3;
+	f1.open("book\\"+name+".txt", fstream::out);
+	f2.open("book\\" + name+"_books.txt", fstream::out);
+	f3.open("book\\" +name+ "_subc.txt", fstream::out);
 
-    f1 << name << endl;
-    f1 << bookname << endl;
-    f1 << bookauthor << endl;
-    f1 << bookpublisher << endl;
-    f1 << booktype << endl;
-    f1 << booklimit << endl;
-    f1 << 1 << endl;
-    f1 << 0 << endl;
-    f1 << 0 << endl;
-    f1 << 1 << endl;
-    f1 << 0 << endl;
-    f1.close();
+	f1 << name << endl;
+	f1 << bookname << endl;
+	f1 << bookauthor << endl;
+	f1 << bookpublisher << endl;
+	f1 << booktype << endl;
+	f1 << booklimit << endl;
+	f1 << 1 << endl;
+	f1 << 0 << endl;
+	f1 << 0 << endl;
+	f1 << 1 << endl;
+	f1 << 0 << endl;
+	f1.close(); 
+	
+	name += "0001";// the "str name" now is the complete id
 
-    name += "0001"; // the "str name" now is the complete id
+	//logbook
+	Logs L(Day, false);
+	L.Log_Addbook(name);
 
-    //logbook
-    Logs L(Day, false);
-    L.Log_Addbook(name);
-
-    f2 << name << endl;
-    t = Convert_longtostr(Day);
-    f2 << t << endl;
-    f2 << "000000000000" << endl;
-    f2 << 0 << endl;
-    f2 << 100 << endl;
-    f2.close();
-
-    f3.close();
+	f2 << name << endl;
+	t = Convert_longtostr(Day);
+	f2 << t << endl;
+	f2 << "000000000000" << endl;
+	f2 << 0 << endl;
+	f2 << 100 << endl;
+	f2.close(); 
+	
+	f3.close();
 }
 
-// é»˜è®¤ææ„å‡½æ•°
-Book::~Book()
-{
-    // nothing to do
+// Ä¬ÈÏÎö¹¹º¯Êı
+Book::~Book() {
+	// nothing to do
 }
 
-// æ ¹æ® ä¹¦å ä½œè€… å‡ºç‰ˆç¤¾ æ¥åˆ¤æ–­ æ–°è¾“å…¥çš„ä¹¦æ˜¯å¦ä¸æœ¬ç±»ä¹¦ç­‰ä»·
-bool Book::is_equal(const string &name, const string &author, const string &publishor)
-{
-    if (name == Book_Name && author == Book_Author && publishor == Book_Publisher)
-        return true;
-    return false;
+// ¸ù¾İ ÊéÃû ×÷Õß ³ö°æÉç À´ÅĞ¶Ï ĞÂÊäÈëµÄÊéÊÇ·ñÓë±¾ÀàÊéµÈ¼Û
+bool Book::is_equal(const string & name, const string & author, const string & publishor) {
+	if (name == Book_Name && author == Book_Author && publishor == Book_Publisher)
+		return true;
+	return false;
 }
 
-// è´­å…¥äº†ä¸€æœ¬æ–°çš„ä¹¦ è¦æ±‚æ›´æ–°
-// <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-// é¢„çº¦çš„äººå¯ä»¥å€Ÿä¹¦æ—¶ æ›´æ–°äººçš„æç¤ºä¿¡æ¯
-void Book::book_addbook()
-{
-    // add the total num in booklist
-    Num_Sum += 1;
-    long num = Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 7));
-    num += 1;
-    string str = Convert_longtostr(num);
-    FileLine_Change("book\\" + ID_pre + ".txt", 7, str);
+// ¹ºÈëÁËÒ»±¾ĞÂµÄÊé ÒªÇó¸üĞÂ 
+// <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş> 
+// Ô¤Ô¼µÄÈË¿ÉÒÔ½èÊéÊ± ¸üĞÂÈËµÄÌáÊ¾ĞÅÏ¢
+void Book::book_addbook() {
+	// add the total num in booklist
+	Num_Sum += 1;
+	long num = Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 7));
+	num += 1;
+	string str = Convert_longtostr(num);
+	FileLine_Change("book\\" + ID_pre + ".txt", 7, str);
 
-    // add in the ID_book.txt
-    // get the total id
-    string name = ID_pre, t;
-    if (str.length() < 4)
-        for (int i = 1; i <= 4 - str.length(); i += 1)
-            name += "0";
-    name += str;
+	// add in the ID_book.txt
+		// get the total id
+	string name = ID_pre, t;
+	if (str.length() < 4)
+		for (int i = 1; i <= 4 - str.length(); i += 1)
+			name += "0";
+	name += str;
 
-    // logbook
-    Logs L(Day, false);
-    L.Log_Addbook(name);
+	// logbook
+	Logs L(Day, false);
+	L.Log_Addbook(name);
 
-    // write file part 1(2)
-    FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 0, name);
-    FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 1, Convert_longtostr(Day));
-    // sovle the subcribe people
-    str = FileLine_Getline("book\\" + ID_pre + "_subc.txt", 1);
-    if (str != "")
-    {
-        FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
-        long count = FileLine_Getnumber("people\\" + str + "_subc.txt", ID_pre);
+	// write file part 1(2)
+	FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 0, name);
+	FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 1, Convert_longtostr(Day));
+	// sovle the subcribe people
+	str = FileLine_Getline("book\\" + ID_pre + "_subc.txt", 1);
+	if (str != "") {
+		FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
+		long count = FileLine_Getnumber("people\\" + str + "_subc.txt",ID_pre);
 
-        FileLine_Change("people\\" + str + "_subc.txt", count, name);
-        FileLine_Change("people\\" + str + "_subc.txt", count + 1, "1");
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, str); //str is people id
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "2");
-        // add the subc num
-        FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
-        Num_Subscribe += 1;
-    }
-    else
-    {
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, "000000000000");
-        FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "0");
-        // add the subc num
-        FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 10))));
-        Num_Available += 1;
-    }
-    FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 4, "100");
+		FileLine_Change("people\\" + str + "_subc.txt", count, name);
+		FileLine_Change("people\\" + str + "_subc.txt", count + 1, "1");
+		FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, str);//str is people id
+		FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "2");
+		// add the subc num
+		FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
+		Num_Subscribe += 1;
+	}
+	else {
+		FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 2, "000000000000");
+		FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 3, "0");
+		// add the subc num
+		FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 10))));
+		Num_Available += 1;
+	}
+	FileLine_Insert("book\\" + ID_pre + "_books.txt", (num - 1) * 5 + 4, "100");
+
 }
 
-// å¢åŠ äº†ä¸€ä¸ªé¢„çº¦è€… (æ­¤æ—¶åº”è¯¥å·²ç»åˆ¤æ–­å‡ºæ¥åº”è¯¥æ˜¯è¦é¢„çº¦ å› ä¸ºå·²ç»æ²¡ä¹¦å¯å€Ÿ)
-// è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-void Book::book_subscribe(const string &ID_borrower)
-{
-    // update the ID_subc.txt
-    FileLine_Insert("book\\" + ID_pre + "_subc.txt", 0, ID_borrower);
-    // update the file about people
-    FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 9))));
-    FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 0, ID_pre);
-    FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 1, "0");
+// Ôö¼ÓÁËÒ»¸öÔ¤Ô¼Õß (´ËÊ±Ó¦¸ÃÒÑ¾­ÅĞ¶Ï³öÀ´Ó¦¸ÃÊÇÒªÔ¤Ô¼ ÒòÎªÒÑ¾­Ã»Êé¿É½è)
+// ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+void Book::book_subscribe(const string & ID_borrower) {
+	// update the ID_subc.txt
+	FileLine_Insert("book\\" + ID_pre + "_subc.txt", 0, ID_borrower);
+	// update the file about people
+	FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\"+ID_borrower + ".txt", 9))));
+	FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 0, ID_pre);
+	FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 1, "0");
 
-    // logbook
-    Logs L(Day, false);
-    L.Log_Subscribe(ID_borrower, ID_pre);
+	// logbook
+	Logs L(Day, false);
+	L.Log_Subscribe(ID_borrower, ID_pre);
 }
 
-// å°†é¢„çº¦è½¬æ¢æˆå€Ÿé˜… (æ­¤æ—¶è¿™ä¸ªäººåº”è¯¥ä¸åœ¨é¢„çº¦é˜Ÿåˆ—ä¸­äº† å·²ç»æœ‰ä¹¦è¢«é¢„çº¦ç»™ä»–äº†)
-// è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-void Book::book_convert(const string &ID_book, const string &ID_borrower)
-{
-    // we get the complete id from the ID_Borrower
+// ½«Ô¤Ô¼×ª»»³É½èÔÄ (´ËÊ±Õâ¸öÈËÓ¦¸Ã²»ÔÚÔ¤Ô¼¶ÓÁĞÖĞÁË ÒÑ¾­ÓĞÊé±»Ô¤Ô¼¸øËûÁË)
+// ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+void Book::book_convert(const string & ID_book, const string & ID_borrower) {
+	// we get the complete id from the ID_Borrower
+	
+	long count = FileLine_Getnumber("people\\" + ID_borrower + "_subc.txt", ID_book);
 
-    long count = FileLine_Getnumber("people\\" + ID_borrower + "_subc.txt", ID_book);
+	// delete the subc info in the people's subc file
+	FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
+	FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
+	// add the borrow info in the people book file and change the people.txt
+	FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
+	FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 9))));
+	
+	FileEnd_Add("people\\" + ID_borrower + "_books.txt", ID_book);
+	FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
+	
+	// update the booksfile
+	long lnum = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
+	FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 2, ID_borrower);
+	FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 3, "1");
+	FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 4, "30");
+	
+	FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
+	FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
+	FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
 
-    // delete the subc info in the people's subc file
-    FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
-    FileLine_Delete("people\\" + ID_borrower + "_subc.txt", count);
-    // add the borrow info in the people book file and change the people.txt
-    FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
-    FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 9))));
-
-    FileEnd_Add("people\\" + ID_borrower + "_books.txt", ID_book);
-    FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
-
-    // update the booksfile
-    long lnum = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
-    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 2, ID_borrower);
-    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 3, "1");
-    FileLine_Change("book\\" + ID_pre + "_books.txt", lnum + 4, "30");
-
-    FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
-    FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
-    FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
-
-    // update the member var
-    Num_Borrowed += 1;
-    Num_Subscribe -= 1;
+	// update the member var
+	Num_Borrowed += 1;
+	Num_Subscribe -= 1;
 }
 
-// å¢åŠ äº†ä¸€ä¸ªå€Ÿé˜…è€…
-// è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-void Book::book_borrow(const string &ID_borrower)
-{
-    // we check the limit there-----------
-    int limit_person = int(Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 5)));
+// Ôö¼ÓÁËÒ»¸ö½èÔÄÕß 
+// ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+void Book::book_borrow(const string & ID_borrower) {
+	// we check the limit there-----------
+	int limit_person = int(Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 5)));
 
-    if (0 == limit_person)
-    {
-        if (!(0 == Book_Limit || 1 == Book_Limit))
-        {
-            cout << "æ‚¨æ²¡æœ‰æƒé™å€Ÿé˜…æœ¬ä¹¦!\n";
-            return;
-        }
-    }
-    else if (1 == limit_person)
-    {
-        if (!(0 == Book_Limit || 2 == Book_Limit))
-        {
-            cout << "æ‚¨æ²¡æœ‰æƒé™å€Ÿé˜…æœ¬ä¹¦!\n";
-            return;
-        }
-    }
+	if (0 == limit_person) {
+		if (!(0 == Book_Limit || 1 == Book_Limit)) {
+			cout << "ÄúÃ»ÓĞÈ¨ÏŞ½èÔÄ±¾Êé!\n";
+			return;
+		}
+	}
+	else if (1 == limit_person) {
+		if (!(0 == Book_Limit || 2 == Book_Limit)) {
+			cout << "ÄúÃ»ÓĞÈ¨ÏŞ½èÔÄ±¾Êé!\n";
+			return;
+		}
+	}
 
-    // we check the limit there-----------
+	// we check the limit there-----------
 
-    // update the member var and change the ID.txt
-    Num_Borrowed += 1;
-    Num_Available -= 1;
-    FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(Num_Borrowed));
-    FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(Num_Available));
-    // å€Ÿé˜…ç‡
-    FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
+	// update the member var and change the ID.txt
+	Num_Borrowed += 1;
+	Num_Available -= 1;
+	FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(Num_Borrowed));
+	FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(Num_Available));
+		// ½èÔÄÂÊ
+	FileLine_Change("book\\" + ID_pre + ".txt", 11, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11))));
 
-    // find one avaliable book and remember the linenumber of it
-    fstream F("book\\" + ID_pre + "_books.txt");
-    string str;
 
-    long linenumber = 0;
-    while (F.peek() != EOF)
-    {
-        for (int i = 1; i <= 4; i += 1)
-        {
-            getline(F, str);
-            linenumber += 1;
-        }
-        if (0 == Convert_strtolong(str))
-            break;
-        else
-        {
-            getline(F, str);
-            linenumber += 1;
-        }
-    }
-    F.close();
+	// find one avaliable book and remember the linenumber of it
+	fstream F("book\\" + ID_pre + "_books.txt");
+	string str;
 
-    // update the ID_Books.txt
-    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber - 1, ID_borrower);
-    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber, "1");
-    FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber + 1, "30");
+	long linenumber = 0;
+	while (F.peek() != EOF) {
+		for (int i = 1; i <= 4; i += 1) {
+			getline(F, str);
+			linenumber += 1;
+		}
+		if (0 == Convert_strtolong(str))
+			break;
+		else {
+			getline(F, str);
+			linenumber += 1;
+		}
+	}
+	F.close();
 
-    // update the file about people
-    FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
-    FileEnd_Add("people\\" + ID_borrower + "_books.txt", FileLine_Getline("book\\" + ID_pre + "_books.txt", linenumber - 3));
-    FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
+	// update the ID_Books.txt
+	FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber - 1, ID_borrower);
+	FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber , "1");
+	FileLine_Change("book\\" + ID_pre + "_books.txt", linenumber + 1, "30");
 
-    // logbook
-    Logs L(Day, false);
-    L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "_books.txt", linenumber - 3));
+
+	// update the file about people
+	FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
+	FileEnd_Add("people\\" + ID_borrower + "_books.txt", FileLine_Getline("book\\" + ID_pre + "_books.txt", linenumber - 3));
+	FileEnd_Add("people\\" + ID_borrower + "_books.txt", "30");
+
+	// logbook
+	Logs L(Day, false);
+	L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "_books.txt", linenumber - 3));
 }
 
-// è¿˜ä¹¦åŠ¨ä½œç›¸å…³æ“ä½œ
-// è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-// é¢„çº¦çš„äººå¯ä»¥å€Ÿä¹¦æ—¶ æ›´æ–°äººçš„æç¤ºä¿¡æ¯
-void Book::book_return(const string &ID_book, const string &ID_borrower)
-{
-    // we need to return the book and get the subc people for the book
-    // so we judge it first
-    // get the subc people ID in str
-    string str = FileLine_Getline("book\\" + ID_pre + "_subc.txt", 1);
-    if ("" != str)
-    { //we have at least one subc people
-        FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
-        // file about book
-        long num = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, str); // str is the people id
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 3, "2");
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 4, "100");
+// »¹Êé¶¯×÷Ïà¹Ø²Ù×÷ 
+// ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş> 
+// Ô¤Ô¼µÄÈË¿ÉÒÔ½èÊéÊ± ¸üĞÂÈËµÄÌáÊ¾ĞÅÏ¢
+void Book::book_return(const string & ID_book, const string & ID_borrower) {
+	// we need to return the book and get the subc people for the book
+	// so we judge it first 
+		// get the subc people ID in str
+	string str = FileLine_Getline("book\\" + ID_pre + "_subc.txt", 1);
+	if ("" != str) {//we have at least one subc people
+		FileLine_Delete("book\\" + ID_pre + "_subc.txt", 1);
+		// file about book
+		long num = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, str);// str is the people id
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 3, "2");
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 4, "100");
+		
+		Num_Borrowed -= 1;
+		Num_Subscribe += 1;
 
-        Num_Borrowed -= 1;
-        Num_Subscribe += 1;
+		FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
+		FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
+		// file about people subc
+		num = FileLine_Getnumber("people\\" + str + "_subc.txt", ID_pre);
+		FileLine_Change("people\\" + str + "_subc.txt", num, ID_book);
+		FileLine_Change("people\\" + str + "_subc.txt", num + 1, "1");
+	}
+	else {// we don't have to solve the subc because there is no subc people
+		long num = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, "000000000000");
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 3, "0");
+		FileLine_Change("book\\" + ID_pre + "_books.txt", num + 4, "100");
 
-        FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
-        FileLine_Change("book\\" + ID_pre + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 9))));
-        // file about people subc
-        num = FileLine_Getnumber("people\\" + str + "_subc.txt", ID_pre);
-        FileLine_Change("people\\" + str + "_subc.txt", num, ID_book);
-        FileLine_Change("people\\" + str + "_subc.txt", num + 1, "1");
-    }
-    else
-    { // we don't have to solve the subc because there is no subc people
-        long num = FileLine_Getnumber("book\\" + ID_pre + "_books.txt", ID_book);
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 2, "000000000000");
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 3, "0");
-        FileLine_Change("book\\" + ID_pre + "_books.txt", num + 4, "100");
+		Num_Borrowed -= 1;
+		Num_Available += 1;
 
-        Num_Borrowed -= 1;
-        Num_Available += 1;
+		FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
+		FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 10))));
+	}
+	// solve the money
+	long line = FileLine_Getnumber("people\\" + ID_borrower + "_books.txt", ID_book);
+	FileLine_Delete("people\\" + ID_borrower + "_books.txt", line);
+	long dueday = Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + "_books.txt", line));
+	FileLine_Delete("people\\" + ID_borrower + "_books.txt", line);
 
-        FileLine_Change("book\\" + ID_pre + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 8))));
-        FileLine_Change("book\\" + ID_pre + ".txt", 10, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 10))));
-    }
-    // solve the money
-    long line = FileLine_Getnumber("people\\" + ID_borrower + "_books.txt", ID_book);
-    FileLine_Delete("people\\" + ID_borrower + "_books.txt", line);
-    long dueday = Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + "_books.txt", line));
-    FileLine_Delete("people\\" + ID_borrower + "_books.txt", line);
+	if(dueday<0){
+		FileLine_Change("people\\" + ID_borrower + ".txt", 6, Convert_longtostr(dueday + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 6))));
+		FileLine_Change("people\\" + ID_borrower + ".txt", 7, Convert_doubletostr(0.1*(-dueday) + Convert_strtodouble(FileLine_Getline("people\\" + ID_borrower + ".txt", 7))));
+	}
+	FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
 
-    if (dueday < 0)
-    {
-        FileLine_Change("people\\" + ID_borrower + ".txt", 6, Convert_longtostr(dueday + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 6))));
-        FileLine_Change("people\\" + ID_borrower + ".txt", 7, Convert_doubletostr(0.1 * (-dueday) + Convert_strtodouble(FileLine_Getline("people\\" + ID_borrower + ".txt", 7))));
-    }
-    FileLine_Change("people\\" + ID_borrower + ".txt", 8, Convert_longtostr(-1 + Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 8))));
 }
 
-// æ‰“å°æœ¬ä¹¦ä¿¡æ¯
-void Book::book_print()
-{
-    cout << endl;
+// ´òÓ¡±¾ÊéĞÅÏ¢
+void Book::book_print() {
+	cout << endl;
 
-    cout << "IDå‰ç¼€ï¼š" << ID_pre << endl;
-    cout << "ä¹¦åï¼š" << Book_Name << endl;
-    cout << "ä½œè€…ï¼š" << Book_Author << endl;
-    cout << "å‡ºç‰ˆç¤¾ï¼š" << Book_Publisher << endl;
-    cout << "ç±»åˆ«ï¼š" << Book_Type << endl;
-    cout << "å¯ç”¨æ•°é‡ï¼š" << Num_Available << endl;
-    cout << "å€Ÿé˜…ç‡ï¼š" << Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11)) / Day << endl;
+	cout << "IDÇ°×º£º" << ID_pre << endl;
+	cout << "ÊéÃû£º" << Book_Name << endl;
+	cout << "×÷Õß£º" << Book_Author << endl;
+	cout << "³ö°æÉç£º" << Book_Publisher << endl;
+	cout << "Àà±ğ£º" << Book_Type << endl;
+	cout << "¿ÉÓÃÊıÁ¿£º" << Num_Available << endl;
+	cout << "½èÔÄÂÊ£º" << Convert_strtolong(FileLine_Getline("book\\" + ID_pre + ".txt", 11)) / Day << endl;
+	
+	cout << endl;
 
-    cout << endl;
 }
 
-string Book::get_bookname()
-{
-    return Book_Name;
+string Book::get_bookname() {
+	return Book_Name;
 }
 
-string Book::get_bookauthor()
-{
-    return Book_Author;
+string Book::get_bookauthor() {
+	return Book_Author;
 }
 
-string Book::get_bookpublisher()
-{
-    return Book_Publisher;
+string Book::get_bookpublisher() {
+	return Book_Publisher;
 }
 
-string Book::get_booktype()
-{
-    return Book_Type;
+string Book::get_booktype() {
+	return Book_Type;
 }
 
-string Book::get_ID_pre()
-{
-    return ID_pre;
+string Book::get_ID_pre() {
+	return ID_pre;
 }
 
-int Book::get_bookLimit()
-{
-    return Book_Limit;
+int Book::get_bookLimit() {
+	return Book_Limit;
 }
 
 //-------------------------------------------------------------------
 // class ManageBooks
 
-ManageBooks::ManageBooks()
-{
-    Num_Sum_Of_Books = Convert_strtolong(FileLine_Getline("book\\booklist.txt", 1));
+ManageBooks::ManageBooks() {
+	Num_Sum_Of_Books = Convert_strtolong(FileLine_Getline("book\\booklist.txt", 1));
 }
 
-ManageBooks::ManageBooks(const ManageBooks &M)
-{
-    Num_Sum_Of_Books = M.Num_Sum_Of_Books;
+ManageBooks::ManageBooks(const ManageBooks & M) {
+	Num_Sum_Of_Books = M.Num_Sum_Of_Books;
 }
 
-ManageBooks::ManageBooks(const string &filename)
-{
-    Num_Sum_Of_Books = Convert_strtolong(FileLine_Getline("book\\" + filename + ".txt", 1));
+ManageBooks::ManageBooks(const string & filename) {
+	Num_Sum_Of_Books = Convert_strtolong(FileLine_Getline("book\\" + filename + ".txt", 1));
 }
 
-ManageBooks::~ManageBooks()
-{
+ManageBooks::~ManageBooks() {
 }
 
-// åˆ¤æ–­idpreæ˜¯å¦æ˜¯å­˜åœ¨çš„
-bool ManageBooks::JudgeIDpre(const string &idpre)
-{
-    fstream f("book\\booklist.txt");
+// ÅĞ¶ÏidpreÊÇ·ñÊÇ´æÔÚµÄ
+bool ManageBooks::JudgeIDpre(const string & idpre) {
+	fstream f("book\\booklist.txt");
 
-    string str;
-    getline(f, str);
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        if (idpre == str)
-        {
-            f.close();
-            return true;
-        }
-    }
+	string str;
+	getline(f, str);
+	while (f.peek() != EOF) {
+		getline(f, str);
+		if (idpre == str) {
+			f.close();
+			return true;
+		}
+	}
 
-    f.close();
-    return false;
+	f.close();
+	return false;
 }
 
-// é¦–å…ˆåˆ¤æ–­æ˜¯å¦å­˜åœ¨è¿™æ ·çš„ä¹¦
-// å¦‚æœæœ‰ é‚£ä¹ˆ è´­å…¥å›¾ä¹¦ è¯»å…¥æ–°ä¹¦ä¿¡æ¯
-// ä¿®æ”¹ç°æœ‰æ–‡ä»¶ booklistæ–‡ä»¶ä¹Ÿåº”è¯¥è¢«æ›´æ–° è¿”å›true
-// å¦‚æœæ²¡æœ‰ è¿”å›false
-bool ManageBooks::BookList_BuyOld(const string &bookname, const string &bookauthor, const string &bookpublisher)
-{
-    fstream f("book\\booklist.txt");
+// Ê×ÏÈÅĞ¶ÏÊÇ·ñ´æÔÚÕâÑùµÄÊé
+// Èç¹ûÓĞ ÄÇÃ´ ¹ºÈëÍ¼Êé ¶ÁÈëĞÂÊéĞÅÏ¢ 
+// ĞŞ¸ÄÏÖÓĞÎÄ¼ş booklistÎÄ¼şÒ²Ó¦¸Ã±»¸üĞÂ ·µ»Øtrue
+// Èç¹ûÃ»ÓĞ ·µ»Øfalse
+bool ManageBooks::BookList_BuyOld(const string & bookname, const string & bookauthor, const string & bookpublisher) {
+	fstream f("book\\booklist.txt");
 
-    string str;
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        Book B(str);
-        if (B.is_equal(bookname, bookauthor, bookpublisher))
-        {
-            B.book_addbook();
-            f.close();
-            return true;
-        }
-    }
-    f.close();
-    return false;
+	string str;
+	while (f.peek() != EOF) {
+		getline(f, str);
+		Book B(str);
+		if (B.is_equal(bookname, bookauthor, bookpublisher)) {
+			B.book_addbook();
+			f.close();
+			return true;
+		}
+	}
+	f.close();
+	return false;
 }
 
-// è´­å…¥å›¾ä¹¦ è¯»å…¥æ–°ä¹¦ä¿¡æ¯
-// å¹¶è¦æ±‚åˆ¤æ–­ æ˜¯ä¿®æ”¹ç°æœ‰æ–‡ä»¶è¿˜æ˜¯å»ºç«‹æ–°æ–‡ä»¶
-// booklistæ–‡ä»¶ä¹Ÿåº”è¯¥è¢«æ›´æ–°
-void ManageBooks::BookList_BuyNew(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit)
-{
-    Book B(bookname, bookauthor, bookpublisher, booktype, booklimit);
+// ¹ºÈëÍ¼Êé ¶ÁÈëĞÂÊéĞÅÏ¢ 
+// ²¢ÒªÇóÅĞ¶Ï ÊÇĞŞ¸ÄÏÖÓĞÎÄ¼ş»¹ÊÇ½¨Á¢ĞÂÎÄ¼ş 
+// booklistÎÄ¼şÒ²Ó¦¸Ã±»¸üĞÂ
+void ManageBooks::BookList_BuyNew(const string & bookname, const string & bookauthor, const string & bookpublisher, const string & booktype, const int & booklimit) {
+	Book B(bookname, bookauthor, bookpublisher, booktype, booklimit);
 }
 
-// å€Ÿä¹¦ è¯»å…¥ä¸¤ä¸ªidä¿¡æ¯
-// å¹¶ä¸”è‡ªåŠ¨åˆ¤æ–­ è¿›è¡Œå€Ÿä¹¦åŠ¨ä½œè¿˜æ˜¯é¢„çº¦åŠ¨ä½œ
-// (å½“ Subscribe ä¸º TRUE æ—¶æ‰è¿›è¡Œé¢„çº¦ å¦åˆ™ä¸è¿›è¡Œé¢„çº¦)
-// å€Ÿä¹¦æ—¶å€™è‡ªåŠ¨åˆ†é…å®Œæ•´idä¹¦
-void ManageBooks::BookList_Borrow(const string &id_pre, const string &id_person, bool Subscribe)
-{
-    long num = Convert_strtolong(FileLine_Getline("book\\" + id_pre + ".txt", 10));
-    Book B(id_pre);
+// ½èÊé ¶ÁÈëÁ½¸öidĞÅÏ¢ 
+// ²¢ÇÒ×Ô¶¯ÅĞ¶Ï ½øĞĞ½èÊé¶¯×÷»¹ÊÇÔ¤Ô¼¶¯×÷
+// (µ± Subscribe Îª TRUE Ê±²Å½øĞĞÔ¤Ô¼ ·ñÔò²»½øĞĞÔ¤Ô¼) 
+// ½èÊéÊ±ºò×Ô¶¯·ÖÅäÍêÕûidÊé
+void ManageBooks::BookList_Borrow(const string & id_pre, const string & id_person, bool Subscribe) {
+	long num = Convert_strtolong(FileLine_Getline("book\\" + id_pre + ".txt", 10));
+	Book B( id_pre );
 
-    if (num >= 1)
-    { // we can lent it
-        B.book_borrow(id_person);
-    }
-    else
-    { // we don't have avabliable book
-        if (Subscribe)
-            B.book_subscribe(id_person);
-    }
+	if (num >= 1) {// we can lent it
+		B.book_borrow(id_person);
+	}
+	else {// we don't have avabliable book
+		if (Subscribe)
+			B.book_subscribe(id_person);
+	}
 }
 
-// æ ¹æ®idä¿¡æ¯å®Œæˆè¿˜ä¹¦æ“ä½œ
-void ManageBooks::BookList_Return(const string &id_book, const string &id_person)
-{
-    string id_pre = id_book;
-    id_pre = id_pre.substr(0, 8);
+// ¸ù¾İidĞÅÏ¢Íê³É»¹Êé²Ù×÷
+void ManageBooks::BookList_Return(const string & id_book, const string & id_person) {
+	string id_pre = id_book;
+	id_pre = id_pre.substr(0, 8);
 
-    Book B(id_pre);
-    B.book_return(id_book, id_person);
-
-    // logbook
-    Logs L(Day, false);
-    L.Log_Return(id_person, id_book);
+	Book B(id_pre);
+	B.book_return(id_book, id_person);
+	
+	// logbook
+	Logs L(Day, false);
+	L.Log_Return(id_person, id_book);
 }
 
-// æ ¹æ®idä¿¡æ¯å®Œæˆé¢„çº¦è½¬å€Ÿä¹¦æ“ä½œ
-void ManageBooks::BookList_Convert(const string &id_book, const string &id_person)
-{
-    Book B(id_book.substr(0, 8));
+// ¸ù¾İidĞÅÏ¢Íê³ÉÔ¤Ô¼×ª½èÊé²Ù×÷
+void ManageBooks::BookList_Convert(const string & id_book, const string & id_person) {
+	Book B(id_book.substr(0,8));
 
-    B.book_convert(id_book, id_person);
+	B.book_convert(id_book, id_person);
 }
 
-// æœ¬å‡½æ•°å†…éƒ¨æœ‰ æœ‰é™çŠ¶æ€è‡ªåŠ¨æœº å®Œæˆå¯¹å„ä¸ªé¡¹ç›®çš„æœç´¢æ“ä½œ
+// ±¾º¯ÊıÄÚ²¿ÓĞ ÓĞÏŞ×´Ì¬×Ô¶¯»ú Íê³É¶Ô¸÷¸öÏîÄ¿µÄËÑË÷²Ù×÷
 // limit 0:for book with limit 0
 // limit 1:for book with limit 1 and limit 0
 // limit 2:for book with limit 2 and 0
 // limit 3:admin
-void ManageBooks::BookList_Find(const int limit)
-{
-    cout << endl;
-    cout << "ä»¥ä¸‹æ˜¯æŸ¥ä¹¦é€‰é¡¹:\n";
-    cout << "  1:æ ¹æ®ID\n";
-    cout << "  2:æ ¹æ®ä¹¦å\n";
-    cout << "  3:æ ¹æ®ä½œè€…\n";
-    cout << "  4:æ ¹æ®å‡ºç‰ˆç¤¾\n";
-    cout << "  5:æ ¹æ®ç±»åˆ«\n";
-    cout << "é€‰æ‹©: ";
-    string str, t;
-    getline(cin, str);
+void ManageBooks::BookList_Find(const int limit) {
+	cout << endl;
+	cout << "ÒÔÏÂÊÇ²éÊéÑ¡Ïî:\n";
+	cout << "  1:¸ù¾İID\n";
+	cout << "  2:¸ù¾İÊéÃû\n";
+	cout << "  3:¸ù¾İ×÷Õß\n";
+	cout << "  4:¸ù¾İ³ö°æÉç\n";
+	cout << "  5:¸ù¾İÀà±ğ\n";
+	cout << "Ñ¡Ôñ: ";
+	string str, t;
+	getline(cin, str);
 
-    while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '5')))
-    {
-        cout << "è¾“å…¥é”™è¯¯\né‡æ–°è¾“å…¥: ";
-        getline(cin, str);
-    }
-    char c = str[0];
-    cout << "\n è¾“å…¥: ";
-    getline(cin, str);
+	while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '5'))) {
+		cout << "ÊäÈë´íÎó\nÖØĞÂÊäÈë: ";
+		getline(cin, str);
+	}
+	char c = str[0];
+	cout << "\n ÊäÈë: ";
+	getline(cin, str);
 
-    fstream f("book\\booklist.txt");
+	fstream f("book\\booklist.txt");
 
-    getline(f, t);
-    switch (c)
-    {
-    case '1': //id
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            if (string::npos != t.find(str))
-            {
-                Book B(t);
-                if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
-                    B.book_print();
-                break;
-            }
-        }
-        break;
-    case '2': //bookname
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Book B(t);
+	getline(f, t);
+	switch (c) {
+	case '1'://id
+		while (f.peek() != EOF) {
+			getline(f, t);
+			if (string::npos != t.find(str)) {
+				Book B( t );
+				if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
+					B.book_print();
+				break;
+			}
+		}
+		break;
+	case '2'://bookname
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Book B(t);
 
-            if (string::npos != B.get_bookname().find(str))
-            {
-                if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
-                    B.book_print();
-            }
-        }
-        break;
-    case '3': //author
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Book B(t);
+			if (string::npos != B.get_bookname().find(str)) {
+				if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
+					B.book_print();
+			}
+		}
+		break;
+	case '3'://author
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Book B(t);
 
-            if (string::npos != B.get_bookauthor().find(str))
-            {
-                if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
-                    B.book_print();
-            }
-        }
-        break;
-    case '4': //publisher
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Book B(t);
+			if (string::npos != B.get_bookauthor().find(str)) {
+				if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
+					B.book_print();
+			}
+		}
+		break;
+	case '4'://publisher
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Book B(t);
 
-            if (string::npos != B.get_bookpublisher().find(str))
-            {
-                if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
-                    B.book_print();
-            }
-        }
-        break;
-    case '5': //type
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Book B(t);
+			if (string::npos != B.get_bookpublisher().find(str)) {
+				if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
+					B.book_print();
+			}
+		}
+		break;
+	case '5'://type
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Book B(t);
 
-            if (string::npos != B.get_booktype().find(str))
-            {
-                if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
-                    B.book_print();
-            }
-        }
-        break;
-    }
-    f.close();
+			if (string::npos != B.get_booktype().find(str)) {
+				if (limit == 3 || (B.get_bookLimit() == 0 || B.get_bookLimit() == limit))
+					B.book_print();
+			}
+		}
+		break;
+	}
+	f.close();
 }
 
-// æ¯æ–°çš„ä¸€å¤© åˆ·æ–°æ‰€æœ‰å›¾ä¹¦çš„å€Ÿé˜…ä¿¡æ¯
-void ManageBooks::BookList_DateFlash()
-{
-    fstream f_list("book\\booklist.txt"), f_book, f_t;
-    string str, line;
+// Ã¿ĞÂµÄÒ»Ìì Ë¢ĞÂËùÓĞÍ¼ÊéµÄ½èÔÄĞÅÏ¢
+void ManageBooks::BookList_DateFlash() {
+	fstream f_list("book\\booklist.txt"),f_book,f_t;
+	string str, line;
 
-    getline(f_list, str);
-    while (f_list.peek() != EOF)
-    {
-        getline(f_list, str);
+	getline(f_list, str);
+	while (f_list.peek() != EOF) {
+		getline(f_list, str);
 
-        // flash a book
-        // write in temp
-        f_book.open("book\\" + str + "_books.txt", ios::in | ios::out);
-        f_t.open("logbook\\temp.txt", ios::in | ios::out | ios::trunc);
-        int count = 0;
-        while (f_book.peek() != EOF)
-        {
-            count += 1;
-            getline(f_book, line);
-            if (count != 5)
-                f_t << line << endl;
-            else
-            {
-                count = 0;
-                long num = -1 + Convert_strtolong(line);
-                f_t << Convert_longtostr(num) << endl;
-            }
-        }
-        f_book.close();
-        f_t.close();
+		// flash a book
+			// write in temp
+		f_book.open("book\\" + str + "_books.txt", ios::in | ios::out);
+		f_t.open("logbook\\temp.txt", ios::in | ios::out|ios::trunc);
+		int count = 0;
+		while (f_book.peek() != EOF) {
+			count += 1;
+			getline(f_book, line);
+			if (count != 5)
+				f_t << line << endl;
+			else {
+				count = 0;
+				long num = -1 + Convert_strtolong(line);
+				f_t << Convert_longtostr(num) << endl;
+			}
+		}
+		f_book.close();
+		f_t.close();
+			
+			//rewtite in file
+		f_book.open("book\\" + str + "_books.txt", ios::in | ios::out|ios::trunc);
+		f_t.open("logbook\\temp.txt", ios::in | ios::out);
 
-        //rewtite in file
-        f_book.open("book\\" + str + "_books.txt", ios::in | ios::out | ios::trunc);
-        f_t.open("logbook\\temp.txt", ios::in | ios::out);
+		while (f_t.peek() != EOF) {
+			getline(f_t, line);
+			f_book << line << endl;
+		}
 
-        while (f_t.peek() != EOF)
-        {
-            getline(f_t, line);
-            f_book << line << endl;
-        }
+		f_book.close();
+		f_t.close();
+	}
 
-        f_book.close();
-        f_t.close();
-    }
-
-    f_list.close();
+	f_list.close();
 }
 
-// æ‰“å°æ‰€æœ‰ä¹¦ä¿¡æ¯
-void ManageBooks::BookList_Print()
-{
-    fstream f("book\\booklist.txt");
-    string str;
+// ´òÓ¡ËùÓĞÊéĞÅÏ¢
+void ManageBooks::BookList_Print() {
+	fstream f("book\\booklist.txt");
+	string str;
 
-    getline(f, str);
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        Book B(str);
-        B.book_print();
-    }
+	getline(f, str);
+	while (f.peek() != EOF) {
+		getline(f, str);
+		Book B( str );
+		B.book_print();
+	}
 
-    f.close();
+	f.close();
 }

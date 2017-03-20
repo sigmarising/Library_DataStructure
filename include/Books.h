@@ -5,17 +5,17 @@
 			Intro:		everything related to 
 						the Books 
 ------------------------------------------------------
-				æœ‰å…³ä¹¦çš„æ–‡ä»¶çš„å­˜æ”¾é—®é¢˜
-æ‰€æœ‰æ“ä½œä»¥æ–‡ä»¶äº¤äº’ä¸ºå…³é”®ç‚¹æ ¸å¿ƒï¼Œéšæ—¶ä¸æŠŠæ‰€æœ‰ä¸œè¥¿æ”¾å…¥å†…å­˜
+				ÓĞ¹ØÊéµÄÎÄ¼şµÄ´æ·ÅÎÊÌâ
+ËùÓĞ²Ù×÷ÒÔÎÄ¼ş½»»¥Îª¹Ø¼üµãºËĞÄ£¬ËæÊ±²»°ÑËùÓĞ¶«Î÷·ÅÈëÄÚ´æ
 
-æŒ‰ç…§åŒä¸€æœ¬ä¹¦ä¸€ç³»åˆ—æ–‡ä»¶çš„æ–¹å¼è¿›è¡Œç®¡ç†ï¼Œæ–‡ä»¶å³æ—¥å¿—ã€‚
+°´ÕÕÍ¬Ò»±¾ÊéÒ»ÏµÁĞÎÄ¼şµÄ·½Ê½½øĞĞ¹ÜÀí£¬ÎÄ¼ş¼´ÈÕÖ¾¡£
 
-æ‰€æœ‰ä¹¦å­˜æ”¾åœ¨bookæ–‡ä»¶å¤¹ä¹‹ä¸‹ï¼Œä¸€æœ¬ä¹¦çš„ç®€è¦ä¿¡æ¯å­˜å‚¨ä¸€ä¸ªæ–‡ä»¶
-(è¿™ä¸ªæ–‡ä»¶ä¸­æœ‰è¿™ç±»ä¹¦çš„IDå‰ç¼€)ï¼›æ¯æœ¬ä¹¦çš„ä¿¡æ¯å•ç‹¬å­˜ä¸€ä¸ªæ–‡ä»¶
-(è¿™ä¸ªæ–‡ä»¶ä¸­æ¯æœ¬ä¹¦çš„å®Œæ•´ID)ï¼›æ‰€æœ‰é¢„çº¦è€…å­˜ä¸€ä¸ªæ–‡ä»¶ï¼Œè¿™ä¸‰ä¸ª
-æ–‡ä»¶æ„æˆäº†åŒä¸€æœ¬ä¹¦çš„é›†åˆçš„æ–‡ä»¶æ—¥å¿—ç³»ç»Ÿ
+ËùÓĞÊé´æ·ÅÔÚbookÎÄ¼ş¼ĞÖ®ÏÂ£¬Ò»±¾ÊéµÄ¼òÒªĞÅÏ¢´æ´¢Ò»¸öÎÄ¼ş
+(Õâ¸öÎÄ¼şÖĞÓĞÕâÀàÊéµÄIDÇ°×º)£»Ã¿±¾ÊéµÄĞÅÏ¢µ¥¶À´æÒ»¸öÎÄ¼ş
+(Õâ¸öÎÄ¼şÖĞÃ¿±¾ÊéµÄÍêÕûID)£»ËùÓĞÔ¤Ô¼Õß´æÒ»¸öÎÄ¼ş£¬ÕâÈı¸ö
+ÎÄ¼ş¹¹³ÉÁËÍ¬Ò»±¾ÊéµÄ¼¯ºÏµÄÎÄ¼şÈÕÖ¾ÏµÍ³
 
-ç´¢å¼•æ–‡ä»¶booklistï¼Œé‡Œé¢åŒ…å«å·²æœ‰çš„æ‰€æœ‰ä¹¦çš„IDå‰ç¼€
+Ë÷ÒıÎÄ¼şbooklist£¬ÀïÃæ°üº¬ÒÑÓĞµÄËùÓĞÊéµÄIDÇ°×º
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
 #pragma once
@@ -23,84 +23,89 @@
 #include <string>
 using namespace std;
 
-// ç±»å: Item
-// è¯´æ˜: å…¶ä¸­åŒ…å«ä¸€æœ¬ä¹¦çš„ä¿¡æ¯ è¿™æ˜¯ä¸€ä¸ªå…¬æœ‰ç±»
-struct Item
-{
-  string ID_Book;     // è¿™æœ¬ä¹¦çš„å®Œæ•´ID
-  string ID_Borrower; // è¿™æœ¬ä¹¦çš„å€Ÿé˜…|é¢„çº¦è€…çš„ID
-  string Time_InHub;  // è¿™æœ¬ä¹¦çš„å…¥åº“æ—¶é—´
-  int Time_Due;       // è¿™æœ¬ä¹¦çš„å€Ÿé˜…å‰©ä½™æ—¶é—´
-  int state;          // è¿™æœ¬ä¹¦çš„çŠ¶æ€
-                      // çŠ¶æ€è¯´æ˜: 0-å¯å€Ÿå‡º 1-å·²å€Ÿå‡º 2-å·²é¢„çº¦
+
+// ÀàÃû: Item
+// ËµÃ÷: ÆäÖĞ°üº¬Ò»±¾ÊéµÄĞÅÏ¢ ÕâÊÇÒ»¸ö¹«ÓĞÀà
+struct Item {
+	string ID_Book;			// Õâ±¾ÊéµÄÍêÕûID
+	string ID_Borrower;		// Õâ±¾ÊéµÄ½èÔÄ|Ô¤Ô¼ÕßµÄID
+	string Time_InHub;		// Õâ±¾ÊéµÄÈë¿âÊ±¼ä
+	int Time_Due;			// Õâ±¾ÊéµÄ½èÔÄÊ£ÓàÊ±¼ä
+	int state;				// Õâ±¾ÊéµÄ×´Ì¬
+							// ×´Ì¬ËµÃ÷: 0-¿É½è³ö 1-ÒÑ½è³ö 2-ÒÑÔ¤Ô¼
 };
 
-// ç±»å: Book
-// è¯´æ˜: è¿™æ˜¯ä¸€ç±»ä¹¦çš„é›†åˆ
-// é€šå¸¸æˆ‘ä»¬ä¸éœ€è¦æŠŠè¿™ç±»ä¹¦çš„æ‰€æœ‰ä¿¡æ¯è¯»å…¥å†…å­˜
-// æ‰€ä»¥æœ¬ç±»çš„ä½œç”¨æ˜¯å®ç°å¯¹ä¸€ç±»ä¹¦çš„ç›¸å…³æ–‡ä»¶è¿›è¡Œæ“ä½œ
-class Book
-{
+
+// ÀàÃû: Book
+// ËµÃ÷: ÕâÊÇÒ»ÀàÊéµÄ¼¯ºÏ 
+// Í¨³£ÎÒÃÇ²»ĞèÒª°ÑÕâÀàÊéµÄËùÓĞĞÅÏ¢¶ÁÈëÄÚ´æ
+// ËùÒÔ±¾ÀàµÄ×÷ÓÃÊÇÊµÏÖ¶ÔÒ»ÀàÊéµÄÏà¹ØÎÄ¼ş½øĞĞ²Ù×÷
+class Book {
 public:
-  Book();                                                                                                                            // é»˜è®¤æ„é€ å‡½æ•°
-  Book(const Book &book1);                                                                                                           // æ‹·è´æ„é€ å‡½æ•°
-  Book(const string &filename);                                                                                                      // è‡ªå®šä¹‰æ„é€ å‡½æ•° ä» filename.txt æ–‡ä»¶ä¸­åˆå§‹åŒ–æœ¬ç±»ä¹¦ä¿¡æ¯
-  Book(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit); //å¦‚æœæ–°è´­å…¥çš„ä¹¦ä¸æ˜¯å·²æœ‰ä¹¦ é‚£ä¹ˆåº”è¯¥åˆ›å»ºä¸€æœ¬æ–°çš„ç±»å‹çš„ä¹¦ ID_pre å’Œ Number è‡ªåŠ¨ç”Ÿæˆ å¹¶å»ºç«‹ä¸‰ä¸ªæ–‡ä»¶æ—¥å¿—
-  ~Book();                                                                                                                           // é»˜è®¤ææ„å‡½æ•°
+	Book();							// Ä¬ÈÏ¹¹Ôìº¯Êı
+	Book(const Book &book1);		// ¿½±´¹¹Ôìº¯Êı
+	Book(const string & filename);	// ×Ô¶¨Òå¹¹Ôìº¯Êı ´Ó filename.txt ÎÄ¼şÖĞ³õÊ¼»¯±¾ÀàÊéĞÅÏ¢
+	Book(const string & bookname, const string & bookauthor, const string & bookpublisher, const string & booktype, const int & booklimit); //Èç¹ûĞÂ¹ºÈëµÄÊé²»ÊÇÒÑÓĞÊé ÄÇÃ´Ó¦¸Ã´´½¨Ò»±¾ĞÂµÄÀàĞÍµÄÊé ID_pre ºÍ Number ×Ô¶¯Éú³É ²¢½¨Á¢Èı¸öÎÄ¼şÈÕÖ¾
+	~Book();						// Ä¬ÈÏÎö¹¹º¯Êı
 
-  bool is_equal(const string &name, const string &author, const string &publishor); // æ ¹æ® ä¹¦å ä½œè€… å‡ºç‰ˆç¤¾ æ¥åˆ¤æ–­ æ–°è¾“å…¥çš„ä¹¦æ˜¯å¦ä¸æœ¬ç±»ä¹¦ç­‰ä»·
 
-  void book_addbook();                                                 // è´­å…¥äº†ä¸€æœ¬æ–°çš„ä¹¦ è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶> é¢„çº¦çš„äººå¯ä»¥å€Ÿä¹¦æ—¶ æ›´æ–°äººçš„æç¤ºä¿¡æ¯
-  void book_subscribe(const string &ID_borrower);                      // å¢åŠ äº†ä¸€ä¸ªé¢„çº¦è€… è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-  void book_convert(const string &ID_book, const string &ID_borrower); // å°†é¢„çº¦è½¬æ¢æˆå€Ÿé˜… è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-  void book_borrow(const string &ID_borrower);                         // å¢åŠ äº†ä¸€ä¸ªå€Ÿé˜…è€… è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶>
-  void book_return(const string &ID_book, const string &ID_borrower);  // è¿˜ä¹¦åŠ¨ä½œç›¸å…³æ“ä½œ è¦æ±‚æ›´æ–° <æˆå‘˜å˜é‡ ç´¢å¼•æ–‡ä»¶ ä¹¦è¡¨æ–‡ä»¶ é¢„çº¦æ–‡ä»¶> é¢„çº¦çš„äººå¯ä»¥å€Ÿä¹¦æ—¶ æ›´æ–°äººçš„æç¤ºä¿¡æ¯
-  void book_print();                                                   // æ‰“å°æœ¬ä¹¦ä¿¡æ¯
+	bool is_equal(const string & name, const string & author, const string &publishor);	// ¸ù¾İ ÊéÃû ×÷Õß ³ö°æÉç À´ÅĞ¶Ï ĞÂÊäÈëµÄÊéÊÇ·ñÓë±¾ÀàÊéµÈ¼Û
 
-  string get_bookname();      // å¾—åˆ°ä¹¦å
-  string get_bookauthor();    // å¾—åˆ°ä½œè€…
-  string get_bookpublisher(); // å¾—åˆ°å‡ºç‰ˆç¤¾
-  string get_booktype();      // å¾—åˆ°ç±»åˆ«
-  string get_ID_pre();        // å¾—åˆ° ID å‰ç¼€
-  int get_bookLimit();        // å¾—åˆ°æƒé™å€¼
+	void book_addbook();								// ¹ºÈëÁËÒ»±¾ĞÂµÄÊé ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş> Ô¤Ô¼µÄÈË¿ÉÒÔ½èÊéÊ± ¸üĞÂÈËµÄÌáÊ¾ĞÅÏ¢
+	void book_subscribe(const string & ID_borrower);	// Ôö¼ÓÁËÒ»¸öÔ¤Ô¼Õß ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+	void book_convert(const string & ID_book, const string & ID_borrower);		// ½«Ô¤Ô¼×ª»»³É½èÔÄ ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+	void book_borrow(const string & ID_borrower);		// Ôö¼ÓÁËÒ»¸ö½èÔÄÕß ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş>
+	void book_return(const string & ID_book, const string & ID_borrower);	// »¹Êé¶¯×÷Ïà¹Ø²Ù×÷ ÒªÇó¸üĞÂ <³ÉÔ±±äÁ¿ Ë÷ÒıÎÄ¼ş Êé±íÎÄ¼ş Ô¤Ô¼ÎÄ¼ş> Ô¤Ô¼µÄÈË¿ÉÒÔ½èÊéÊ± ¸üĞÂÈËµÄÌáÊ¾ĞÅÏ¢
+	void book_print();									// ´òÓ¡±¾ÊéĞÅÏ¢
 
-  long Num_Borrowed;  // å·²å€Ÿå‡ºæ•°é‡
-  long Num_Subscribe; // å·²é¢„çº¦æ•°é‡ ä¸åŒ…å«æ’é˜Ÿäººæ•° ä»…åœ¨é¢„çº¦å¯ç”¨æ—¶åŠ ä¸€å¤„ç†
-  long Num_Available; // å¯å€Ÿå‡ºæ•°é‡
-  long Num_Sum;       // è¯¥ä¹¦æ€»æ•°é‡
+
+	string get_bookname();			// µÃµ½ÊéÃû
+	string get_bookauthor();		// µÃµ½×÷Õß
+	string get_bookpublisher();		// µÃµ½³ö°æÉç
+	string get_booktype();			// µÃµ½Àà±ğ
+	string get_ID_pre();			// µÃµ½ ID Ç°×º
+	int get_bookLimit();			// µÃµ½È¨ÏŞÖµ
+
+
+	long Num_Borrowed;		// ÒÑ½è³öÊıÁ¿
+	long Num_Subscribe;		// ÒÑÔ¤Ô¼ÊıÁ¿ ²»°üº¬ÅÅ¶ÓÈËÊı ½öÔÚÔ¤Ô¼¿ÉÓÃÊ±¼ÓÒ»´¦Àí
+	long Num_Available;		// ¿É½è³öÊıÁ¿
+	long Num_Sum;			// ¸ÃÊé×ÜÊıÁ¿
 private:
-  string Book_Name;      // ä¹¦å
-  string Book_Author;    // ä½œè€…å
-  string Book_Publisher; // å‡ºç‰ˆç¤¾
-  string Book_Type;      // ç±»åˆ«
+	string Book_Name;		// ÊéÃû
+	string Book_Author;		// ×÷ÕßÃû
+	string Book_Publisher;	// ³ö°æÉç
+	string Book_Type;		// Àà±ğ
+	
+	string ID_pre;			// ID Ç°×º
 
-  string ID_pre; // ID å‰ç¼€
-
-  int Book_Limit; // æƒé™ 0å‡å¯å€Ÿ 1ä»…å­¦ç”Ÿå¯å€Ÿ 2ä»…æ•™å¸ˆå¯å€Ÿ
+	int Book_Limit;			// È¨ÏŞ 0¾ù¿É½è 1½öÑ§Éú¿É½è 2½ö½ÌÊ¦¿É½è
 };
 
-// ç±»å: ManageBooks
-// è¯´æ˜: è¿™ä¸ªç±»çš„æ‰€æœ‰æˆå‘˜å‡½æ•°éƒ½æ˜¯å¯¹æ•´å¥—å›¾ä¹¦è¿›è¡Œç®¡ç†çš„ç³»ç»Ÿ ä½¿ç”¨æ—¶ä»…éœ€ä¸€ä¸ªå¯¹è±¡ä¾¿å¯
-class ManageBooks
-{
+
+// ÀàÃû: ManageBooks
+// ËµÃ÷: Õâ¸öÀàµÄËùÓĞ³ÉÔ±º¯Êı¶¼ÊÇ¶ÔÕûÌ×Í¼Êé½øĞĞ¹ÜÀíµÄÏµÍ³ Ê¹ÓÃÊ±½öĞèÒ»¸ö¶ÔÏó±ã¿É
+class ManageBooks {
 public:
-  ManageBooks();                       // é»˜è®¤æ„é€ å‡½æ•°
-  ManageBooks(const ManageBooks &M);   // æ‹·è´æ„é€ å‡½æ•°
-  ManageBooks(const string &filename); // ä»filename.txtä¸­å®Œæˆè¯»å…¥åŸºæœ¬ä¿¡æ¯åŠ¨ä½œ
-  ~ManageBooks();                      // é»˜è®¤ææ„å‡½æ•°
+	ManageBooks();							// Ä¬ÈÏ¹¹Ôìº¯Êı
+	ManageBooks(const ManageBooks & M);		// ¿½±´¹¹Ôìº¯Êı
+	ManageBooks(const string & filename);	// ´Ófilename.txtÖĞÍê³É¶ÁÈë»ù±¾ĞÅÏ¢¶¯×÷
+	~ManageBooks();							// Ä¬ÈÏÎö¹¹º¯Êı
 
-  bool JudgeIDpre(const string &idpre); // åˆ¤æ–­idpreæ˜¯å¦æ˜¯å­˜åœ¨çš„
+	bool JudgeIDpre(const string &idpre);	// ÅĞ¶ÏidpreÊÇ·ñÊÇ´æÔÚµÄ
 
-  bool BookList_BuyOld(const string &bookname, const string &bookauthor, const string &bookpublisher);                                               // è´­å…¥å›¾ä¹¦ è¯»å…¥æ–°ä¹¦ä¿¡æ¯ ä¿®æ”¹ç°æœ‰æ–‡ booklistæ–‡ä»¶ä¹Ÿåº”è¯¥è¢«æ›´æ–°
-  void BookList_BuyNew(const string &bookname, const string &bookauthor, const string &bookpublisher, const string &booktype, const int &booklimit); // è´­å…¥å›¾ä¹¦ è¯»å…¥æ–°ä¹¦ä¿¡æ¯ å»ºç«‹æ–°æ–‡ä»¶ booklistæ–‡ä»¶ä¹Ÿåº”è¯¥è¢«æ›´æ–°
-  void BookList_Borrow(const string &id_pre, const string &id_person, bool Subscribe);                                                               // å€Ÿä¹¦ è¯»å…¥ä¸¤ä¸ªidä¿¡æ¯ å¹¶ä¸”è‡ªåŠ¨åˆ¤æ–­ è¿›è¡Œå€Ÿä¹¦åŠ¨ä½œè¿˜æ˜¯é¢„çº¦åŠ¨ä½œ(å½“ Subscribe ä¸º TRUE æ—¶æ‰è¿›è¡Œé¢„çº¦ å¦åˆ™ä¸è¿›è¡Œé¢„çº¦) å€Ÿä¹¦æ—¶å€™è‡ªåŠ¨åˆ†é…å®Œæ•´idä¹¦
-  void BookList_Return(const string &id_book, const string &id_person);                                                                              // æ ¹æ®idä¿¡æ¯å®Œæˆè¿˜ä¹¦æ“ä½œ
-  void BookList_Convert(const string &id_book, const string &id_person);                                                                             // æ ¹æ®äººçš„idä¿¡æ¯å®Œæˆé¢„çº¦è½¬å€Ÿä¹¦æ“ä½œ
-  void BookList_Find(const int limit);                                                                                                               // æœ¬å‡½æ•°å†…éƒ¨æœ‰ æœ‰é™çŠ¶æ€è‡ªåŠ¨æœº å®Œæˆå¯¹å„ä¸ªé¡¹ç›®çš„æœç´¢æ“ä½œ
+	bool BookList_BuyOld(const string & bookname, const string & bookauthor, const string & bookpublisher); // ¹ºÈëÍ¼Êé ¶ÁÈëĞÂÊéĞÅÏ¢ ĞŞ¸ÄÏÖÓĞÎÄ booklistÎÄ¼şÒ²Ó¦¸Ã±»¸üĞÂ
+	void BookList_BuyNew(const string & bookname, const string & bookauthor, const string & bookpublisher, const string & booktype, const int & booklimit); // ¹ºÈëÍ¼Êé ¶ÁÈëĞÂÊéĞÅÏ¢ ½¨Á¢ĞÂÎÄ¼ş booklistÎÄ¼şÒ²Ó¦¸Ã±»¸üĞÂ
+	void BookList_Borrow(const string & id_pre, const string & id_person, bool Subscribe);	// ½èÊé ¶ÁÈëÁ½¸öidĞÅÏ¢ ²¢ÇÒ×Ô¶¯ÅĞ¶Ï ½øĞĞ½èÊé¶¯×÷»¹ÊÇÔ¤Ô¼¶¯×÷(µ± Subscribe Îª TRUE Ê±²Å½øĞĞÔ¤Ô¼ ·ñÔò²»½øĞĞÔ¤Ô¼) ½èÊéÊ±ºò×Ô¶¯·ÖÅäÍêÕûidÊé
+	void BookList_Return(const string & id_book, const string & id_person);					// ¸ù¾İidĞÅÏ¢Íê³É»¹Êé²Ù×÷
+	void BookList_Convert(const string & id_book, const string & id_person);			// ¸ù¾İÈËµÄidĞÅÏ¢Íê³ÉÔ¤Ô¼×ª½èÊé²Ù×÷
+	void BookList_Find(const int limit);	// ±¾º¯ÊıÄÚ²¿ÓĞ ÓĞÏŞ×´Ì¬×Ô¶¯»ú Íê³É¶Ô¸÷¸öÏîÄ¿µÄËÑË÷²Ù×÷
+	
+	void BookList_DateFlash();	// Ã¿ĞÂµÄÒ»Ìì Ë¢ĞÂËùÓĞÍ¼ÊéµÄ½èÔÄĞÅÏ¢
+	void BookList_Print();		// ´òÓ¡ËùÓĞÊéĞÅÏ¢
 
-  void BookList_DateFlash(); // æ¯æ–°çš„ä¸€å¤© åˆ·æ–°æ‰€æœ‰å›¾ä¹¦çš„å€Ÿé˜…ä¿¡æ¯
-  void BookList_Print();     // æ‰“å°æ‰€æœ‰ä¹¦ä¿¡æ¯
 
-  long Num_Sum_Of_Books; // è¡¨ç¤ºæœ‰å¤šå°‘ä¸åŒç§ç±»çš„ä¹¦
+	long Num_Sum_Of_Books;	// ±íÊ¾ÓĞ¶àÉÙ²»Í¬ÖÖÀàµÄÊé
 private:
+
 };

@@ -13,143 +13,135 @@
 #include "Function.h"
 using namespace std;
 
-// ‰ªésys.txt ËØªÂèñ‰ª•‰∏ãÊï∞ÊçÆ
-long Day = 1;
+// ¥”sys.txt ∂¡»°“‘œ¬ ˝æ›
+long Day = 1;				
 long Num_book0 = 0;
 long Num_book1 = 0;
 long Num_book2 = 0;
 bool Manual_Time = false;
 bool Run = true;
 
-int main()
-{
-    /*init the file*/
-    string init = FileLine_Getline("logbook\\sys.txt", 1);
-    if (init == "")
-    {
-	system("md logbook");
-	system("md book");
-	system("md people");
+int main() {
+	/*init the file*/
+	string init = FileLine_Getline("logbook\\sys.txt", 1);
+	if (init == "") {
+		system("md logbook");
+		system("md book");
+		system("md people");
 
-	fstream f("logbook\\sys.txt", fstream::out);
+		fstream f("logbook\\sys.txt",fstream::out);
 
-	f << 1 << endl;
-	f << "Admin" << endl;
-	f << 0 << endl;
-	f << 0 << endl;
-	f << 0 << endl;
-	f << 1 << endl;
+		f << 1 << endl;
+		f << "Admin" << endl;
+		f << 0 << endl;
+		f << 0 << endl;
+		f << 0 << endl;
+		f << 1 << endl;
 
-	f.close();
+		f.close();
 
-	f.open("book\\booklist.txt", fstream::out);
-	f << 0 << endl;
-	f.close();
+		f.open("book\\booklist.txt", fstream::out);
+		f << 0 << endl;
+		f.close();
 
-	f.open("people\\peoplelist.txt", fstream::out);
-	f << 0 << endl;
-	f.close();
+		f.open("people\\peoplelist.txt", fstream::out);
+		f << 0 << endl;
+		f.close();
 
-	f.open("logbook\\temp.txt", fstream::out);
-	f << 0 << endl;
-	f.close();
+		f.open("logbook\\temp.txt", fstream::out);
+		f << 0 << endl;
+		f.close();
 
-	//FileEnd_Add("book\\booklist.txt", "0");
-	//FileEnd_Add("people\\peoplelist.txt", "0");
-	Logs L(Day, true);
-    }
-    else
-    {
-	Day = 1 + Convert_strtolong(FileLine_Getline("logbook\\sys.txt", 6));
-	Logs L(Day, true);
-	FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
-    }
-
-    /*++++++++++++++*/
-
-    /*+++++++Êìç‰ΩúÊµÅÁ®ãËá™Âä®Êú∫+++++++*/
-
-    while (Run)
-    {
-	system("cls");
-	cout << "Ê¨¢ËøéÊù•Âà∞Âõæ‰π¶È¶ÜÁÆ°ÁêÜÁ≥ªÁªü\n\n";
-	cout << "ÂΩìÂ§©Â§©Êï∞: " << Day << endl
-	     << endl;
-	cout << "ÊÇ®ÊÉ≥ÂÅö‰ªÄ‰πà\n";
-	cout << "  1: ÂàáÊç¢ËÆ°Êó∂ÊñπÂºè\n";
-	cout << "  2: ÁôªÈôÜ\n";
-	cout << "  3: ÈÄÄÂá∫\n";
-	if (Manual_Time) // ÊâãÂä®ËÆ°Êó∂
-	    cout << "  4: ÊâãÂä®Â¢ûÂä†‰∏ÄÂ§©\n";
-	cout << "ÊÇ®ÁöÑÈÄâÊã©: ";
-
-	string input;
-	getline(cin, input);
-	char c = input[0], c1;
-
-	if ((1 == input.length()) && (('1' <= c && c <= '3') || (Manual_Time && '4' == c)))
-	    switch (c)
-	    {
-	    case '1': //ÂàáÊç¢ËÆ°Êó∂ÊñπÂºè-ok
-		system("cls");
-		cout << "ÊÇ®ÊÉ≥ÂÅö‰ªÄ‰πà\n";
-		cout << "  1: ÂàáÊç¢Ëá™Âä®ËÆ°Êó∂\n";
-		cout << "  2: ÂàáÊç¢ÊâãÂä®ËÆ°Êó∂\n";
-		cout << "ÊÇ®ÁöÑÈÄâÊã©: ";
-
-		getline(cin, input);
-		c1 = input[0];
-
-		if ((1 == input.length()) && ('1' == c1 || '2' == c1))
-		{
-		    switch (c1)
-		    {
-		    case '1':
-			Manual_Time = false;
-			break;
-		    case '2':
-			Manual_Time = true;
-			break;
-		    }
-		    system("cls");
-		    cout << "‰øÆÊîπÂÆåÊàê" << endl;
-		    system("pause");
-		}
-		else
-		{
-		    system("cls");
-		    cout << "ËæìÂÖ•ÊúâËØØ!" << endl;
-		    system("pause");
-		}
-		break;
-	    case '2': //ÁôªÂÖ•
-		login();
-
-		break;
-	    case '3': // ÈÄÄÂá∫-ok
-		Run = false;
-		break;
-	    case '4': //ÊâãÂä®Âä†‰∏ÄÂ§©-ok
-		// ÂÖ≥Èó≠ÂΩìÂâçÊó•ÂøóÊñá‰ª∂ÊâìÂºÄÊñ∞ÁöÑÊñá‰ª∂
-		Day += 1;
-
-		FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
+		//FileEnd_Add("book\\booklist.txt", "0");
+		//FileEnd_Add("people\\peoplelist.txt", "0");
 		Logs L(Day, true);
 
-		FlashDay();
-
-		break;
-	    }
-	else
-	{
-	    system("cls");
-	    cout << "ËæìÂÖ•ÊúâËØØ!" << endl;
-	    ;
-	    system("pause");
 	}
-    }
+	else {
+		Day =1 + Convert_strtolong(FileLine_Getline("logbook\\sys.txt", 6));
+		Logs L(Day, true);
+		FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
 
-    /*-------Êìç‰ΩúÊµÅÁ®ãËá™Âä®Êú∫/*-------*/
+	}
 
-    return 0;
+	/*++++++++++++++*/
+	
+	/*+++++++≤Ÿ◊˜¡˜≥Ã◊‘∂Øª˙+++++++*/
+
+	while (Run) {
+		system("cls");
+		cout << "ª∂”≠¿¥µΩÕº Èπ›π‹¿ÌœµÕ≥\n\n";
+		cout << "µ±ÃÏÃÏ ˝: " << Day << endl << endl;
+		cout << "ƒ˙œÎ◊ˆ ≤√¥\n";
+		cout << "  1: «–ªªº∆ ±∑Ω Ω\n";
+		cout << "  2: µ«¬Ω\n";
+		cout << "  3: ÕÀ≥ˆ\n";
+		if(Manual_Time) //  ÷∂Øº∆ ±
+			cout << "  4:  ÷∂Ø‘ˆº”“ªÃÏ\n";
+		cout << "ƒ˙µƒ—°‘Ò: ";
+
+		string input;
+		getline(cin, input);
+		char c = input[0], c1;
+
+		if ((1 == input.length()) && (('1' <= c && c <= '3') || (Manual_Time && '4' == c)))
+			switch (c) {
+			case '1'://«–ªªº∆ ±∑Ω Ω-ok
+				system("cls");
+				cout << "ƒ˙œÎ◊ˆ ≤√¥\n";
+				cout << "  1: «–ªª◊‘∂Øº∆ ±\n";
+				cout << "  2: «–ªª ÷∂Øº∆ ±\n";
+				cout << "ƒ˙µƒ—°‘Ò: ";
+				
+				getline(cin, input);
+				c1 = input[0];
+
+				if ((1 == input.length()) && ('1' == c1 || '2' == c1)) {
+					switch (c1) {
+					case '1':
+						Manual_Time = false;
+						break;
+					case '2':
+						Manual_Time = true;
+						break;
+					}
+					system("cls");
+					cout << "–ﬁ∏ƒÕÍ≥…" << endl;
+					system("pause");
+				}
+				else {
+					system("cls");
+					cout << " ‰»Î”–ŒÛ!" << endl;
+					system("pause");
+				}
+				break;
+			case '2'://µ«»Î
+				login();
+
+				break;
+			case '3': // ÕÀ≥ˆ-ok
+				Run = false;
+				break;
+			case '4':// ÷∂Øº”“ªÃÏ-ok
+				// πÿ±’µ±«∞»’÷æŒƒº˛¥Úø™–¬µƒŒƒº˛
+				Day += 1;
+
+				FileLine_Change("logbook\\sys.txt", 6, Convert_longtostr(Day));
+				Logs L(Day, true);
+
+				FlashDay();
+
+				break;
+			}
+		else {
+			system("cls");
+			cout << " ‰»Î”–ŒÛ!" << endl;;
+			system("pause");
+		}
+
+	}
+
+	/*-------≤Ÿ◊˜¡˜≥Ã◊‘∂Øª˙/*-------*/
+
+	return 0;
 }

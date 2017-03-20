@@ -1,5 +1,13 @@
 # Release Note
 
+## 版本 v0.9 alpha
+
+修复一个bug
+
+### 修复内容
+
+1. 无法对人进行查询的bug
+
 ## 版本 v0.8 alpha
 
 修复了已知的一个Bug

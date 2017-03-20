@@ -5,17 +5,17 @@
 			Intro:		everything related to 
 						the people 
 ------------------------------------------------------
-				æœ‰å…³äººçš„æ–‡ä»¶çš„å­˜æ”¾é—®é¢˜
-æ‰€æœ‰æ“ä½œä»¥æ–‡ä»¶äº¤äº’ä¸ºå…³é”®ç‚¹æ ¸å¿ƒï¼Œéšæ—¶ä¸æŠŠæ‰€æœ‰ä¸œè¥¿æ”¾å…¥å†…å­˜
+				ÓĞ¹ØÈËµÄÎÄ¼şµÄ´æ·ÅÎÊÌâ
+ËùÓĞ²Ù×÷ÒÔÎÄ¼ş½»»¥Îª¹Ø¼üµãºËĞÄ£¬ËæÊ±²»°ÑËùÓĞ¶«Î÷·ÅÈëÄÚ´æ
 
-æŒ‰ç…§åŒä¸€ä¸ªäººä¸€ç³»åˆ—æ–‡ä»¶çš„æ–¹å¼è¿›è¡Œç®¡ç†ï¼Œæ–‡ä»¶å³æ—¥å¿—ã€‚
+°´ÕÕÍ¬Ò»¸öÈËÒ»ÏµÁĞÎÄ¼şµÄ·½Ê½½øĞĞ¹ÜÀí£¬ÎÄ¼ş¼´ÈÕÖ¾¡£
 
-æ‰€æœ‰äººå­˜æ”¾åœ¨Peopleæ–‡ä»¶å¤¹ä¹‹ä¸‹ï¼Œä¸€ä¸ªäººçš„ç®€è¦ä¿¡æ¯å­˜å‚¨ä¸€ä¸ªæ–‡ä»¶
-(è¿™ä¸ªæ–‡ä»¶ä¸­æœ‰ä¸ªäººçš„å®Œæ•´ID)ï¼›æ¯ä¸ªäººå€Ÿçš„ä¹¦çš„ä¿¡æ¯å•ç‹¬å­˜ä¸€ä¸ªæ–‡ä»¶
-(è¿™ä¸ªæ–‡ä»¶ä¸­æ¯æœ¬ä¹¦çš„å®Œæ•´ID)ï¼›æ‰€æœ‰é¢„çº¦çš„ä¹¦å­˜ä¸€ä¸ªæ–‡ä»¶ï¼Œè¿™ä¸‰ä¸ª
-æ–‡ä»¶æ„æˆäº†åŒä¸€äººçš„æ–‡ä»¶æ—¥å¿—ç³»ç»Ÿ
+ËùÓĞÈË´æ·ÅÔÚPeopleÎÄ¼ş¼ĞÖ®ÏÂ£¬Ò»¸öÈËµÄ¼òÒªĞÅÏ¢´æ´¢Ò»¸öÎÄ¼ş
+(Õâ¸öÎÄ¼şÖĞÓĞ¸öÈËµÄÍêÕûID)£»Ã¿¸öÈË½èµÄÊéµÄĞÅÏ¢µ¥¶À´æÒ»¸öÎÄ¼ş
+(Õâ¸öÎÄ¼şÖĞÃ¿±¾ÊéµÄÍêÕûID)£»ËùÓĞÔ¤Ô¼µÄÊé´æÒ»¸öÎÄ¼ş£¬ÕâÈı¸ö
+ÎÄ¼ş¹¹³ÉÁËÍ¬Ò»ÈËµÄÎÄ¼şÈÕÖ¾ÏµÍ³
 
-ç´¢å¼•æ–‡ä»¶peoplelistï¼Œé‡Œé¢åŒ…å«å·²æœ‰çš„æ‰€æœ‰äººçš„ID ä¸æƒé™ä¿¡æ¯
+Ë÷ÒıÎÄ¼şpeoplelist£¬ÀïÃæ°üº¬ÒÑÓĞµÄËùÓĞÈËµÄID ÓëÈ¨ÏŞĞÅÏ¢
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 
 #pragma once
@@ -23,72 +23,78 @@
 #include <string>
 using namespace std;
 
-// ç±»å: Person
-// è¯´æ˜: å…¶ä¸­åŒ…å«ä¸€ä¸ªäººçš„ä¿¡æ¯åˆæ“ä½œ
-class Person
-{
+
+// ÀàÃû: Person
+// ËµÃ÷: ÆäÖĞ°üº¬Ò»¸öÈËµÄĞÅÏ¢ºÏ²Ù×÷
+class Person {
 public:
-  Person();                                                                                                // é»˜è®¤æ„é€ å‡½æ•°
-  Person(const Person &p1);                                                                                // æ‹·è´æ„é€ å‡½æ•°
-  Person(const string &filename);                                                                          // ä»æ–‡ä»¶åè¿›è¡Œè¯»å–
-  Person(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // å‚æ•°æ„é€ å‡½æ•° è¿™æ˜¯å»ºç«‹æ–°äººçš„å‡½æ•° è¦æ±‚å¯¹æ–‡ä»¶è¿›è¡Œåˆ›å»º
-  ~Person();                                                                                               // é»˜è®¤ææ„å‡½æ•°
+	Person();						// Ä¬ÈÏ¹¹Ôìº¯Êı
+	Person(const Person &p1);		// ¿½±´¹¹Ôìº¯Êı
+	Person(const string &filename);	// ´ÓÎÄ¼şÃû½øĞĞ¶ÁÈ¡
+	Person(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // ²ÎÊı¹¹Ôìº¯Êı ÕâÊÇ½¨Á¢ĞÂÈËµÄº¯Êı ÒªÇó¶ÔÎÄ¼ş½øĞĞ´´½¨
+	~Person();						// Ä¬ÈÏÎö¹¹º¯Êı
 
-  void person_print();                      // ç”¨äºå°†å‘é€ä¸ªäººä¿¡æ¯ åŒ…æ‹¬ ä¸ªäººå‚æ•° é¢„çº¦ç°çŠ¶ å·²å€Ÿå›¾ä¹¦
-  void person_open(const string &filename); //ç”¨äºå®æ—¶æ›´æ–°æ•°æ®
-  //void person_findbook();							// ç”¨äºæŸ¥æ‰¾å›¾ä¹¦ æŸ¥æ‰¾å›¾ä¹¦å¯ä»¥æ ¹æ®ID ä¹¦å ä½œè€… å‡ºç‰ˆç¤¾ ç±»åˆ« æ¥è¿›è¡Œ
-  //void person_borrow(const string &ID_pre_book);	// æ ¹æ®å›¾ä¹¦çš„IDå‰ç¼€å®Œæˆå€Ÿä¹¦æ“ä½œ ä¿®æ”¹è‡ªèº«çš„æ–‡ä»¶æ—¥å¿—
-  //void person_return(const string &ID_book);		// æ ¹æ®å›¾ä¹¦çš„å®Œæ•´IDå®Œæˆè¿˜ä¹¦æ“ä½œ ä¿®æ”¹è‡ªèº«çš„æ–‡ä»¶æ—¥å¿—
-  //void person_convert();							// å°†é¢„çº¦çš„ä¹¦è½¬æ¢æˆå·²å€Ÿçš„ä¹¦ ä¿®æ”¹è‡ªèº«çš„æ–‡ä»¶æ—¥å¿—
-  void person_changekey(const string &Newkey); // æ›´æ”¹å¯†ç 
+	void person_print();							// ÓÃÓÚ½«·¢ËÍ¸öÈËĞÅÏ¢ °üÀ¨ ¸öÈË²ÎÊı Ô¤Ô¼ÏÖ×´ ÒÑ½èÍ¼Êé
+	void person_open(const string &filename); //ÓÃÓÚÊµÊ±¸üĞÂÊı¾İ
+	//void person_findbook();							// ÓÃÓÚ²éÕÒÍ¼Êé ²éÕÒÍ¼Êé¿ÉÒÔ¸ù¾İID ÊéÃû ×÷Õß ³ö°æÉç Àà±ğ À´½øĞĞ
+	//void person_borrow(const string &ID_pre_book);	// ¸ù¾İÍ¼ÊéµÄIDÇ°×ºÍê³É½èÊé²Ù×÷ ĞŞ¸Ä×ÔÉíµÄÎÄ¼şÈÕÖ¾
+	//void person_return(const string &ID_book);		// ¸ù¾İÍ¼ÊéµÄÍêÕûIDÍê³É»¹Êé²Ù×÷ ĞŞ¸Ä×ÔÉíµÄÎÄ¼şÈÕÖ¾
+	//void person_convert();							// ½«Ô¤Ô¼µÄÊé×ª»»³ÉÒÑ½èµÄÊé ĞŞ¸Ä×ÔÉíµÄÎÄ¼şÈÕÖ¾
+	void person_changekey(const string &Newkey);	// ¸ü¸ÄÃÜÂë
 
-  string get_personname();   // è·å–ä¸ªäººåå­—
-  string get_personID();     // è·å–ä¸ªäººID
-  string get_personschool(); // è·å–ä¸ªäººå­¦é™¢
-  string get_personkey();    // è·å–ä¸ªäººå¯†ç 
-  int get_personlimit();     // è·å–ä¸ªäººæƒé™
 
-  bool Person_Notic;   // æ˜¯å¦å‘é€é€šçŸ¥
-  long Person_honesty; // è¯šä¿¡åº¦ é»˜è®¤100
-  double Person_Debt;  // æ¬ æ¬¾ é»˜è®¤0.0
-  long Num_Borrowed;   // å·²å€Ÿé˜…æ•°é‡
-  long Num_Subscribe;  // å·²é¢„çº¦æ•°é‡
+	string	get_personname();		// »ñÈ¡¸öÈËÃû×Ö
+	string	get_personID();			// »ñÈ¡¸öÈËID
+	string	get_personschool();		// »ñÈ¡¸öÈËÑ§Ôº
+	string	get_personkey();		// »ñÈ¡¸öÈËÃÜÂë
+	int		get_personlimit();		// »ñÈ¡¸öÈËÈ¨ÏŞ
+
+
+	bool Person_Notic;		// ÊÇ·ñ·¢ËÍÍ¨Öª
+	long Person_honesty;	// ³ÏĞÅ¶È Ä¬ÈÏ100
+	double Person_Debt;		// Ç·¿î Ä¬ÈÏ0.0
+	long Num_Borrowed;		// ÒÑ½èÔÄÊıÁ¿
+	long Num_Subscribe;		// ÒÑÔ¤Ô¼ÊıÁ¿
 private:
-  string Person_ID;     // ä¸ªäººID
-  string Person_Key;    // ä¸ªäººç™»å½•å¯†ç 
-  string Person_Name;   // ä¸ªäººå§“å
-  string Person_School; // ä¸ªäººå­¦é™¢
+	string Person_ID;		// ¸öÈËID
+	string Person_Key;		// ¸öÈËµÇÂ¼ÃÜÂë
+	string Person_Name;		// ¸öÈËĞÕÃû
+	string Person_School;	// ¸öÈËÑ§Ôº
 
-  int Person_Limit; // ä¸ªäººæƒé™ 0å­¦ç”Ÿ 1è€å¸ˆ
+	int Person_Limit;		// ¸öÈËÈ¨ÏŞ 0Ñ§Éú 1ÀÏÊ¦
 };
 
-// ç±»å: ManagePeople
-// è¯´æ˜: è¿™ä¸ªç±»ç”¨äºå¯¹äººè¿›è¡Œç®¡ç†
 
-class ManagePeople
-{
+// ÀàÃû: ManagePeople
+// ËµÃ÷: Õâ¸öÀàÓÃÓÚ¶ÔÈË½øĞĞ¹ÜÀí
+
+class ManagePeople {
 public:
-  ManagePeople();                       // é»˜è®¤æ„é€ å‡½æ•°
-  ManagePeople(const ManagePeople &M1); // æ‹·è´æ„é€ å‡½æ•°
-  ManagePeople(const string &filename); // ä»æ–‡ä»¶åè¯»å–æ¥åˆå§‹åŒ–ä¿¡æ¯
-  ~ManagePeople();                      // é»˜è®¤ææ„å‡½æ•°
+	ManagePeople();							// Ä¬ÈÏ¹¹Ôìº¯Êı
+	ManagePeople(const ManagePeople &M1);	// ¿½±´¹¹Ôìº¯Êı
+	ManagePeople(const string &filename);	// ´ÓÎÄ¼şÃû¶ÁÈ¡À´³õÊ¼»¯ĞÅÏ¢
+	~ManagePeople();						// Ä¬ÈÏÎö¹¹º¯Êı
 
-  bool JudgeID(const string &ID);                                 // æœ¬å‡½æ•°å¯¹IDè¿›è¡Œæ£€æµ‹ æ£€æµ‹IDæ˜¯å¦ç¬¦åˆè¦æ±‚ ï¼ˆ12ä½ æœªé‡å¤ï¼‰
-  bool JudgeKey(const string &ID, const string &Key);             // ç™»é™†æ£€éªŒå‡½æ•°
-  bool Judgesubcid(const string &bookID, const string &peopleID); //æ£€éªŒäººæ˜¯å¦æœ‰è¿™æœ¬ä¹¦å¯ä»¥è½¬å€Ÿé˜…
+	bool JudgeID(const string &ID); // ±¾º¯Êı¶ÔID½øĞĞ¼ì²â ¼ì²âIDÊÇ·ñ·ûºÏÒªÇó £¨12Î» Î´ÖØ¸´£©
+	bool JudgeKey(const string &ID, const string&Key); // µÇÂ½¼ìÑéº¯Êı
+	bool Judgesubcid(const string &bookID,const string &peopleID);		//¼ìÑéÈËÊÇ·ñÓĞÕâ±¾Êé¿ÉÒÔ×ª½èÔÄ
 
-  void PeopleList_Add(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // æ–°å»ºäºº è¦æ±‚ç»™å®šçš„IDå¿…é¡»æ˜¯å¯è¡Œçš„ï¼ˆå¯å…ˆå‰åˆ©ç”¨judgeidå‡½æ•°ï¼‰
-  void PeopleList_Pay(const string &ID);                                                                                // è¿˜æ¸…æ¬ æ¬¾
-  void PeopleList_ChangeKey(const string &ID, const string &newkey);                                                    // æ›´æ”¹å¯†ç 
+	void PeopleList_Add(const string &name, const string &ID, const string &Key, const string &school, const int &limit); // ĞÂ½¨ÈË ÒªÇó¸ø¶¨µÄID±ØĞëÊÇ¿ÉĞĞµÄ£¨¿ÉÏÈÇ°ÀûÓÃjudgeidº¯Êı£© 
+	void PeopleList_Pay(const string &ID); // »¹ÇåÇ·¿î
+	void PeopleList_ChangeKey(const string &ID, const string &newkey);// ¸ü¸ÄÃÜÂë
 
-  // å€Ÿä¹¦è¿˜ä¹¦è½¬æ¢çš„æ“ä½œé€šè¿‡ManageBookæ¥å®ç° å³ManageBookå®ç°å¯¹ä¹¦å’Œäººçš„æ–‡ä»¶æ—¥å¿—çš„å…±åŒæ“ä½œ
 
-  void PeopleList_Find(); // æœ¬å‡½æ•°å†…éƒ¨æœ‰ æœ‰é™çŠ¶æ€è‡ªåŠ¨æœº å®Œæˆå¯¹å„ä¸ªé¡¹ç›®çš„æœç´¢æ“ä½œ
 
-  void PeopleList_DateFlash(); // æ¯æ–°çš„ä¸€å¤© åˆ·æ–°æ‰€æœ‰äººçš„å€Ÿé˜…ä¿¡æ¯
-  void PeopleList_Print();     // æ‰“å°æ‰€æœ‰äººä¿¡æ¯
+	// ½èÊé»¹Êé×ª»»µÄ²Ù×÷Í¨¹ıManageBookÀ´ÊµÏÖ ¼´ManageBookÊµÏÖ¶ÔÊéºÍÈËµÄÎÄ¼şÈÕÖ¾µÄ¹²Í¬²Ù×÷
 
-  long Num_Sum_Of_People;
 
+	void PeopleList_Find();  // ±¾º¯ÊıÄÚ²¿ÓĞ ÓĞÏŞ×´Ì¬×Ô¶¯»ú Íê³É¶Ô¸÷¸öÏîÄ¿µÄËÑË÷²Ù×÷
+
+
+	void PeopleList_DateFlash();	// Ã¿ĞÂµÄÒ»Ìì Ë¢ĞÂËùÓĞÈËµÄ½èÔÄĞÅÏ¢
+	void PeopleList_Print();		// ´òÓ¡ËùÓĞÈËĞÅÏ¢
+
+	long Num_Sum_Of_People;
 private:
+
 };

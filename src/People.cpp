@@ -13,484 +13,436 @@
 #include "People.h"
 using namespace std;
 
+
 //---------------------------------------------------------------------------------
 // class Person
 
-// é»˜è®¤æ„é€ å‡½æ•°
-Person::Person()
-{
-    Person_Notic = false;
-    Person_honesty = 100;
-    Person_Debt = 0.0;
-    Num_Borrowed = 0;
-    Num_Subscribe = 0;
+// Ä¬ÈÏ¹¹Ôìº¯Êı
+Person::Person() {
+	Person_Notic = false;
+	Person_honesty = 100;
+	Person_Debt = 0.0;
+	Num_Borrowed = 0;
+	Num_Subscribe = 0;
 }
 
-// æ‹·è´æ„é€ å‡½æ•°
-Person::Person(const Person &p1)
-{
-    Person_Notic = p1.Person_Notic;
-    Person_honesty = p1.Person_honesty;
-    Person_Debt = p1.Person_Debt;
-    Num_Borrowed = p1.Num_Borrowed;
-    Num_Subscribe = p1.Num_Subscribe;
+// ¿½±´¹¹Ôìº¯Êı
+Person::Person(const Person & p1) {
+	Person_Notic = p1.Person_Notic;
+	Person_honesty = p1.Person_honesty;
+	Person_Debt = p1.Person_Debt;
+	Num_Borrowed = p1.Num_Borrowed;
+	Num_Subscribe = p1.Num_Subscribe;
 
-    Person_ID = p1.Person_ID;
-    Person_Key = p1.Person_Key;
-    Person_Name = p1.Person_Name;
-    Person_School = p1.Person_School;
-    Person_Limit = p1.Person_Limit;
+	Person_ID = p1.Person_ID;
+	Person_Key = p1.Person_Key;
+	Person_Name = p1.Person_Name;
+	Person_School = p1.Person_School;
+	Person_Limit = p1.Person_Limit;
+
 }
 
-// ä»æ–‡ä»¶åè¿›è¡Œè¯»å–
+// ´ÓÎÄ¼şÃû½øĞĞ¶ÁÈ¡
 // such as Person P("000000000001");
-Person::Person(const string &filename)
-{
-    ifstream file("people\\" + filename + ".txt");
+Person::Person(const string & filename) {
+	ifstream file("people\\" + filename + ".txt");
 
-    getline(file, Person_ID);
-    getline(file, Person_Key);
-    getline(file, Person_Name);
-    getline(file, Person_School);
-    file >> Person_Limit;
-    file >> Person_honesty;
-    file >> Person_Debt;
-    file >> Num_Borrowed;
-    file >> Num_Subscribe;
+	getline(file, Person_ID);
+	getline(file, Person_Key);
+	getline(file, Person_Name);
+	getline(file, Person_School);
+	file >> Person_Limit;
+	file >> Person_honesty;
+	file >> Person_Debt;
+	file >> Num_Borrowed;
+	file >> Num_Subscribe;
 
-    file.close();
+	file.close();
 }
 
-// å‚æ•°æ„é€ å‡½æ•° è¿™æ˜¯å»ºç«‹æ–°äººçš„å‡½æ•° è¦æ±‚å¯¹æ–‡ä»¶è¿›è¡Œåˆ›å»º
-// è°ƒç”¨å‰åº”è¯¥ä¿è¯IDçš„æ­£ç¡®æ€§
-Person::Person(const string &name, const string &ID, const string &Key, const string &school, const int &limit)
-{
-    Person_Notic = false;
-    Person_honesty = 100;
-    Person_Debt = 0.0;
-    Num_Borrowed = 0;
-    Num_Subscribe = 0;
-    Person_Name = name;
-    Person_ID = ID;
-    Person_Key = Key;
-    Person_School = school;
-    Person_Limit = limit;
+// ²ÎÊı¹¹Ôìº¯Êı ÕâÊÇ½¨Á¢ĞÂÈËµÄº¯Êı ÒªÇó¶ÔÎÄ¼ş½øĞĞ´´½¨
+// µ÷ÓÃÇ°Ó¦¸Ã±£Ö¤IDµÄÕıÈ·ĞÔ
+Person::Person(const string & name, const string & ID, const string &Key, const string & school, const int & limit) {
+	Person_Notic = false;
+	Person_honesty = 100;
+	Person_Debt = 0.0;
+	Num_Borrowed = 0;
+	Num_Subscribe = 0;
+	Person_Name = name;
+	Person_ID = ID;
+	Person_Key = Key;
+	Person_School = school;
+	Person_Limit = limit;
 
-    // update the peoplelist
-    long num = Convert_strtolong(FileLine_Getline("people\\peoplelist.txt", 1));
-    FileLine_Change("people\\peoplelist.txt", 1, Convert_longtostr(num + 1));
-    FileLine_Insert("people\\peoplelist.txt", 1, ID);
+	// update the peoplelist
+	long num = Convert_strtolong(FileLine_Getline("people\\peoplelist.txt", 1));
+	FileLine_Change("people\\peoplelist.txt", 1, Convert_longtostr(num + 1));
+	FileLine_Insert("people\\peoplelist.txt", 1, ID);
 
-    // create three files
-    fstream f1("people\\" + ID + ".txt", fstream::out),
-        f2("people\\" + ID + "_books.txt", fstream::out),
-        f3("people\\" + ID + "_subc.txt", fstream::out);
+	// create three files
+	fstream f1("people\\" + ID + ".txt", fstream::out),
+		f2("people\\" + ID + "_books.txt", fstream::out), 
+		f3("people\\" + ID + "_subc.txt", fstream::out);
 
-    f1 << Person_ID << endl;
-    f1 << Person_Key << endl;
-    f1 << Person_Name << endl;
-    f1 << Person_School << endl;
-    f1 << Person_Limit << endl;
-    f1 << Person_honesty << endl;
-    f1 << Person_Debt << endl;
-    f1 << Num_Borrowed << endl;
-    f1 << Num_Subscribe << endl;
+	f1 << Person_ID << endl;
+	f1 << Person_Key << endl;
+	f1 << Person_Name << endl;
+	f1 << Person_School << endl;
+	f1 << Person_Limit << endl;
+	f1 << Person_honesty << endl;
+	f1 << Person_Debt << endl;
+	f1 << Num_Borrowed << endl;
+	f1 << Num_Subscribe << endl;
 
-    f1.close();
-    f2.close();
-    f3.close();
+	f1.close();
+	f2.close();
+	f3.close();
+
 }
 
-Person::~Person()
-{
+Person::~Person() {
 }
 
-// ç”¨äºå°†å‘é€ä¸ªäººä¿¡æ¯ åŒ…æ‹¬ ä¸ªäººå‚æ•° é¢„çº¦ç°çŠ¶ å·²å€Ÿå›¾ä¹¦
-void Person::person_print()
-{
-    cout << endl;
-    cout << "ä¸ªäººä¿¡æ¯:\n";
-    cout << "ID:" << Person_ID << endl;
-    cout << "å§“å:" << Person_Name << endl;
-    cout << "å­¦é™¢:" << Person_School << endl;
-    cout << "æƒé™:";
-    if (Person_Limit == 0)
-        cout << "å­¦ç”Ÿ" << endl;
-    else
-        cout << "è€å¸ˆ" << endl;
-    cout << "è¯šä¿¡:" << Person_honesty << endl;
-    cout << "æ¬ æ¬¾:" << Person_Debt << endl;
+// ÓÃÓÚ½«·¢ËÍ¸öÈËĞÅÏ¢ °üÀ¨ ¸öÈË²ÎÊı Ô¤Ô¼ÏÖ×´ ÒÑ½èÍ¼Êé
+void Person::person_print() {
+	cout << endl;
+	cout << "¸öÈËĞÅÏ¢:\n";
+	cout << "ID:" << Person_ID << endl;
+	cout << "ĞÕÃû:" << Person_Name << endl;
+	cout << "Ñ§Ôº:" << Person_School << endl;
+	cout << "È¨ÏŞ:";
+	if (Person_Limit == 0)
+		cout << "Ñ§Éú" << endl;
+	else
+		cout << "ÀÏÊ¦" << endl;
+	cout << "³ÏĞÅ:" << Person_honesty << endl;
+	cout << "Ç·¿î:" << Person_Debt << endl;
 
-    cout << endl;
-    cout << "å·²å€Ÿå›¾ä¹¦:" << Num_Borrowed << endl;
-    if (Num_Borrowed > 0)
-    {
-        fstream f("people\\" + Person_ID + "_books.txt");
-        string str;
+	cout << endl;
+	cout << "ÒÑ½èÍ¼Êé:" << Num_Borrowed << endl;
+	if (Num_Borrowed > 0) {
+		fstream f("people\\" + Person_ID + "_books.txt");
+		string str;
 
-        while (f.peek() != EOF)
-        {
-            getline(f, str);
-            cout << "æœ¬ä¹¦ID:" << str << endl;
-            cout << "ä¹¦å:" << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
+		while (f.peek() != EOF) {
+			getline(f, str);
+			cout << "±¾ÊéID:" << str << endl;
+			cout << "ÊéÃû:" << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
 
-            getline(f, str);
-            cout << "å‰©ä½™æ—¶é—´:" << str << endl
-                 << endl;
-        }
+			getline(f, str);
+			cout << "Ê£ÓàÊ±¼ä:" << str << endl << endl;
+		}
 
-        f.close();
-    }
+		f.close();
+	}
 
-    cout << endl;
-    cout << "é¢„çº¦å›¾ä¹¦:" << Num_Subscribe << endl;
-    if (Num_Subscribe > 0)
-    {
-        fstream f("people\\" + Person_ID + "_subc.txt");
-        string str;
+	cout << endl;
+	cout << "Ô¤Ô¼Í¼Êé:" << Num_Subscribe << endl;
+	if (Num_Subscribe > 0) {
+		fstream f("people\\" + Person_ID + "_subc.txt");
+		string str;
 
-        while (f.peek() != EOF)
-        {
-            getline(f, str);
-            if (8 == str.length())
-                cout << "IDå‰ç¼€: " << str << endl;
-            else
-                cout << "ID: " << str << endl;
+		while (f.peek() != EOF) {
+			getline(f, str);
+			if (8 == str.length())
+				cout << "IDÇ°×º: " << str << endl;
+			else
+				cout << "ID: " << str << endl;
 
-            cout << "ä¹¦å: " << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
+			cout << "ÊéÃû: " << FileLine_Getline("book\\" + str.substr(0, 8) + ".txt", 2) << endl;
 
-            getline(f, str);
-            cout << "çŠ¶æ€: ";
-            if (0 == Convert_strtolong(str))
-                cout << "ä¸å¯ç”¨" << endl
-                     << endl;
-            else
-                cout << "æœ‰ä¹¦" << endl
-                     << endl;
-        }
+			getline(f, str);
+			cout << "×´Ì¬: ";
+			if (0 == Convert_strtolong(str))
+				cout << "²»¿ÉÓÃ" << endl << endl;
+			else
+				cout << "ÓĞÊé" << endl << endl;
+		}
 
-        f.close();
-    }
-    cout << endl;
+		f.close();
+	}
+	cout << endl;
+
 }
 
-//ç”¨äºå®æ—¶æ›´æ–°æ•°æ®
-void Person::person_open(const string &filename)
-{
-    ifstream file("people\\" + filename + ".txt");
+//ÓÃÓÚÊµÊ±¸üĞÂÊı¾İ
+void Person::person_open(const string & filename) {
+	ifstream file("people\\" + filename + ".txt");
 
-    getline(file, Person_ID);
-    getline(file, Person_Key);
-    getline(file, Person_Name);
-    getline(file, Person_School);
-    file >> Person_Limit;
-    file >> Person_honesty;
-    file >> Person_Debt;
-    file >> Num_Borrowed;
-    file >> Num_Subscribe;
+	getline(file, Person_ID);
+	getline(file, Person_Key);
+	getline(file, Person_Name);
+	getline(file, Person_School);
+	file >> Person_Limit;
+	file >> Person_honesty;
+	file >> Person_Debt;
+	file >> Num_Borrowed;
+	file >> Num_Subscribe;
 
-    file.close();
+	file.close();
 }
 
-// æ›´æ”¹å¯†ç 
-void Person::person_changekey(const string &Newkey)
-{
-    FileLine_Change("people\\" + Person_ID + ".txt", 2, Newkey);
+// ¸ü¸ÄÃÜÂë
+void Person::person_changekey(const string & Newkey) {
+	FileLine_Change("people\\" + Person_ID + ".txt", 2, Newkey);
 }
 
-string Person::get_personname()
-{
-    return Person_Name;
+string Person::get_personname() {
+	return Person_Name;
 }
 
-string Person::get_personID()
-{
-    return Person_ID;
+string Person::get_personID() {
+	return Person_ID;
 }
 
-string Person::get_personschool()
-{
-    return Person_School;
+string Person::get_personschool() {
+	return Person_School;
 }
 
-string Person::get_personkey()
-{
-    return Person_Key;
+string Person::get_personkey() {
+	return Person_Key;
 }
 
-int Person::get_personlimit()
-{
-    return Person_Limit;
+int Person::get_personlimit() {
+	return Person_Limit;
 }
+
 
 //-------------------------------------------------------------------------
 // Class ManagePeople
 
-ManagePeople::ManagePeople()
-{
-    Num_Sum_Of_People = Convert_strtolong(FileLine_Getline("book\\peoplelist.txt", 1));
+ManagePeople::ManagePeople() {
+	Num_Sum_Of_People = Convert_strtolong(FileLine_Getline("book\\peoplelist.txt", 1));
 }
 
-ManagePeople::ManagePeople(const ManagePeople &M1)
-{
-    Num_Sum_Of_People = M1.Num_Sum_Of_People;
+ManagePeople::ManagePeople(const ManagePeople & M1) {
+	Num_Sum_Of_People = M1.Num_Sum_Of_People;
 }
 
-ManagePeople::ManagePeople(const string &filename)
-{
-    Num_Sum_Of_People = Convert_strtolong(FileLine_Getline("book\\" + filename + ".txt", 1));
+ManagePeople::ManagePeople(const string & filename) {
+	Num_Sum_Of_People = Convert_strtolong(FileLine_Getline("book\\"+filename+".txt", 1));
 }
 
-ManagePeople::~ManagePeople()
-{
+ManagePeople::~ManagePeople() {
 }
 
-// æœ¬å‡½æ•°å¯¹IDè¿›è¡Œæ£€æµ‹ æ£€æµ‹IDæ˜¯å¦ç¬¦åˆè¦æ±‚ ï¼ˆ12ä½ æœªé‡å¤ï¼‰
-bool ManagePeople::JudgeID(const string &ID)
-{
-    // we judge the length first
-    if (12 != ID.length())
-        return false;
-    if (ID[0] != '0' && ID[0] != '1')
-        return false;
+// ±¾º¯Êı¶ÔID½øĞĞ¼ì²â ¼ì²âIDÊÇ·ñ·ûºÏÒªÇó £¨12Î» Î´ÖØ¸´£©
+bool ManagePeople::JudgeID(const string & ID) {
+	// we judge the length first
+	if (12 != ID.length()) 
+		return false;
+	if (ID[0] != '0' && ID[0] != '1')
+		return false;
 
-    // we judge whethe the id has been used
-    fstream f("people\\peoplelist.txt");
+	// we judge whethe the id has been used
+	fstream f("people\\peoplelist.txt");
 
-    string str;
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        if (str == ID)
-        {
-            f.close();
-            return false;
-        }
-    }
+	string str;
+	while (f.peek() != EOF) {
+		getline(f, str);
+		if (str == ID) {
+			f.close();
+			return false;
+		}
+	}
 
-    f.close();
-    return true;
+	f.close();
+	return true;
 }
 
-// ç™»é™†æ£€éªŒå‡½æ•°
-// æ­¤å‡½æ•°æ£€æŸ¥IDæ˜¯å¦æ˜¯å­˜åœ¨çš„ å¹¶æ£€æŸ¥keyæ˜¯å¦æ­£ç¡®
-bool ManagePeople::JudgeKey(const string &ID, const string &Key)
-{
-    fstream f("people\\peoplelist.txt");
+// µÇÂ½¼ìÑéº¯Êı
+// ´Ëº¯Êı¼ì²éIDÊÇ·ñÊÇ´æÔÚµÄ ²¢¼ì²ékeyÊÇ·ñÕıÈ·
+bool ManagePeople::JudgeKey(const string & ID, const string & Key) {
+	fstream f("people\\peoplelist.txt");
 
-    string str;
-    getline(f, str);
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        if (ID == str)
-        {
-            Person P(str);
-            if (Key == P.get_personkey())
-            {
-                f.close();
-                return true;
-            }
-            else
-            {
-                f.close();
-                return false;
-            }
-        }
-    }
+	string str;
+	getline(f, str);
+	while (f.peek() != EOF) {
+		getline(f, str);
+		if (ID == str) {
+			Person P(str);
+			if (Key == P.get_personkey()) {
+				f.close();
+				return true;
+			}
+			else {
+				f.close();
+				return false;
+			}
+		}
+	}
 
-    f.close();
+	f.close();
 
-    return false;
+	return false;
 }
 
-//æ£€éªŒäººæ˜¯å¦æœ‰è¿™æœ¬ä¹¦å¯ä»¥è½¬å€Ÿé˜…
-bool ManagePeople::Judgesubcid(const string &bookID, const string &peopleID)
-{
-    if (bookID.length() != 12)
-        return false;
+//¼ìÑéÈËÊÇ·ñÓĞÕâ±¾Êé¿ÉÒÔ×ª½èÔÄ
+bool ManagePeople::Judgesubcid(const string & bookID, const string & peopleID) {
+	if (bookID.length() != 12)
+		return false;
+	
+	fstream f("people\\" + peopleID + "_subc.txt");
 
-    fstream f("people\\" + peopleID + "_subc.txt");
+	string str;
+	while (f.peek() != EOF) {
+		getline(f, str);
+		if (str.length() == 12 && str == bookID) {
+			f.close();
+			return true;
+		}
+	}
 
-    string str;
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        if (str.length() == 12 && str == bookID)
-        {
-            f.close();
-            return true;
-        }
-    }
-
-    f.close();
-    return false;
+	f.close();
+	return false;
 }
 
-// æ–°å»ºäºº è¦æ±‚ç»™å®šçš„IDå¿…é¡»æ˜¯å¯è¡Œçš„ï¼ˆå¯å…ˆå‰åˆ©ç”¨judgeidå‡½æ•°ï¼‰
-void ManagePeople::PeopleList_Add(const string &name, const string &ID, const string &Key, const string &school, const int &limit)
-{
-    Person P(name, ID, Key, school, limit);
+// ĞÂ½¨ÈË ÒªÇó¸ø¶¨µÄID±ØĞëÊÇ¿ÉĞĞµÄ£¨¿ÉÏÈÇ°ÀûÓÃjudgeidº¯Êı£© 
+void ManagePeople::PeopleList_Add(const string & name, const string & ID, const string &Key, const string & school, const int & limit) {
+	Person P(name, ID, Key, school, limit);
 
-    // logbook
-    Logs L(Day, false);
-    L.Log_Addperson(ID);
+	// logbook
+	Logs L(Day, false);
+	L.Log_Addperson(ID);
 }
 
-// è¿˜æ¸…æ¬ æ¬¾
-void ManagePeople::PeopleList_Pay(const string &ID)
-{
-    FileLine_Change("people\\" + ID + ".txt", 7, "0.0");
+// »¹ÇåÇ·¿î
+void ManagePeople::PeopleList_Pay(const string & ID) {
+	FileLine_Change("people\\" + ID + ".txt", 7, "0.0");
 }
 
-// æ›´æ”¹å¯†ç 
-void ManagePeople::PeopleList_ChangeKey(const string &ID, const string &newkey)
-{
-    Person P(ID);
-    P.person_changekey(newkey);
+// ¸ü¸ÄÃÜÂë
+void ManagePeople::PeopleList_ChangeKey(const string & ID, const string & newkey) {
+	Person P(ID);
+	P.person_changekey(newkey);
 }
 
-// æœ¬å‡½æ•°å†…éƒ¨æœ‰ æœ‰é™çŠ¶æ€è‡ªåŠ¨æœº å®Œæˆå¯¹å„ä¸ªé¡¹ç›®çš„æœç´¢æ“ä½œ
-void ManagePeople::PeopleList_Find()
-{
-    cout << endl;
-    cout << "ä»¥ä¸‹æ˜¯æŸ¥äººé€‰é¡¹:\n";
-    cout << "  1:æ ¹æ®ID\n";
-    cout << "  2:æ ¹æ®å§“å\n";
-    cout << "  3:æ ¹æ®å­¦é™¢\n";
-    cout << "  4:æ ¹æ®æƒé™\n";
-    cout << "é€‰æ‹©: ";
-    string str, t;
-    getline(cin, str);
+// ±¾º¯ÊıÄÚ²¿ÓĞ ÓĞÏŞ×´Ì¬×Ô¶¯»ú Íê³É¶Ô¸÷¸öÏîÄ¿µÄËÑË÷²Ù×÷
+void ManagePeople::PeopleList_Find() {
+	cout << endl;
+	cout << "ÒÔÏÂÊÇ²éÈËÑ¡Ïî:\n";
+	cout << "  1:¸ù¾İID\n";
+	cout << "  2:¸ù¾İĞÕÃû\n";
+	cout << "  3:¸ù¾İÑ§Ôº\n";
+	cout << "  4:¸ù¾İÈ¨ÏŞ\n";
+	cout << "Ñ¡Ôñ: ";
+	string str, t;
+	getline(cin, str);
 
-    while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '4')))
-    {
-        cout << "è¾“å…¥é”™è¯¯\né‡æ–°è¾“å…¥: ";
-        getline(cin, str);
-    }
-    char c = str[0];
+	while (!(1 == str.length() && ('1' <= str[0] && str[0] <= '4'))) {
+		cout << "ÊäÈë´íÎó\nÖØĞÂÊäÈë: ";
+		getline(cin, str);
+	}
+	char c = str[0];
 
-    cout << "\n è¾“å…¥: ";
-    getline(cin, str);
+	cout << "\n ÊäÈë: ";
+	getline(cin, str);
 
-    fstream f("people\\peoplelist.txt");
+	fstream f("people\\peoplelist.txt");
 
-    getline(f, t);
-    switch (c)
-    {
-    case 1: // ID
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
+	getline(f, t);
+	switch (c) {
+	case '1':  // ID
+		while (f.peek() != EOF) {
+			getline(f, t);
 
-            if (string::npos != t.find(str))
-            {
-                Person P(t);
-                P.person_print();
-            }
-        }
-        break;
-    case 2: // name
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Person P(t);
+			if (string::npos != t.find(str)) {
+				Person P(t);
+				P.person_print();
+			}
 
-            if (string::npos != P.get_personname().find(str))
-            {
-                P.person_print();
-            }
-        }
-        break;
-    case 3: // school
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Person P(t);
+		}
+		break;
+	case '2':  // name
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Person P(t);
 
-            if (string::npos != P.get_personschool().find(str))
-            {
-                P.person_print();
-            }
-        }
-        break;
-    case 4: // limit
-        while (f.peek() != EOF)
-        {
-            getline(f, t);
-            Person P(t);
-            int i = int(Convert_strtolong(str));
+			if (string::npos != P.get_personname().find(str)) {
+				P.person_print();
+			}
 
-            if (i == P.get_personlimit())
-            {
-                P.person_print();
-            }
-        }
-        break;
-    }
+		}
+		break;
+	case '3':  // school
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Person P(t);
 
-    f.close();
+			if (string::npos != P.get_personschool().find(str)) {
+				P.person_print();
+			}
+
+		}
+		break;
+	case '4':  // limit
+		while (f.peek() != EOF) {
+			getline(f, t);
+			Person P(t);
+			int i = int(Convert_strtolong(str));
+
+			if (i == P.get_personlimit()) {
+				P.person_print();
+			}
+
+		}
+		break;
+	}
+
+	f.close();
 }
 
-// æ¯æ–°çš„ä¸€å¤© åˆ·æ–°æ‰€æœ‰äººçš„å€Ÿé˜…ä¿¡æ¯
-void ManagePeople::PeopleList_DateFlash()
-{
-    fstream f("people\\peoplelist.txt");
+// Ã¿ĞÂµÄÒ»Ìì Ë¢ĞÂËùÓĞÈËµÄ½èÔÄĞÅÏ¢
+void ManagePeople::PeopleList_DateFlash() {
+	fstream f("people\\peoplelist.txt");
 
-    string str, t;
-    getline(f, str);
+	string str,t;
+	getline(f, str);
 
-    while (f.peek() != EOF)
-    {
-        // get the id
-        getline(f, str);
+	while (f.peek() != EOF) {
+		// get the id
+		getline(f, str);
 
-        // change the number
-        fstream f_people("people\\" + str + "_books.txt", ios::in | ios::out), f_t("logbook\\temp.txt", ios::in | ios::out | ios::trunc);
+		// change the number
+		fstream f_people("people\\" + str + "_books.txt", ios::in | ios::out), f_t("logbook\\temp.txt", ios::in | ios::out|ios::trunc);
 
-        while (f_people.peek() != EOF)
-        {
-            getline(f_people, t);
-            f_t << t << endl;
+		while (f_people.peek() != EOF) {
+			getline(f_people, t);
+			f_t << t << endl;
 
-            getline(f_people, t);
-            long num = -1 + Convert_strtolong(t);
-            f_t << Convert_longtostr(num) << endl;
-        }
+			getline(f_people, t);
+			long num = -1 + Convert_strtolong(t);
+			f_t << Convert_longtostr(num) << endl;
+		}
 
-        f_people.close();
-        f_t.close();
+		f_people.close(); f_t.close();
 
-        // rewrite the file
-        f_people.open("people\\" + str + "_books.txt", ios::in | ios::out | ios::trunc);
-        f_t.open("logbook\\temp.txt", ios::in | ios::out);
+		// rewrite the file
+		f_people.open("people\\" + str + "_books.txt", ios::in | ios::out|ios::trunc);
+		f_t.open("logbook\\temp.txt", ios::in | ios::out);
 
-        while (f_t.peek() != EOF)
-        {
-            getline(f_t, t);
-            f_people << t << endl;
-        }
+		while (f_t.peek() != EOF) {
+			getline(f_t, t);
+			f_people << t << endl;
+		}
 
-        f_people.close();
-        f_t.close();
-    }
+		f_people.close(); f_t.close();
+	}
 
-    f.close();
+	f.close();
 }
 
-// æ‰“å°æ‰€æœ‰äººä¿¡æ¯
-void ManagePeople::PeopleList_Print()
-{
-    fstream f("people\\peoplelist.txt");
-    string str;
+// ´òÓ¡ËùÓĞÈËĞÅÏ¢
+void ManagePeople::PeopleList_Print() {
+	fstream f("people\\peoplelist.txt");
+	string str;
 
-    getline(f, str);
-    while (f.peek() != EOF)
-    {
-        getline(f, str);
-        Person P(str);
-        P.person_print();
-    }
+	getline(f, str);
+	while (f.peek() != EOF) {
+		getline(f, str);
+		Person P(str);
+		P.person_print();
+	}
 
-    f.close();
+	f.close();
 }

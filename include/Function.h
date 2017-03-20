@@ -10,31 +10,31 @@
 #include <string>
 using namespace std;
 
-// åˆ é™¤æ–‡ä»¶ä¸­çš„æŒ‡å®šè¡Œ
+// É¾³ıÎÄ¼şÖĞµÄÖ¸¶¨ĞĞ
 void FileLine_Delete(const string &filename, const long &line);
 
-// æ”¹å˜æ–‡ä»¶ä¸­æŒ‡å®šè¡Œçš„å†…å®¹
+// ¸Ä±äÎÄ¼şÖĞÖ¸¶¨ĞĞµÄÄÚÈİ
 void FileLine_Change(const string &filename, const long &line, const string &things);
 
-// åœ¨æ–‡ä»¶çš„æŒ‡å®šè¡Œä¹‹åæ’å…¥å†…å®¹
+// ÔÚÎÄ¼şµÄÖ¸¶¨ĞĞÖ®ºó²åÈëÄÚÈİ
 void FileLine_Insert(const string &filename, const long &line, const string &things);
 
-// å°†åˆ¶å®šå†…å®¹æ·»åŠ åˆ°æ–‡ç« æœ«å°¾
+// ½«ÖÆ¶¨ÄÚÈİÌí¼Óµ½ÎÄÕÂÄ©Î²
 void FileEnd_Add(const string &filename, const string &things);
 
-// æœç´¢æŒ‡å®šå†…å®¹çš„è¡Œå·ï¼ˆä¸€èˆ¬ç”¨äºIDï¼‰
+// ËÑË÷Ö¸¶¨ÄÚÈİµÄĞĞºÅ£¨Ò»°ãÓÃÓÚID£©
 long FileLine_Getnumber(const string &filename, const string &things);
 
-// è¿”å›æ–‡ä»¶æŒ‡å®šè¡Œçš„å†…å®¹
+// ·µ»ØÎÄ¼şÖ¸¶¨ĞĞµÄÄÚÈİ
 string FileLine_Getline(const string &filename, const long &line);
 
-//// string_addone çš„è¾…åŠ©å‡½æ•°
+//// string_addone µÄ¸¨Öúº¯Êı
 //bool Char_Addone(char &c);
 //
-//// å¯¹æŒ‡å®šçš„å­—ç¬¦ä¸²å¢åŠ 1 å¹¶ä¿æŒå­—ç¬¦ä¸²ä½ç½®ä¸å˜åŒ–
+//// ¶ÔÖ¸¶¨µÄ×Ö·û´®Ôö¼Ó1 ²¢±£³Ö×Ö·û´®Î»ÖÃ²»±ä»¯
 //void String_Addone(string &str);
 
-// strè½¬æ¢long
+// str×ª»»long
 long Convert_strtolong(const string str);
 
 // long to str

@@ -12,77 +12,67 @@
 #include "Logbook.h"
 using namespace std;
 
-Logs::Logs()
-{
-    Date = Day;
+Logs::Logs() {
+	Date = Day;
 }
 
-// dayæŒ‡å®šå½“å‰å¤©æ•°
-// boolä¸ºtureè¡¨ç¤ºå»ºç«‹æ–°æ–‡ä»¶
-// boolä¸ºfalseè¡¨ç¤ºä¸å»ºç«‹æ–‡ä»¶
-Logs::Logs(const long &day, bool newfile)
-{
-    Date = day;
+// dayÖ¸¶¨µ±Ç°ÌìÊı
+// boolÎªture±íÊ¾½¨Á¢ĞÂÎÄ¼ş
+// boolÎªfalse±íÊ¾²»½¨Á¢ÎÄ¼ş
+Logs::Logs(const long & day, bool newfile) {
+	Date = day;
 
-    if (newfile)
-    {
-        fstream f("logbook\\day" + Convert_longtostr(Date) + ".txt", fstream::out);
+	if (newfile) {
+		fstream f("logbook\\day" + Convert_longtostr(Date) + ".txt",fstream::out);
 
-        f << "æ—¶é—´_day " << Date << endl;
+		f << "Ê±¼ä_day " << Date << endl;
 
-        f.close();
-    }
+		f.close();
+	}
 }
 
-Logs::~Logs()
-{
+
+Logs::~Logs() {
 }
 
-// ç™»é™† å†™æ—¥å¿—
-void Logs::Log_Login(const string &ID)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_ç”¨æˆ·ç™»å½• ç”¨æˆ·å_" + ID);
+// µÇÂ½ Ğ´ÈÕÖ¾
+void Logs::Log_Login(const string & ID) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt", 
+		"ÊÂ¼ş_ÓÃ»§µÇÂ¼ ÓÃ»§Ãû_" + ID);
 }
 
-// ç™»å‡º å†™æ—¥å¿—
-void Logs::Log_Logout(const string &ID)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_ç”¨æˆ·ç™»å‡º ç”¨æˆ·å_" + ID);
+// µÇ³ö Ğ´ÈÕÖ¾
+void Logs::Log_Logout(const string & ID) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ÓÃ»§µÇ³ö ÓÃ»§Ãû_" + ID);
 }
 
-// å€Ÿä¹¦ å†™æ—¥å¿—
-void Logs::Log_Borrow(const string &ID_People, const string &ID_book)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_ç”¨æˆ·å€Ÿé˜… ç”¨æˆ·å_" + ID_People + "å›¾ä¹¦_" + ID_book);
+// ½èÊé Ğ´ÈÕÖ¾
+void Logs::Log_Borrow(const string & ID_People, const string & ID_book) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ÓÃ»§½èÔÄ ÓÃ»§Ãû_" + ID_People + "Í¼Êé_" + ID_book);
 }
 
-// é¢„çº¦ å†™æ—¥å¿—
-void Logs::Log_Subscribe(const string &ID_People, const string &ID_pre_book)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_ç”¨æˆ·é¢„çº¦ ç”¨æˆ·å_" + ID_People + "å›¾ä¹¦_" + ID_pre_book);
+// Ô¤Ô¼ Ğ´ÈÕÖ¾
+void Logs::Log_Subscribe(const string & ID_People, const string & ID_pre_book) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ÓÃ»§Ô¤Ô¼ ÓÃ»§Ãû_" + ID_People + "Í¼Êé_" + ID_pre_book);
 }
 
-// è¿˜ä¹¦ å†™æ—¥å¿—
-void Logs::Log_Return(const string &ID_People, const string &ID_book)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_ç”¨æˆ·è¿˜ä¹¦ ç”¨æˆ·å_" + ID_People + "å›¾ä¹¦_" + ID_book);
+// »¹Êé Ğ´ÈÕÖ¾
+void Logs::Log_Return(const string & ID_People, const string & ID_book) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ÓÃ»§»¹Êé ÓÃ»§Ãû_" + ID_People + "Í¼Êé_" + ID_book);
 }
 
-// åŠ äºº å†™æ—¥å¿—
-void Logs::Log_Addperson(const string &ID)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_æ–°å»ºç”¨æˆ· ç”¨æˆ·å_" + ID);
+// ¼ÓÈË Ğ´ÈÕÖ¾
+void Logs::Log_Addperson(const string & ID) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ĞÂ½¨ÓÃ»§ ÓÃ»§Ãû_" + ID);
 }
 
-// åŠ ä¹¦ å†™æ—¥å¿—
-void Logs::Log_Addbook(const string &ID)
-{
-    FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
-                "äº‹ä»¶_æ–°å»ºå›¾ä¹¦ å›¾ä¹¦_" + ID);
+// ¼ÓÊé Ğ´ÈÕÖ¾
+void Logs::Log_Addbook(const string & ID) {
+	FileEnd_Add("logbook\\day" + Convert_longtostr(Date) + ".txt",
+		"ÊÂ¼ş_ĞÂ½¨Í¼Êé Í¼Êé_" + ID);
 }
