@@ -1,5 +1,13 @@
 # Release Note
 
+## 版本 v0.91 alpha
+
+修复已知BUG
+
+### 修复内容
+
+1. 将书的预约栈改为预约队列 [#4](https://github.com/sigmarising/Library_DataStructure/issues/4)
+
 ## 版本 v0.9 alpha
 
 修复一个新bug

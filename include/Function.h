@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Function.h
 			Author:		Zhang Yun
-			Version:	alpha 0.8
+			Version:	alpha 0.91
 			Intro:		functions related to main.cpp
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 

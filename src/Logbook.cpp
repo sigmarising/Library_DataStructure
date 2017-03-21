@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Logbook.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.8
+			Version:	alpha 0.91
 			Intro:		manage logbook
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
 

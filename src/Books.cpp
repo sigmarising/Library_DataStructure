@@ -1,7 +1,7 @@
 /*+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+
 			Name:		Books.cpp
 			Author:		Zhang Yun
-			Version:	alpha 0.8
+			Version:	alpha 0.91
 			Intro:		everything related to 
 						the Books 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+*/
@@ -193,8 +193,10 @@ void Book::book_addbook() {
 // 增加了一个预约者 (此时应该已经判断出来应该是要预约 因为已经没书可借)
 // 要求更新 <成员变量 索引文件 书表文件 预约文件>
 void Book::book_subscribe(const string & ID_borrower) {
-	// update the ID_subc.txt
-	FileLine_Insert("book\\" + ID_pre + "_subc.txt", 0, ID_borrower);
+	// update the ID_subc.txt 应该插入到到末行
+	//FileLine_Insert("book\\" + ID_pre + "_subc.txt", 0, ID_borrower);
+	FileEnd_Add("book\\" + ID_pre + "_subc.txt", ID_borrower);
+
 	// update the file about people
 	FileLine_Change("people\\" + ID_borrower + ".txt", 9, Convert_longtostr(1 + Convert_strtolong(FileLine_Getline("people\\"+ID_borrower + ".txt", 9))));
 	FileLine_Insert("people\\" + ID_borrower + "_subc.txt", 0, ID_pre);
