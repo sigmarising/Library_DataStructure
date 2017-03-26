@@ -1,0 +1,10 @@
+﻿  People.cpp
+  Main.cpp
+  Logbook.cpp
+  Function.cpp
+  Books.cpp
+e:\programs\library\library\books.cpp(82): warning C4018: “<=”: 有符号/无符号不匹配
+e:\programs\library\library\books.cpp(157): warning C4018: “<=”: 有符号/无符号不匹配
+  正在生成代码...
+  Library.vcxproj -> E:\programs\Library\Debug\Library.exe
+  Library.vcxproj -> E:\programs\Library\Debug\Library.pdb (Partial PDB)

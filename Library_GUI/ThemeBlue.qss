@@ -1,0 +1,139 @@
+QDialog {
+    border-image: url(:/img/g_blue.png)
+}
+
+ DMain1, DMain2{
+    border-image: url(:/img/bg_blue.png)
+}
+
+QLabel{
+    font: bold 15px;
+}
+
+QPushButton {
+    background-color: rgb(146,168,209);
+    border-style: outset;
+    border-color: beige;
+    border-radius: 15px;
+    border-width: 2px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QPushButton:hover {
+    background-color: #0066CC;
+    border-style: outset;
+}
+
+QPushButton:pressed {
+    background-color: rgb(146,168,209);
+    border-style: inset;
+}
+
+QPushButton#Color_Green{
+    background-color: rgb(136,176,75);
+    border-style: outset;
+    border-color: beige;
+    border-radius: 15px;
+    border-width: 2px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QPushButton#Color_Blue{
+    background-color: rgb(146,168,209);
+    border-style: outset;
+    border-color: beige;
+    border-radius: 15px;
+    border-width: 2px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QPushButton#Color_Pink{
+    background-color: rgb(247,202,201);
+    border-style: outset;
+    border-color: beige;
+    border-radius: 15px;
+    border-width: 2px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QPushButton#Color_Green:hover{
+    background-color: #339933;
+    border-style: outset;
+}
+
+QPushButton#Color_Green:pressed{
+    background-color: rgb(136,176,75);
+    border-style: inset;
+}
+
+QPushButton#Color_Blue:hover{
+    background-color: #0066CC;
+    border-style: outset;
+}
+
+QPushButton#Color_Blue:pressed{
+    background-color: rgb(146,168,209);
+    border-style: inset;
+}
+
+QPushButton#Color_Pink:hover{
+    background-color: #CC6666;
+    border-style: outset;
+}
+
+QPushButton#Color_Pink:pressed{
+    background-color: rgb(247,202,201);
+    border-style: inset;
+}
+
+QLineEdit {
+    background-color: rgb(146,168,209);
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 15px;
+    border-color: beige;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QLineEdit:hover {
+    background-color: #0066CC;
+    border-style: outset;
+}
+
+QComboBox{
+    background-color: rgb(146,168,209);
+    border-style: outset;
+    border-color: beige;
+    border-radius: 15px;
+    border-width: 2px;
+    font: bold 14px;
+    min-width: 10em;
+    padding: 6px;
+}
+
+QComboBox::drop-down {
+    border-top-right-radius: 15px; 
+    border-bottom-right-radius: 15px;
+}
+
+QComboBox:hover {
+    background-color: #0066CC;
+    border-style: outset;
+}
+
+QTableWidget {
+    background-color: rgb(146,168,209);
+    border-style: outset;
+    border-color: beige;
+    border-width: 2px;
+}

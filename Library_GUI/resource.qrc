@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/qss">
+        <file>ThemeBlue.qss</file>
+        <file>ThemeGreen.qss</file>
+        <file>ThemePink.qss</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>bg_blue.png</file>
+        <file>bg_green.png</file>
+        <file>bg_pink.png</file>
+        <file>g_blue.png</file>
+        <file>g_green.png</file>
+        <file>g_pink.png</file>
+    </qresource>
+</RCC>
