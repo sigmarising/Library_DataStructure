@@ -199,18 +199,19 @@ void DUser_Borrow::on_pushButton_Borow_clicked()
     ManageBooks ManageB("booklist");
 
     if(ManageB.JudgeIDpre(idpre)){//id ok
-        ManageB.BookList_Borrow(idpre, UserNow, true);
+        if(ManageB.BookList_Borrow(idpre, UserNow, true)){
 
 
-        // MessageBox //
-        QMessageBox Box(QMessageBox::Information,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("借书(预约)成功"));
-        Box.setStandardButtons(QMessageBox::Ok);
-        Box.setButtonText(QMessageBox::Ok,QString::fromLocal8Bit("确认"));
-        Box.exec();
-        // MessageBox //
+            // MessageBox //
+            QMessageBox Box(QMessageBox::Information,QString::fromLocal8Bit("提示"),QString::fromLocal8Bit("借书(预约)成功"));
+            Box.setStandardButtons(QMessageBox::Ok);
+            Box.setButtonText(QMessageBox::Ok,QString::fromLocal8Bit("确认"));
+            Box.exec();
+            // MessageBox //
 
-        //reflash
-        on_pushButton_Find_clicked();
+            //reflash
+            on_pushButton_Find_clicked();
+        }
     }
     else{
         // MessageBox //

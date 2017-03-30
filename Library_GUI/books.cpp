@@ -234,33 +234,7 @@ void Book::book_convert(const string & ID_book, const string & ID_borrower) {
 // 增加了一个借阅者
 // 要求更新 <成员变量 索引文件 书表文件 预约文件>
 void Book::book_borrow(const string & ID_borrower) {
-    // we check the limit there-----------
-    int limit_person = int(Convert_strtolong(FileLine_Getline("people\\" + ID_borrower + ".txt", 5)));
 
-    if (0 == limit_person) {
-        if (!(0 == Book_Limit || 1 == Book_Limit)) {
-            // MessageBox //
-            QMessageBox Box(QMessageBox::Warning,"警告","您没有权限借阅此书");
-            Box.setStandardButtons(QMessageBox::Ok);
-            Box.setButtonText(QMessageBox::Ok,"确认");
-            Box.exec();
-            // MessageBox //
-            return;
-        }
-    }
-    else if (1 == limit_person) {
-        if (!(0 == Book_Limit || 2 == Book_Limit)) {
-            // MessageBox //
-            QMessageBox Box(QMessageBox::Warning,"警告","您没有权限借阅此书");
-            Box.setStandardButtons(QMessageBox::Ok);
-            Box.setButtonText(QMessageBox::Ok,"确认");
-            Box.exec();
-            // MessageBox //
-            return;
-        }
-    }
-
-    // we check the limit there-----------
 
     // update the member var and change the ID.txt
     Num_Borrowed += 1;
@@ -304,6 +278,8 @@ void Book::book_borrow(const string & ID_borrower) {
     // logbook
     Logs L(Day, false);
     L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "_books.txt", linenumber - 3));
+
+
 }
 
 // 还书动作相关操作
@@ -446,9 +422,37 @@ void ManageBooks::BookList_BuyNew(const string & bookname, const string & bookau
 }
 
 // borrow book
-void ManageBooks::BookList_Borrow(const string & id_pre, const string & id_person, bool Subscribe) {
+bool ManageBooks::BookList_Borrow(const string & id_pre, const string & id_person, bool Subscribe) {
     long num = Convert_strtolong(FileLine_Getline("book\\" + id_pre + ".txt", 10));
     Book B( id_pre );
+
+    // we check the limit there-----------
+    int limit_person = int(Convert_strtolong(FileLine_Getline("people\\" + id_person + ".txt", 5)));
+
+    if (0 == limit_person) {
+        if (!(0 == B.get_bookLimit() || 1 == B.get_bookLimit())) {
+            // MessageBox //
+            QMessageBox Box(QMessageBox::Warning,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("您没有权限借阅此书"));
+            Box.setStandardButtons(QMessageBox::Ok);
+            Box.setButtonText(QMessageBox::Ok,QString::fromLocal8Bit("确认"));
+            Box.exec();
+            // MessageBox //
+            return false;
+        }
+    }
+    else if (1 == limit_person) {
+        if (!(0 == B.get_bookLimit() || 2 == B.get_bookLimit())) {
+            // MessageBox //
+            QMessageBox Box(QMessageBox::Warning,QString::fromLocal8Bit("警告"),QString::fromLocal8Bit("您没有权限借阅此书"));
+            Box.setStandardButtons(QMessageBox::Ok);
+            Box.setButtonText(QMessageBox::Ok,QString::fromLocal8Bit("确认"));
+            Box.exec();
+            // MessageBox //
+            return false;
+        }
+    }
+
+    // we check the limit there-----------
 
     if (num >= 1) {// we can lent it
         B.book_borrow(id_person);
@@ -457,6 +461,8 @@ void ManageBooks::BookList_Borrow(const string & id_pre, const string & id_perso
         if (Subscribe)
             B.book_subscribe(id_person);
     }
+
+    return true;
 }
 
 // return book

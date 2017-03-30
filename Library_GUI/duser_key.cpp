@@ -40,6 +40,7 @@ void DUser_Key::on_pushButton_Change_clicked()
             ui->lineEdit_OldKey->clear();
             ui->lineEdit_NewKey1->clear();
             ui->lineEdit_NewKey2->clear();
+
         }
         else{
             // MessageBox //

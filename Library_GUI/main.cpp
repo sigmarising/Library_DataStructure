@@ -20,6 +20,7 @@
 #include "books.h"
 #include "logbook.h"
 #include "people.h"
+#include "dadmin_key.h"
 #include <QApplication>
 #include <string>
 #include <QString>
@@ -134,6 +135,7 @@ int main(int argc, char *argv[])
     DUser_Convert *w15= NULL;
     DUser_Key *w16= NULL;
     DAdmin_FBook2 *w17 = NULL;
+    DAdmin_Key *w18 =NULL;
 
     while (SysRun){
         switch (uiset) {
@@ -230,6 +232,11 @@ int main(int argc, char *argv[])
             w17 = new DAdmin_FBook2;
             w17 ->exec();
             delete w17;
+            break;
+        case 18:
+            w18 = new DAdmin_Key;
+            w18->exec();
+            delete w18;
             break;
         }
     }

@@ -53,3 +53,10 @@ void DAdmin::on_pushButton_Logout_clicked()
 
     close();
 }
+
+void DAdmin::on_pushButton_clicked()
+{
+    uiset = 18;
+
+    close();
+}

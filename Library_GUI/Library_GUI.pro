@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     duser_return.cpp \
     dcolor.cpp \
     mythread.cpp \
-    dadmin_fbook2.cpp
+    dadmin_fbook2.cpp \
+    dadmin_key.cpp
 
 HEADERS  += dmain1.h \
     books.h \
@@ -71,7 +72,8 @@ HEADERS  += dmain1.h \
     duser_return.h \
     dcolor.h \
     mythread.h \
-    dadmin_fbook2.h
+    dadmin_fbook2.h \
+    dadmin_key.h
 
 FORMS    += dmain1.ui \
     dmain2.ui \
@@ -90,9 +92,12 @@ FORMS    += dmain1.ui \
     duser_borrow.ui \
     duser_return.ui \
     dcolor.ui \
-    dadmin_fbook2.ui
+    dadmin_fbook2.ui \
+    dadmin_key.ui
 
 RC_FILE = icon.rc
 
 RESOURCES += \
     resource.qrc
+
+
