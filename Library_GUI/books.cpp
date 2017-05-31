@@ -277,7 +277,7 @@ void Book::book_borrow(const string & ID_borrower) {
 
     // logbook
     Logs L(Day, false);
-    L.Log_Borrow(ID_borrower, FileLine_Getline("people\\" + ID_pre + "_books.txt", linenumber - 3));
+    L.Log_Borrow(ID_borrower, FileLine_Getline("book\\" + ID_pre + "_books.txt", linenumber - 3));
 
 
 }
